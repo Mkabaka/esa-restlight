@@ -15,12 +15,12 @@
  */
 package esa.restlight.server.route;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 
 import java.util.List;
 
 /**
- * A {@link ReadOnlyRouteRegistry} is used to route a {@link AsyncRequest} to a specify {@link Route} which should be
+ * A {@link ReadOnlyRouteRegistry} is used to route a {@link HttpRequest} to a specify {@link Route} which should be
  * registered ahead.
  * @see RouteRegistry
  */
@@ -33,7 +33,7 @@ public interface ReadOnlyRouteRegistry {
      *
      * @return matched {@link Route} or {@code null} if missing
      */
-    Route route(AsyncRequest request);
+    Route route(HttpRequest request);
 
 
     /**

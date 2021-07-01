@@ -15,14 +15,14 @@
  */
 package esa.restlight.springmvc.resolver.arg;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.HandlerMethod;
 import esa.restlight.core.method.MethodParam;
 import esa.restlight.core.resolver.ArgumentResolver;
 import esa.restlight.server.bootstrap.WebServerException;
 import esa.restlight.springmvc.ResolverUtils;
 import esa.restlight.springmvc.annotation.shaded.CookieValue0;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import io.netty.handler.codec.http.cookie.Cookie;
 import io.netty.handler.codec.http.cookie.DefaultCookie;
@@ -59,7 +59,7 @@ class CookieValueArgumentResolverTest {
 
     @Test
     void testCookieValueResolve() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withCookie("foo", "bar")
                 .build();
@@ -69,7 +69,7 @@ class CookieValueArgumentResolverTest {
 
     @Test
     void testCookieObjectValueResolve() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withCookie("foo", "bar")
                 .build();
@@ -79,7 +79,7 @@ class CookieValueArgumentResolverTest {
 
     @Test
     void testCookieObjectsValueResolve() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withCookie("foo", "bar")
                 .build();
@@ -90,7 +90,7 @@ class CookieValueArgumentResolverTest {
 
     @Test
     void testResolveNamedHeader() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withCookie("baz", "qux")
                 .build();
@@ -100,7 +100,7 @@ class CookieValueArgumentResolverTest {
 
     @Test
     void testRequiredHeader() {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .build();
         assertThrows(WebServerException.class, () -> createResolverAndResolve(request, "cookieValue"));
@@ -108,7 +108,7 @@ class CookieValueArgumentResolverTest {
 
     @Test
     void testNoneRequiredHeader() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .build();
         final Object resolved = createResolverAndResolve(request, "noneRequiredCookieValue");
@@ -117,7 +117,7 @@ class CookieValueArgumentResolverTest {
 
     @Test
     void testDefaultHeader() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .build();
         final Object resolved = createResolverAndResolve(request, "defaultCookieValue");
@@ -126,7 +126,7 @@ class CookieValueArgumentResolverTest {
 
     @Test
     void testDefaultCollectionValue() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .build();
         final Object resolved = createResolverAndResolve(request, "defaultCollectionValue");
@@ -136,7 +136,7 @@ class CookieValueArgumentResolverTest {
 
     @Test
     void testDefaultArrayValue() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .build();
         final Object resolved = createResolverAndResolve(request, "defaultArrayValue");
@@ -147,7 +147,7 @@ class CookieValueArgumentResolverTest {
     @SuppressWarnings("unchecked")
     @Test
     void testDefaultOptionalValue() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .build();
         final Optional<String> resolved =
@@ -157,7 +157,7 @@ class CookieValueArgumentResolverTest {
 
     @Test
     void testDefaultAndRequiredHeader() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .build();
         final Object resolved =
@@ -167,7 +167,7 @@ class CookieValueArgumentResolverTest {
 
     @Test
     void testDefaultAndRequiredHeader1() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withCookie("foo", "bar")
                 .build();
@@ -176,7 +176,7 @@ class CookieValueArgumentResolverTest {
         assertEquals("bar", resolved);
     }
 
-    private static Object createResolverAndResolve(AsyncRequest request, String method) throws Exception {
+    private static Object createResolverAndResolve(HttpRequest request, String method) throws Exception {
         final MethodParam parameter = handlerMethods.get(method).parameters()[0];
         assertTrue(resolverFactory.supports(parameter));
         final ArgumentResolver resolver = resolverFactory.createResolver(parameter, null);

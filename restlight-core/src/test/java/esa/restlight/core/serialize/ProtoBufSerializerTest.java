@@ -16,7 +16,7 @@
 package esa.restlight.core.serialize;
 
 import esa.httpserver.core.HttpOutputStream;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -65,8 +65,8 @@ class ProtoBufSerializerTest {
 
     @Test
     void testDeSerialize() throws Exception {
-        final MockAsyncRequest.Builder builder = MockAsyncRequest.aMockRequest();
-        final MockAsyncRequest request = builder.withBody(pojoBytes).build();
+        final MockHttpRequest.Builder builder = MockHttpRequest.aMockRequest();
+        final MockHttpRequest request = builder.withBody(pojoBytes).build();
         final PojoProtobuf.Pojo pojoReduction = protoBufSerializer.deSerialize(request.inputStream(),
                 PojoProtobuf.Pojo.class);
         assertEquals(pojo.getName(), pojoReduction.getName());

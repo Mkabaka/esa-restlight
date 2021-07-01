@@ -15,7 +15,7 @@
  */
 package esa.restlight.springmvc.resolver.arg;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.Param;
 import esa.restlight.core.resolver.ArgumentResolver;
 import esa.restlight.core.resolver.ArgumentResolverFactory;
@@ -42,7 +42,7 @@ public class RequestAttributeArgumentResolver implements ArgumentResolverFactory
                     ConverterUtils.str2ObjectConverter(param.genericType(), p -> p);
 
             @Override
-            protected Object resolveName(String name, AsyncRequest request) throws Exception {
+            protected Object resolveName(String name, HttpRequest request) throws Exception {
                 Object v = request.getAttribute(name);
                 if (converter != null && v instanceof String) {
                     return converter.apply((String) v);

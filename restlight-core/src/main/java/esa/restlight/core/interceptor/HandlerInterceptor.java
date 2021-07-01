@@ -16,11 +16,11 @@
 package esa.restlight.core.interceptor;
 
 import esa.commons.spi.SPI;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 
 /**
- * This implementation of {@link InternalInterceptor} is used to match to a {@link esa.httpserver.core.AsyncRequest}
- * which has a {@link AsyncRequest#path()}(such as {@code /foo/bar})  by the {@link #includes()} and {@link
+ * This implementation of {@link InternalInterceptor} is used to match to a {@link HttpRequest}
+ * which has a {@link HttpRequest#path()}(such as {@code /foo/bar})  by the {@link #includes()} and {@link
  * #excludes()}.
  * @see InternalInterceptor
  * @see InterceptorFactory#of(HandlerInterceptor)

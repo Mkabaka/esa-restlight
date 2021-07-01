@@ -15,7 +15,7 @@
  */
 package esa.restlight.server.route.predicate;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.util.MediaType;
 
 public abstract class AbstractMediaTypeExpression implements Comparable<AbstractMediaTypeExpression> {
@@ -47,7 +47,7 @@ public abstract class AbstractMediaTypeExpression implements Comparable<Abstract
         return isNegated;
     }
 
-    public final boolean match(AsyncRequest request) {
+    public final boolean match(HttpRequest request) {
         try {
             boolean match = matchMediaType(request);
             return (!this.isNegated == match);
@@ -91,9 +91,9 @@ public abstract class AbstractMediaTypeExpression implements Comparable<Abstract
     /**
      * Match mediaType
      *
-     * @param request asyncRequest
+     * @param request request
      *
      * @return boolean
      */
-    protected abstract boolean matchMediaType(AsyncRequest request);
+    protected abstract boolean matchMediaType(HttpRequest request);
 }

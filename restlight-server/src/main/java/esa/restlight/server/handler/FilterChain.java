@@ -15,7 +15,7 @@
  */
 package esa.restlight.server.handler;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 
 import java.util.concurrent.CompletableFuture;
@@ -29,6 +29,6 @@ public interface FilterChain {
      * @param response current response
      * @return future
      */
-    CompletableFuture<Void> doFilter(AsyncRequest request, AsyncResponse response);
+    CompletableFuture<Void> doFilter(HttpRequest request, AsyncResponse response);
 
 }

@@ -31,7 +31,7 @@ import java.util.Set;
 /**
  * An interface defines a http server request.
  */
-public interface AsyncRequest {
+public interface HttpRequest {
 
     /**
      * Protocol string, such as HTTP/1.1

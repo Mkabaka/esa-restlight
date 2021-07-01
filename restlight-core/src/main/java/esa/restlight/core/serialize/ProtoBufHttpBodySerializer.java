@@ -16,7 +16,7 @@
 package esa.restlight.core.serialize;
 
 import com.google.protobuf.Message;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.httpserver.core.HttpInputStream;
 import esa.httpserver.core.HttpOutputStream;
@@ -66,7 +66,7 @@ public class ProtoBufHttpBodySerializer implements HttpBodySerializer {
     }
 
     @Override
-    public Object customResponse(AsyncRequest request, AsyncResponse response, Object returnValue) {
+    public Object customResponse(HttpRequest request, AsyncResponse response, Object returnValue) {
         if (returnValue instanceof Message) {
             Message message = (Message) returnValue;
             response.setHeader(HttpHeaderNames.CONTENT_TYPE, PROTOBUF.value());

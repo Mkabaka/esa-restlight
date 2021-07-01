@@ -15,9 +15,9 @@
  */
 package esa.restlight.server.route.predicate;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.HttpMethod;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import org.junit.jupiter.api.Test;
 
@@ -29,7 +29,7 @@ class ConsumesPredicateTest {
     @Test
     void testConsumesMatch() {
         final ConsumesPredicate predicate = ConsumesPredicate.parseFrom(new String[]{"text/plain"});
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.CONTENT_TYPE.toString(), "text/plain")
                 .build();
@@ -39,7 +39,7 @@ class ConsumesPredicateTest {
     @Test
     void testNegatedConsumesMatch() {
         final ConsumesPredicate predicate = ConsumesPredicate.parseFrom(new String[]{"!text/plain"});
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.CONTENT_TYPE.toString(), "text/plain")
                 .build();
@@ -49,7 +49,7 @@ class ConsumesPredicateTest {
     @Test
     void testConsumesWildcardMatch() {
         final ConsumesPredicate predicate = ConsumesPredicate.parseFrom(new String[]{"text/*"});
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.CONTENT_TYPE.toString(), "text/plain")
                 .build();
@@ -59,13 +59,13 @@ class ConsumesPredicateTest {
     @Test
     void testConsumesMultipleMatch() {
         final ConsumesPredicate predicate = ConsumesPredicate.parseFrom(new String[]{"text/plain", "application/xml"});
-        AsyncRequest request = MockAsyncRequest
+        HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.CONTENT_TYPE.toString(), "text/plain")
                 .build();
         assertTrue(predicate.test(request));
 
-        request = MockAsyncRequest
+        request = MockHttpRequest
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.CONTENT_TYPE.toString(), "application/xml")
                 .build();
@@ -75,7 +75,7 @@ class ConsumesPredicateTest {
     @Test
     void testConsumesSingleNoMatch() {
         final ConsumesPredicate predicate = ConsumesPredicate.parseFrom(new String[]{"text/plain"});
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.CONTENT_TYPE.toString(), "application/xml")
                 .build();
@@ -85,7 +85,7 @@ class ConsumesPredicateTest {
     @Test
     void testConsumesParseError() {
         final ConsumesPredicate predicate = ConsumesPredicate.parseFrom(new String[]{"text/plain"});
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.CONTENT_TYPE.toString(), "aaa")
                 .build();
@@ -95,7 +95,7 @@ class ConsumesPredicateTest {
     @Test
     void testConsumesErrorWithNegation() {
         final ConsumesPredicate predicate = ConsumesPredicate.parseFrom(new String[]{"!text/plain"});
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.CONTENT_TYPE.toString(), "aaa")
                 .build();
@@ -105,7 +105,7 @@ class ConsumesPredicateTest {
     @Test
     void testNoContentType() {
         final ConsumesPredicate predicate = ConsumesPredicate.parseFrom(new String[]{"text/plain"});
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .build();
         assertFalse(predicate.test(request));

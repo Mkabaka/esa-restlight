@@ -16,11 +16,11 @@
 package esa.restlight.ext.interceptor.signature;
 
 import esa.commons.SecurityUtils;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.restlight.ext.interceptor.config.SignatureOptionsConfigure;
 import esa.restlight.server.bootstrap.WebServerException;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -64,14 +64,14 @@ class HmacSha1SignatureHandlerInterceptorTest extends AbstractSignatureIntercept
     @Test
     void testParamsIsEmpty() {
         final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
-        final AsyncRequest request = MockAsyncRequest.aMockRequest().withBody(new byte[0]).build();
+        final HttpRequest request = MockHttpRequest.aMockRequest().withBody(new byte[0]).build();
         assertTrue(signInterceptor.preHandle(request, response, null));
     }
 
     @Test
     void testSignCorrectly() {
         final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
-        final MockAsyncRequest.Builder builder = MockAsyncRequest.aMockRequest();
+        final MockHttpRequest.Builder builder = MockHttpRequest.aMockRequest();
         builder.withBody("afadfadfadbabbafdbeqwet14ty231@4&~".getBytes(StandardCharsets.UTF_8));
         builder.withUri("/test");
 
@@ -92,7 +92,7 @@ class HmacSha1SignatureHandlerInterceptorTest extends AbstractSignatureIntercept
         builder.withParameter("anme", "543253256");
         builder.withParameter("bgag", "gjaajfdcjvaljal");
         builder.withParameter("cdfas", "qewrqwr");
-        final MockAsyncRequest request = builder.build();
+        final MockHttpRequest request = builder.build();
 
         assertTrue(signInterceptor.preHandle(request, response, null));
     }
@@ -100,7 +100,7 @@ class HmacSha1SignatureHandlerInterceptorTest extends AbstractSignatureIntercept
     @Test
     void testSignCorrectlyWithFormData() {
         final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
-        final MockAsyncRequest.Builder builder = MockAsyncRequest.aMockRequest();
+        final MockHttpRequest.Builder builder = MockHttpRequest.aMockRequest();
         builder.withBody("anme=543253256&bgag=gjaajfdcjvaljal&cdfas=qewrqwr".getBytes(StandardCharsets.UTF_8));
         builder.withUri("/test");
 
@@ -130,7 +130,7 @@ class HmacSha1SignatureHandlerInterceptorTest extends AbstractSignatureIntercept
 
         builder.withMethod("POST");
         builder.withHeader("Content-Type", "application/x-www-form-urlencoded");
-        final MockAsyncRequest request = builder.build();
+        final MockHttpRequest request = builder.build();
 
         assertTrue(signInterceptor.preHandle(request, response, null));
     }
@@ -138,7 +138,7 @@ class HmacSha1SignatureHandlerInterceptorTest extends AbstractSignatureIntercept
     @Test
     void testIllegalSignature() {
         final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
-        final MockAsyncRequest.Builder builder = MockAsyncRequest.aMockRequest();
+        final MockHttpRequest.Builder builder = MockHttpRequest.aMockRequest();
         builder.withBody("afadfadfadbabbafdbeqwet14ty231@4&~".getBytes(StandardCharsets.UTF_8));
         builder.withUri("/test");
 
@@ -158,7 +158,7 @@ class HmacSha1SignatureHandlerInterceptorTest extends AbstractSignatureIntercept
         builder.withParameter("bgag", "gjaajfdcjvaljal");
         builder.withParameter("cdfas", "qewrqwr");
         builder.withParameter(TIMESTAMP_PARAM_NAME, timestamp);
-        final MockAsyncRequest request = builder.build();
+        final MockHttpRequest request = builder.build();
 
         assertThrows(WebServerException.class, () -> signInterceptor.preHandle(request, response, null));
     }

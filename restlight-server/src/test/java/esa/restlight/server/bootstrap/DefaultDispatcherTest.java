@@ -16,13 +16,13 @@
 package esa.restlight.server.bootstrap;
 
 import esa.commons.ExceptionUtils;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.restlight.server.route.Route;
 import esa.restlight.server.route.RouteRegistry;
 import esa.restlight.server.route.impl.SimpleRouteRegistry;
 import esa.restlight.server.schedule.RequestTask;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import io.netty.handler.codec.http.HttpMethod;
 import io.netty.handler.codec.http.HttpResponseStatus;
@@ -51,7 +51,7 @@ class DefaultDispatcherTest {
         final DispatcherHandler dispatcher = new DefaultDispatcherHandler(registry,
                 exceptionHandlers());
         assertTrue(dispatcher.routes().isEmpty());
-        final AsyncRequest req = MockAsyncRequest.aMockRequest().withUri("/foo").build();
+        final HttpRequest req = MockHttpRequest.aMockRequest().withUri("/foo").build();
         final AsyncResponse res = MockAsyncResponse.aMockResponse().build();
         assertNull(dispatcher.route(req, res));
     }
@@ -64,11 +64,11 @@ class DefaultDispatcherTest {
         final DispatcherHandler dispatcher = new DefaultDispatcherHandler(registry,
                 exceptionHandlers());
         assertEquals(2, dispatcher.routes().size());
-        assertNotNull(dispatcher.route(MockAsyncRequest.aMockRequest().withUri("/foo").build(),
+        assertNotNull(dispatcher.route(MockHttpRequest.aMockRequest().withUri("/foo").build(),
                 MockAsyncResponse.aMockResponse().build()));
 
         assertNotNull(dispatcher.route(
-                MockAsyncRequest.aMockRequest()
+                MockHttpRequest.aMockRequest()
                         .withUri("/bar")
                         .withMethod(HttpMethod.POST)
                         .build(),
@@ -149,18 +149,18 @@ class DefaultDispatcherTest {
 
     private static class Req implements RequestTask {
 
-        private final AsyncRequest req;
+        private final HttpRequest req;
         private final AsyncResponse res;
         private final CompletableFuture<Void> promise;
 
         private Req() {
-            this.req = MockAsyncRequest.aMockRequest().build();
+            this.req = MockHttpRequest.aMockRequest().build();
             this.res = MockAsyncResponse.aMockResponse().build();
             this.promise = new CompletableFuture<>();
         }
 
         @Override
-        public AsyncRequest request() {
+        public HttpRequest request() {
             return req;
         }
 

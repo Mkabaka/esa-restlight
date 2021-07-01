@@ -15,7 +15,7 @@
  */
 package esa.restlight.core;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.httpserver.core.HttpInputStream;
 import esa.httpserver.core.HttpOutputStream;
@@ -258,7 +258,7 @@ class DeploymentsTest {
     private static class Arg implements ArgumentResolverAdapter {
 
         @Override
-        public Object resolve(AsyncRequest request, AsyncResponse response) throws Exception {
+        public Object resolve(HttpRequest request, AsyncResponse response) throws Exception {
             return null;
         }
 
@@ -270,12 +270,12 @@ class DeploymentsTest {
 
     private static class ArgAdvice implements ArgumentResolverAdviceAdapter {
         @Override
-        public void beforeResolve(AsyncRequest request, AsyncResponse response) {
+        public void beforeResolve(HttpRequest request, AsyncResponse response) {
 
         }
 
         @Override
-        public Object afterResolved(Object arg, AsyncRequest request, AsyncResponse response) {
+        public Object afterResolved(Object arg, HttpRequest request, AsyncResponse response) {
             return null;
         }
 
@@ -313,7 +313,7 @@ class DeploymentsTest {
     private static class Ret implements ReturnValueResolverAdapter {
 
         @Override
-        public byte[] resolve(Object returnValue, AsyncRequest request, AsyncResponse response) throws Exception {
+        public byte[] resolve(Object returnValue, HttpRequest request, AsyncResponse response) throws Exception {
             return new byte[0];
         }
 
@@ -382,7 +382,7 @@ class DeploymentsTest {
         }
 
         @Override
-        public Object customResponse(AsyncRequest request, AsyncResponse response, Object returnValue) {
+        public Object customResponse(HttpRequest request, AsyncResponse response, Object returnValue) {
             return null;
         }
 
@@ -399,7 +399,7 @@ class DeploymentsTest {
 
     private static class RxBody implements HttpBodySerializer {
         @Override
-        public Object customResponse(AsyncRequest request, AsyncResponse response, Object returnValue) {
+        public Object customResponse(HttpRequest request, AsyncResponse response, Object returnValue) {
             return null;
         }
 
@@ -426,7 +426,7 @@ class DeploymentsTest {
 
     private static class TxBody implements HttpBodySerializer {
         @Override
-        public Object customResponse(AsyncRequest request, AsyncResponse response, Object returnValue) {
+        public Object customResponse(HttpRequest request, AsyncResponse response, Object returnValue) {
             return null;
         }
 

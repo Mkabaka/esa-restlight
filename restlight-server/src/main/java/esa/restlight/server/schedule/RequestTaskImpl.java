@@ -15,19 +15,19 @@
  */
 package esa.restlight.server.schedule;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 
 import java.util.concurrent.CompletableFuture;
 
 class RequestTaskImpl implements RequestTask {
 
-    private final AsyncRequest req;
+    private final HttpRequest req;
     private final AsyncResponse res;
     private final CompletableFuture<Void> promise;
     private final Runnable r;
 
-    private RequestTaskImpl(AsyncRequest req,
+    private RequestTaskImpl(HttpRequest req,
                             AsyncResponse res,
                             CompletableFuture<Void> promise,
                             Runnable r) {
@@ -37,7 +37,7 @@ class RequestTaskImpl implements RequestTask {
         this.r = r;
     }
 
-    static RequestTaskImpl newRequestTask(AsyncRequest req,
+    static RequestTaskImpl newRequestTask(HttpRequest req,
                                           AsyncResponse resp,
                                           CompletableFuture<Void> promise,
                                           Runnable r) {
@@ -50,7 +50,7 @@ class RequestTaskImpl implements RequestTask {
     }
 
     @Override
-    public AsyncRequest request() {
+    public HttpRequest request() {
         return req;
     }
 

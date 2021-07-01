@@ -15,7 +15,7 @@
  */
 package esa.restlight.springmvc.resolver.result;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.restlight.core.method.HandlerMethod;
 import esa.restlight.core.method.InvocableMethod;
@@ -25,7 +25,7 @@ import esa.restlight.core.util.MediaType;
 import esa.restlight.springmvc.ResolverUtils;
 import esa.restlight.springmvc.annotation.shaded.ResponseBody0;
 import esa.restlight.springmvc.resolver.Pojo;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -68,7 +68,7 @@ class ResponseBodyReturnValueResolverTest {
 
     @Test
     void testResolve() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), MediaType.APPLICATION_JSON_UTF8.value())
                 .build();
@@ -81,7 +81,7 @@ class ResponseBodyReturnValueResolverTest {
 
     @Test
     void testJsonFormatParameterInUrl() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withParameter("format", "json")
                 .build();
@@ -94,7 +94,7 @@ class ResponseBodyReturnValueResolverTest {
 
     @Test
     void testPbParameterInUrl() {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withParameter("format", "pb")
                 .build();
@@ -107,7 +107,7 @@ class ResponseBodyReturnValueResolverTest {
 
     @Test
     void testResolveDetectableStringType() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), MediaType.APPLICATION_JSON_UTF8.value())
                 .build();
@@ -120,7 +120,7 @@ class ResponseBodyReturnValueResolverTest {
 
     @Test
     void testResolveDetectableByteArrayType() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), MediaType.APPLICATION_JSON_UTF8.value())
                 .build();
@@ -133,7 +133,7 @@ class ResponseBodyReturnValueResolverTest {
 
     @Test
     void testResolveDetectableByteBufType() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), MediaType.APPLICATION_JSON_UTF8.value())
                 .build();
@@ -146,7 +146,7 @@ class ResponseBodyReturnValueResolverTest {
 
     @Test
     void testResolveDetectablePrimitiveType() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), MediaType.APPLICATION_JSON_UTF8.value())
                 .build();
@@ -157,7 +157,7 @@ class ResponseBodyReturnValueResolverTest {
         assertArrayEquals(String.valueOf(foo).getBytes(StandardCharsets.UTF_8), resolved);
     }
 
-    private static byte[] createResolverAndResolve(Object returnValue, AsyncRequest request, AsyncResponse response,
+    private static byte[] createResolverAndResolve(Object returnValue, HttpRequest request, AsyncResponse response,
                                                    String method) throws Exception {
         final InvocableMethod invocableMethod = handlerMethods.get(method);
         assertTrue(resolverFactory.supports(invocableMethod));
@@ -166,7 +166,7 @@ class ResponseBodyReturnValueResolverTest {
         return resolver.resolve(returnValue, request, response);
     }
 
-    private static byte[] createMultiResolverAndResolve(Object returnValue, AsyncRequest request,
+    private static byte[] createMultiResolverAndResolve(Object returnValue, HttpRequest request,
                                                         AsyncResponse response,
                                                         String method) throws Exception {
         final InvocableMethod invocableMethod = handlerMethods.get(method);

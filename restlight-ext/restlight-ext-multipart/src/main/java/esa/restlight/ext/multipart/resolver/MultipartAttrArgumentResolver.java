@@ -15,7 +15,7 @@
  */
 package esa.restlight.ext.multipart.resolver;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.Param;
 import esa.restlight.core.resolver.ArgumentResolver;
 import esa.restlight.core.resolver.ArgumentResolverFactory;
@@ -57,7 +57,7 @@ public class MultipartAttrArgumentResolver implements ArgumentResolverFactory {
         }
 
         @Override
-        Object getParamValue(String name, AsyncRequest request) {
+        Object getParamValue(String name, HttpRequest request) {
             return converter.apply(request.getUncheckedAttribute(PREFIX + name));
         }
 

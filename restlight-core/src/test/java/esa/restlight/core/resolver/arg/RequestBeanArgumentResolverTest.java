@@ -16,7 +16,7 @@
 package esa.restlight.core.resolver.arg;
 
 import esa.commons.ClassUtils;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.restlight.core.annotation.RequestBean;
 import esa.restlight.core.method.HandlerMethod;
@@ -25,7 +25,7 @@ import esa.restlight.core.mock.MockContext;
 import esa.restlight.core.resolver.ArgumentResolver;
 import esa.restlight.core.resolver.HandlerResolverFactoryImpl;
 import esa.restlight.core.serialize.JacksonHttpBodySerializer;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -44,7 +44,7 @@ class RequestBeanArgumentResolverTest {
                     new HandlerResolverFactoryImpl(Collections.singletonList(new JacksonHttpBodySerializer()),
                             Collections.singletonList(new JacksonHttpBodySerializer()),
                             null,
-                            Arrays.asList(new AsyncRequestArgumentResolverFactory(),
+                            Arrays.asList(new HttpRequestArgumentResolverFactory(),
                                     new AsyncResponseArgumentResolverFactory()),
                             null,
                             null,
@@ -70,7 +70,7 @@ class RequestBeanArgumentResolverTest {
 
     @Test
     void testFieldValueSetByReflection() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withParameter("foo", "1")
                 .build();
@@ -80,7 +80,7 @@ class RequestBeanArgumentResolverTest {
         assertNotNull(bean.response);
     }
 
-    private static Object createResolverAndResolve(AsyncRequest request, String method) throws Exception {
+    private static Object createResolverAndResolve(HttpRequest request, String method) throws Exception {
         final MethodParam parameter = handlerMethods.get(method).parameters()[0];
         assertTrue(resolverFactory.supports(parameter));
         final ArgumentResolver resolver = resolverFactory.createResolver(parameter, null);
@@ -96,7 +96,7 @@ class RequestBeanArgumentResolverTest {
 
     private static class Bean {
         private int foo;
-        private AsyncRequest request;
+        private HttpRequest request;
         private AsyncResponse response;
     }
 }

@@ -15,14 +15,14 @@
  */
 package esa.restlight.springmvc.resolver.arg;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.HandlerMethod;
 import esa.restlight.core.method.MethodParam;
 import esa.restlight.core.resolver.ArgumentResolver;
 import esa.restlight.server.bootstrap.WebServerException;
 import esa.restlight.springmvc.ResolverUtils;
 import esa.restlight.springmvc.annotation.shaded.PathVariable0;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -49,7 +49,7 @@ class RequestAttributeArgumentResolverTest {
 
     @Test
     void testNormal() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withAttribute("foo", "bar")
                 .build();
@@ -59,7 +59,7 @@ class RequestAttributeArgumentResolverTest {
 
     @Test
     void testNamedAttribute() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withAttribute("baz", "qux")
                 .build();
@@ -69,7 +69,7 @@ class RequestAttributeArgumentResolverTest {
 
     @Test
     void testRequiredAttribute() {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .build();
         assertThrows(WebServerException.class, () -> createResolverAndResolve(request, "requestAttribute"));
@@ -77,7 +77,7 @@ class RequestAttributeArgumentResolverTest {
 
     @Test
     void testNoneRequiredAttribute() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .build();
         final Object resolved = createResolverAndResolve(request, "noneRequiredAttribute");
@@ -86,7 +86,7 @@ class RequestAttributeArgumentResolverTest {
 
     @Test
     void testCollection() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withAttribute("collection", "1,  2, 3,4,  5 ")
                 .build();
@@ -99,7 +99,7 @@ class RequestAttributeArgumentResolverTest {
 
     @Test
     void testGenericCollection() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withAttribute("collection", "1,  2, 3,4,  5 ")
                 .build();
@@ -112,7 +112,7 @@ class RequestAttributeArgumentResolverTest {
 
     @Test
     void testArray() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withAttribute("objects", "1,  2, 3,4,  5 ")
                 .build();
@@ -123,7 +123,7 @@ class RequestAttributeArgumentResolverTest {
 
     @Test
     void testPrimitiveArray() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withAttribute("ints", "1,  2, 3,4,  5 ")
                 .build();
@@ -135,7 +135,7 @@ class RequestAttributeArgumentResolverTest {
 
     @Test
     void testGenericArray() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withAttribute("ints", "1.01,  2.01, 3,4.111,  5 ")
                 .build();
@@ -147,7 +147,7 @@ class RequestAttributeArgumentResolverTest {
 
     @Test
     void testAttributeOfCharSequence() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withAttribute("foo", "bar")
                 .build();
@@ -156,7 +156,7 @@ class RequestAttributeArgumentResolverTest {
         assertEquals("bar", resolved);
     }
 
-    private static Object createResolverAndResolve(AsyncRequest request, String method) throws Exception {
+    private static Object createResolverAndResolve(HttpRequest request, String method) throws Exception {
         final MethodParam parameter = handlerMethods.get(method).parameters()[0];
         assertTrue(resolverFactory.supports(parameter));
         final ArgumentResolver resolver = resolverFactory.createResolver(parameter, null);

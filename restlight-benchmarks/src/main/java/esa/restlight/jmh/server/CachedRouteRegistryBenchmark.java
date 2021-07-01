@@ -15,7 +15,7 @@
  */
 package esa.restlight.jmh.server;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.HttpMethod;
 import esa.restlight.core.util.MediaType;
 import esa.restlight.server.route.Mapping;
@@ -25,7 +25,7 @@ import esa.restlight.server.route.RouteRegistry;
 import esa.restlight.server.route.impl.CachedRouteRegistry;
 import esa.restlight.server.route.impl.MappingImpl;
 import esa.restlight.server.route.impl.SimpleRouteRegistry;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import org.openjdk.jmh.annotations.*;
 
@@ -47,7 +47,7 @@ public class CachedRouteRegistryBenchmark {
     @Param({"10", "20", "50", "100"})
     private int routes = 100;
 
-    private AsyncRequest[] requests;
+    private HttpRequest[] requests;
     private double lambda;
 
     @Setup
@@ -74,9 +74,9 @@ public class CachedRouteRegistryBenchmark {
             noCache.registerRoute(route);
         }
 
-        requests = new AsyncRequest[routes];
+        requests = new HttpRequest[routes];
         for (int i = 0; i < requests.length; i++) {
-            requests[i] = MockAsyncRequest.aMockRequest()
+            requests[i] = MockHttpRequest.aMockRequest()
                     .withMethod(mappings[i].method()[0].name())
                     .withUri("/foo/bar/baz/qux" + i)
                     .withParameter("a" + i, "a")
@@ -102,7 +102,7 @@ public class CachedRouteRegistryBenchmark {
         return noCache.route(getRequest());
     }
 
-    private AsyncRequest getRequest() {
+    private HttpRequest getRequest() {
         return requests[getPossionVariable(lambda, routes - 1)];
     }
 

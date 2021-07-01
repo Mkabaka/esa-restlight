@@ -18,7 +18,7 @@ package esa.restlight.server.util;
 import esa.commons.StringUtils;
 import esa.commons.collection.LinkedMultiValueMap;
 import esa.commons.collection.MultiValueMap;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.server.route.predicate.PatternsPredicate;
 
 import java.util.Collections;
@@ -30,7 +30,7 @@ public final class PathVariableUtils {
 
     private static final String MATRIX_VARIABLES_ATTRIBUTE = "$matrix.vars";
 
-    public static String getPathVariable(AsyncRequest request, String name) {
+    public static String getPathVariable(HttpRequest request, String name) {
         Map<String, String> variables = getPathVariables(request);
         if (variables == null || variables.isEmpty()) {
             return null;
@@ -38,11 +38,11 @@ public final class PathVariableUtils {
         return variables.get(name);
     }
 
-    public static Map<String, String> getPathVariables(AsyncRequest request) {
+    public static Map<String, String> getPathVariables(HttpRequest request) {
         return request.getUncheckedAttribute(PatternsPredicate.TEMPLATE_VARIABLES);
     }
 
-    public static Map<String, MultiValueMap<String, String>> getMatrixVariables(AsyncRequest request) {
+    public static Map<String, MultiValueMap<String, String>> getMatrixVariables(HttpRequest request) {
         Map<String, MultiValueMap<String, String>> matrixVars =
                 request.getUncheckedAttribute(MATRIX_VARIABLES_ATTRIBUTE);
         if (matrixVars == null) {

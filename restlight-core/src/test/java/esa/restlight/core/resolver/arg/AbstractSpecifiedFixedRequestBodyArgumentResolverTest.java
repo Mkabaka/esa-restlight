@@ -23,7 +23,7 @@ import esa.restlight.core.serialize.FastJsonHttpBodySerializer;
 import esa.restlight.core.serialize.GsonHttpBodySerializer;
 import esa.restlight.core.serialize.HttpBodySerializer;
 import esa.restlight.core.serialize.ProtoBufHttpBodySerializer;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -108,7 +108,7 @@ class AbstractSpecifiedFixedRequestBodyArgumentResolverTest {
                 (AbstractSpecifiedFixedRequestBodyArgumentResolver.Resolver)
                         resolver.createResolver(param, Collections.singletonList(new HttpBodySerializerImpl()));
         Assertions.assertArrayEquals("Hello!".getBytes(StandardCharsets.UTF_8),
-                (byte[]) resolver0.resolveName("xx", MockAsyncRequest.aMockRequest().withBody("xx"
+                (byte[]) resolver0.resolveName("xx", MockHttpRequest.aMockRequest().withBody("xx"
                         .getBytes(StandardCharsets.UTF_8)).build()));
     }
 

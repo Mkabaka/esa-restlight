@@ -18,7 +18,7 @@ package esa.restlight.core.serialize;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import esa.restlight.core.util.MediaType;
 import esa.restlight.core.util.Ordered;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import org.junit.jupiter.api.BeforeEach;
@@ -85,7 +85,7 @@ class BaseHttpBodySerializerTest {
     @Test
     void customResponse() {
         final MockAsyncResponse response = new MockAsyncResponse();
-        final MockAsyncRequest request = new MockAsyncRequest();
+        final MockHttpRequest request = new MockHttpRequest();
         final Object o = baseHttpBodySerializer.customResponse(request, response, pojo);
         assertEquals(pojo, o);
         assertEquals(response.getHeader(HttpHeaderNames.CONTENT_TYPE), MediaType.APPLICATION_JSON_UTF8.value());
@@ -115,8 +115,8 @@ class BaseHttpBodySerializerTest {
 
     @Test
     void testDeSerialize() throws Exception {
-        final MockAsyncRequest.Builder builder = MockAsyncRequest.aMockRequest();
-        final MockAsyncRequest request = builder.withBody(pojoBytes).build();
+        final MockHttpRequest.Builder builder = MockHttpRequest.aMockRequest();
+        final MockHttpRequest request = builder.withBody(pojoBytes).build();
         final Pojo pojoReduction = serializer.deSerialize(request.inputStream(), Pojo.class);
         assertEquals(pojo, pojoReduction);
     }

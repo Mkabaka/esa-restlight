@@ -15,9 +15,9 @@
  */
 package esa.restlight.server.route.predicate;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.HttpMethod;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,12 +27,12 @@ class MethodPredicateTest {
     @Test
     void testSinglePredicate() {
         final MethodPredicate predicate = new MethodPredicate(HttpMethod.GET);
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withMethod(HttpMethod.GET.name())
                 .build();
         assertTrue(predicate.test(request));
-        final AsyncRequest unMatchRequest = MockAsyncRequest
+        final HttpRequest unMatchRequest = MockHttpRequest
                 .aMockRequest()
                 .withMethod(HttpMethod.POST.name())
                 .build();
@@ -42,15 +42,15 @@ class MethodPredicateTest {
     @Test
     void testMultiMethodPredicate() {
         final MethodPredicate predicate = new MethodPredicate(HttpMethod.POST, HttpMethod.PUT);
-        final AsyncRequest putRequest = MockAsyncRequest
+        final HttpRequest putRequest = MockHttpRequest
                 .aMockRequest()
                 .withMethod(HttpMethod.PUT.name())
                 .build();
-        final AsyncRequest getRequest = MockAsyncRequest
+        final HttpRequest getRequest = MockHttpRequest
                 .aMockRequest()
                 .withMethod(HttpMethod.PUT.name())
                 .build();
-        final AsyncRequest otherRequest = MockAsyncRequest
+        final HttpRequest otherRequest = MockHttpRequest
                 .aMockRequest()
                 .withMethod(HttpMethod.GET.name())
                 .build();
@@ -62,7 +62,7 @@ class MethodPredicateTest {
     @Test
     void testHeadRequestMappedToGet() {
         final MethodPredicate predicate = new MethodPredicate(HttpMethod.GET);
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withMethod(HttpMethod.HEAD.name())
                 .build();

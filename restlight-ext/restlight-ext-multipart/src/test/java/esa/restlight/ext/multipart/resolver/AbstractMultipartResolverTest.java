@@ -16,10 +16,10 @@
 package esa.restlight.ext.multipart.resolver;
 
 import esa.commons.ClassUtils;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.HandlerMethod;
 import esa.restlight.ext.multipart.core.MultipartConfig;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import io.netty.handler.codec.DecoderResult;
 import io.netty.handler.codec.http.*;
 import io.netty.util.CharsetUtil;
@@ -47,18 +47,18 @@ public abstract class AbstractMultipartResolverTest {
                 .collect(Collectors.toMap(h -> h.method().getName(), hm -> hm));
     }
 
-    static AsyncRequest build(String body) {
+    static HttpRequest build(String body) {
         return build(body.getBytes(CharsetUtil.UTF_8));
     }
 
-    static AsyncRequest build(byte[] bytes) {
+    static HttpRequest build(byte[] bytes) {
         final FullHttpRequest httpRequest = new DefaultFullHttpRequest(HttpVersion.HTTP_1_1, HttpMethod.POST,
                 "http://localhost");
         httpRequest.setDecoderResult(DecoderResult.SUCCESS);
         httpRequest.headers().add(HttpHeaderNames.CONTENT_TYPE.toString(), CONTENT_TYPE);
         httpRequest.content().writeBytes(bytes);
 
-        return MockAsyncRequest
+        return MockHttpRequest
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.CONTENT_TYPE.toString(), CONTENT_TYPE)
                 .withBody(bytes)

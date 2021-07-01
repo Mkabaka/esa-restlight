@@ -17,7 +17,7 @@ package esa.restlight.server.route.predicate;
 
 import esa.commons.Checks;
 import esa.commons.MathUtils;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.HttpMethod;
 import esa.restlight.server.util.MappingUtils;
 
@@ -58,7 +58,7 @@ public class MethodPredicate implements RequestPredicate {
     }
 
     @Override
-    public boolean test(AsyncRequest request) {
+    public boolean test(HttpRequest request) {
         final String method = request.rawMethod();
         return contains(method)
                 || io.netty.handler.codec.http.HttpMethod.HEAD.equals(request.method())

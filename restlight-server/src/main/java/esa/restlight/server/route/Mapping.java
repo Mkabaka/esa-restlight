@@ -15,7 +15,7 @@
  */
 package esa.restlight.server.route;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.HttpMethod;
 import esa.restlight.server.route.impl.MappingImpl;
 import esa.restlight.server.util.MappingUtils;
@@ -270,7 +270,7 @@ public interface Mapping {
 
     /**
      * Return the path of current {@link Mapping}, which will be used to determine the routing by {@link
-     * AsyncRequest#path()}
+     * HttpRequest#path()}
      *
      * @return path, should not be {@code null}
      */
@@ -278,7 +278,7 @@ public interface Mapping {
 
     /**
      * Return the http method of current {@link Mapping}, which will be used to determine the routing by {@link
-     * AsyncRequest#method()}
+     * HttpRequest#method()}
      *
      * @return http method, should not be {@code null}
      */
@@ -286,7 +286,7 @@ public interface Mapping {
 
     /**
      * Return the parameter predicates of current {@link Mapping}, which will be used to determine the routing by {@link
-     * AsyncRequest#getParameter(String)}
+     * HttpRequest#getParameter(String)}
      *
      * @return http parameters, should not be {@code null}
      */
@@ -294,7 +294,7 @@ public interface Mapping {
 
     /**
      * Return the header predicates of current {@link Mapping}, which will be used to determine the routing by {@link
-     * AsyncRequest#getHeader(String)}
+     * HttpRequest#getHeader(String)}
      *
      * @return http headers, should not be {@code null}
      */
@@ -302,7 +302,7 @@ public interface Mapping {
 
     /**
      * Return the consumes predicates of current {@link Mapping}, which will be used to determine the routing by
-     * Content-Type of {@link AsyncRequest}.
+     * Content-Type of {@link HttpRequest}.
      *
      * @return http headers, should not be {@code null}
      */
@@ -310,7 +310,7 @@ public interface Mapping {
 
     /**
      * Return the produces predicates of current {@link Mapping}, which will be used to determine the routing by Accept
-     * of {@link AsyncRequest}.
+     * of {@link HttpRequest}.
      *
      * @return http headers, should not be {@code null}
      */

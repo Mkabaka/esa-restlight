@@ -21,7 +21,7 @@ import esa.httpserver.H2OptionsConfigure;
 import esa.httpserver.HttpServer;
 import esa.httpserver.ServerOptionsConfigure;
 import esa.httpserver.SslOptionsConfigure;
-import esa.httpserver.impl.AsyncRequestImpl;
+import esa.httpserver.impl.HttpRequestImpl;
 import esa.httpserver.impl.AsyncResponseImpl;
 import esa.restlight.core.util.ResourceUtils;
 import esa.restlight.core.util.RestlightVer;
@@ -231,7 +231,7 @@ public class NettyRestlightServer implements RestlightServer {
                 .onClose(handler::shutdown)
                 .handle(req -> req.aggregate(true)
                         .onEnd(promise -> {
-                            handler.process(new AsyncRequestImpl(req), new AsyncResponseImpl(req.response()))
+                            handler.process(new HttpRequestImpl(req), new AsyncResponseImpl(req.response()))
                                     .whenComplete((r, t) -> {
                                         if (t == null) {
                                             PromiseUtils.setSuccess(promise);

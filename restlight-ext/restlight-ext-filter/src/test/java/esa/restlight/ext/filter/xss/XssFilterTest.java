@@ -15,11 +15,11 @@
  */
 package esa.restlight.ext.filter.xss;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.server.handler.Filter;
 import esa.restlight.server.handler.FilterChain;
 import esa.restlight.server.util.Futures;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import org.junit.jupiter.api.Test;
 
@@ -36,7 +36,7 @@ class XssFilterTest {
 
     @Test
     void testDoFilter() {
-        final AtomicReference<AsyncRequest> req = new AtomicReference<>();
+        final AtomicReference<HttpRequest> req = new AtomicReference<>();
 
         final FilterChain chain = ((request, response) -> {
             req.set(request);
@@ -46,7 +46,7 @@ class XssFilterTest {
         // filter mode
         final XssOptions options = XssOptionsConfigure.newOpts().mode(XssMode.FILTER).configured();
         final Filter filter = new XssFilter(options);
-        AsyncRequest request0 = MockAsyncRequest.aMockRequest()
+        HttpRequest request0 = MockHttpRequest.aMockRequest()
                 .withUri("/test?script=<script>test</script>&foo=bar</script>&name=gcl&name=wxy")
                 .withHeader("header", "src=\"//xxxx.cn/image/t.js\"")
                 .build();
@@ -76,7 +76,7 @@ class XssFilterTest {
         // escape mode(default mode)
         options.setMode(XssMode.ESCAPE);
         final Filter filterEscape = new XssFilter(options);
-        AsyncRequest requestEscape = MockAsyncRequest.aMockRequest()
+        HttpRequest requestEscape = MockHttpRequest.aMockRequest()
                 .withUri("/test?script=<script>test</script>&foo=test</script>&name=gcl&name=wxy")
                 .withHeader("header", "src=\"//xxxx.cn/image/t.js\"")
                 .build();
@@ -107,7 +107,7 @@ class XssFilterTest {
 
     @Test
     void testDelegate() {
-        final AsyncRequest delegate = mock(AsyncRequest.class);
+        final HttpRequest delegate = mock(HttpRequest.class);
         final XssFilter.FilterWrapper filter = new XssFilter.FilterWrapper(delegate);
 
         verify(delegate, never()).httpVersion();

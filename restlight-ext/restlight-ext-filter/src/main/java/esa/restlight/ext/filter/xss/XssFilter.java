@@ -16,7 +16,7 @@
 package esa.restlight.ext.filter.xss;
 
 import esa.commons.Checks;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.httpserver.core.HttpInputStream;
 import esa.restlight.server.handler.Filter;
@@ -77,7 +77,7 @@ public class XssFilter implements Filter {
             Pattern.compile("vbscript[\r\n| ]*:[\r\n| ]*",
                     Pattern.CASE_INSENSITIVE);
 
-    private final Function<AsyncRequest, AsyncRequest> wrapper;
+    private final Function<HttpRequest, HttpRequest> wrapper;
 
     public XssFilter(XssOptions options) {
         Checks.checkNotNull(options, "options");
@@ -90,16 +90,16 @@ public class XssFilter implements Filter {
     }
 
     @Override
-    public CompletableFuture<Void> doFilter(AsyncRequest request, AsyncResponse response, FilterChain chain) {
+    public CompletableFuture<Void> doFilter(HttpRequest request, AsyncResponse response, FilterChain chain) {
         return chain.doFilter(wrapper.apply(request), response);
     }
 
-    abstract static class BaseWrapper implements AsyncRequest {
+    abstract static class BaseWrapper implements HttpRequest {
 
         Map<String, List<String>> parameterMap;
-        final AsyncRequest delegate;
+        final HttpRequest delegate;
 
-        BaseWrapper(AsyncRequest delegate) {
+        BaseWrapper(HttpRequest delegate) {
             this.delegate = delegate;
         }
 
@@ -238,8 +238,8 @@ public class XssFilter implements Filter {
 
     static class EscapeWrapper extends BaseWrapper {
 
-        EscapeWrapper(AsyncRequest asyncRequest) {
-            super(asyncRequest);
+        EscapeWrapper(HttpRequest request) {
+            super(request);
         }
 
         @Override
@@ -270,8 +270,8 @@ public class XssFilter implements Filter {
 
     static class FilterWrapper extends BaseWrapper {
 
-        FilterWrapper(AsyncRequest asyncRequest) {
-            super(asyncRequest);
+        FilterWrapper(HttpRequest request) {
+            super(request);
         }
 
         @Override

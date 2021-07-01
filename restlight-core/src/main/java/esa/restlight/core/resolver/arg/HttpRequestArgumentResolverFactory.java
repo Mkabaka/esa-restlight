@@ -15,7 +15,7 @@
  */
 package esa.restlight.core.resolver.arg;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.Param;
 import esa.restlight.core.resolver.ArgumentResolver;
 import esa.restlight.core.resolver.ArgumentResolverFactory;
@@ -24,9 +24,9 @@ import esa.restlight.core.serialize.HttpRequestSerializer;
 import java.util.List;
 
 /**
- * Binds the {@link AsyncRequest} object directly.
+ * Binds the {@link HttpRequest} object directly.
  */
-public class AsyncRequestArgumentResolverFactory implements ArgumentResolverFactory {
+public class HttpRequestArgumentResolverFactory implements ArgumentResolverFactory {
 
     @Override
     public ArgumentResolver createResolver(Param param,
@@ -36,7 +36,7 @@ public class AsyncRequestArgumentResolverFactory implements ArgumentResolverFact
 
     @Override
     public boolean supports(Param parameter) {
-        return AsyncRequest.class.isAssignableFrom(parameter.type());
+        return HttpRequest.class.isAssignableFrom(parameter.type());
     }
 
     /**

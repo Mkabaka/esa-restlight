@@ -15,7 +15,7 @@
  */
 package esa.restlight.core.interceptor;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.server.util.PathMatcher;
 
 import java.util.Arrays;
@@ -31,7 +31,7 @@ public class InterceptorPathPredicate implements InterceptorPredicate {
     }
 
     @Override
-    public boolean test(AsyncRequest request) {
+    public boolean test(HttpRequest request) {
         return match(request.path());
     }
 

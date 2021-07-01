@@ -16,7 +16,7 @@
 package esa.restlight.core.resolver;
 
 import esa.commons.Checks;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 
 import java.util.Collections;
@@ -38,7 +38,7 @@ class AdvisedReturnValueResolver implements ReturnValueResolver {
     }
 
     @Override
-    public byte[] resolve(Object returnValue, AsyncRequest request, AsyncResponse response) throws Exception {
+    public byte[] resolve(Object returnValue, HttpRequest request, AsyncResponse response) throws Exception {
         for (ReturnValueResolverAdvice advice : advices) {
             returnValue = advice.beforeResolve(returnValue, request, response);
         }

@@ -15,7 +15,7 @@
  */
 package esa.restlight.core.resolver.arg;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.Param;
 import esa.restlight.core.resolver.ArgumentResolver;
 import esa.restlight.core.resolver.ArgumentResolverFactory;
@@ -68,7 +68,7 @@ public abstract class AbstractHeaderArgumentResolver implements ArgumentResolver
         }
 
         @Override
-        protected Object resolveName(String name, AsyncRequest request) {
+        protected Object resolveName(String name, HttpRequest request) {
             if (strsConverter != null) {
                 List<String> values = request.headers().getAll(name);
                 if (values == null || values.isEmpty()) {
@@ -91,7 +91,7 @@ public abstract class AbstractHeaderArgumentResolver implements ArgumentResolver
         }
 
         @Override
-        protected HttpHeaders resolveName(String name, AsyncRequest request) {
+        protected HttpHeaders resolveName(String name, HttpRequest request) {
             return request.headers();
         }
     }

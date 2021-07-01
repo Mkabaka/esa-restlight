@@ -15,7 +15,7 @@
  */
 package esa.restlight.core.serialize;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.restlight.core.util.MediaType;
 
@@ -42,6 +42,6 @@ public interface HttpResponseSerializer extends BaseHttpSerializer, TxSerializer
      *
      * @return object
      */
-    Object customResponse(AsyncRequest request, AsyncResponse response, Object returnValue);
+    Object customResponse(HttpRequest request, AsyncResponse response, Object returnValue);
 
 }

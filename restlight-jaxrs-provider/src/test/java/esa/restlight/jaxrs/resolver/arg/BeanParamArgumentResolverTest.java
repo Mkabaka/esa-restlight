@@ -15,7 +15,7 @@
  */
 package esa.restlight.jaxrs.resolver.arg;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.DeployContext;
 import esa.restlight.core.config.RestlightOptions;
 import esa.restlight.core.handler.HandlerAdvicesFactory;
@@ -38,7 +38,7 @@ import esa.restlight.server.bootstrap.DispatcherHandler;
 import esa.restlight.server.route.ReadOnlyRouteRegistry;
 import esa.restlight.server.route.predicate.PatternsPredicate;
 import esa.restlight.server.schedule.Scheduler;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -76,7 +76,7 @@ class BeanParamArgumentResolverTest {
 
     @Test
     void testNormal() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/baz;qux=qux")
                 .withCookie("foo", "foo")
@@ -94,7 +94,7 @@ class BeanParamArgumentResolverTest {
     }
 
 
-    private static Object createResolverAndResolve(AsyncRequest request, String method) throws Exception {
+    private static Object createResolverAndResolve(HttpRequest request, String method) throws Exception {
         final MethodParam parameter = handlerMethods.get(method).parameters()[0];
         assertTrue(resolverFactory.supports(parameter));
         new PatternsPredicate(JaxrsMappingUtils.extractMapping(SUBJECT.getClass(),

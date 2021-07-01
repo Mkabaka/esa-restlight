@@ -15,7 +15,7 @@
  */
 package esa.restlight.starter.actuator.adapt;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.restlight.core.method.HandlerMethod;
 import org.junit.jupiter.api.Test;
@@ -41,7 +41,7 @@ class JaxrsHandlerMappingProviderTest {
         final HandlerMethod handlerMethod = provider.getHandler(operation);
         assertEquals(OperationHandler.class, handlerMethod.beanType());
         assertEquals(OperationHandler.class.getDeclaredMethod("handle",
-                AsyncRequest.class, AsyncResponse.class, Map.class), handlerMethod.method());
+                HttpRequest.class, AsyncResponse.class, Map.class), handlerMethod.method());
         assertEquals("Jaxrs Endpoint Handler Proxy", provider.getHandler(operation).toString());
     }
 

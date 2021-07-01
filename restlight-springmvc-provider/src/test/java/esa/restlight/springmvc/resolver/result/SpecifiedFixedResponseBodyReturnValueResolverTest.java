@@ -15,7 +15,7 @@
  */
 package esa.restlight.springmvc.resolver.result;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.restlight.core.annotation.ResponseSerializer;
 import esa.restlight.core.method.HandlerMethod;
@@ -26,7 +26,7 @@ import esa.restlight.core.util.MediaType;
 import esa.restlight.springmvc.ResolverUtils;
 import esa.restlight.springmvc.annotation.shaded.ResponseBody0;
 import esa.restlight.springmvc.resolver.Pojo;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -74,7 +74,7 @@ class SpecifiedFixedResponseBodyReturnValueResolverTest {
 
     @Test
     void testResolve() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .build();
         final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
@@ -86,7 +86,7 @@ class SpecifiedFixedResponseBodyReturnValueResolverTest {
 
     @Test
     void testResolveDetectableStringType() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), MediaType.APPLICATION_JSON_UTF8.value())
                 .build();
@@ -99,7 +99,7 @@ class SpecifiedFixedResponseBodyReturnValueResolverTest {
 
     @Test
     void testResolveDetectableByteArrayType() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), MediaType.APPLICATION_JSON_UTF8.value())
                 .build();
@@ -112,7 +112,7 @@ class SpecifiedFixedResponseBodyReturnValueResolverTest {
 
     @Test
     void testResolveDetectableByteBufType() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), MediaType.APPLICATION_JSON_UTF8.value())
                 .build();
@@ -125,7 +125,7 @@ class SpecifiedFixedResponseBodyReturnValueResolverTest {
 
     @Test
     void testResolveDetectablePrimitiveType() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), MediaType.APPLICATION_JSON_UTF8.value())
                 .build();
@@ -136,7 +136,7 @@ class SpecifiedFixedResponseBodyReturnValueResolverTest {
         assertArrayEquals(String.valueOf(foo).getBytes(StandardCharsets.UTF_8), resolved);
     }
 
-    private static byte[] createMultiResolverAndResolve(Object returnValue, AsyncRequest request,
+    private static byte[] createMultiResolverAndResolve(Object returnValue, HttpRequest request,
                                                         AsyncResponse response,
                                                         String method) throws Exception {
         final InvocableMethod invocableMethod = handlerMethods.get(method);

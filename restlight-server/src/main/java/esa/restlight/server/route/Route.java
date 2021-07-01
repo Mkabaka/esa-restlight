@@ -15,14 +15,14 @@
  */
 package esa.restlight.server.route;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.server.route.impl.RouteImpl;
 import esa.restlight.server.schedule.Scheduling;
 
 import java.util.Optional;
 
 /**
- * A Route maintains a {@link Mapping} which will be used to determine whether an {@link AsyncRequest} should be routed
+ * A Route maintains a {@link Mapping} which will be used to determine whether an {@link HttpRequest} should be routed
  * to it.
  */
 public interface Route extends Scheduling {
@@ -70,13 +70,13 @@ public interface Route extends Scheduling {
     Mapping mapping();
 
     /**
-     * Creates a {@link RouteExecution} by given {@link AsyncRequest} which has already bean routed to current route.
+     * Creates a {@link RouteExecution} by given {@link HttpRequest} which has already bean routed to current route.
      *
      * @param request current request
      *
      * @return {@link RouteExecution} of this route
      */
-    RouteExecution toExecution(AsyncRequest request);
+    RouteExecution toExecution(HttpRequest request);
 
     /**
      * Returns the handler object which depends on the implementation.

@@ -15,26 +15,26 @@
  */
 package esa.restlight.core.resolver;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 
 /**
- * Allows customising the {@link AsyncRequest} before resolving the parameter of controller from {@link AsyncRequest}
- * and customizing the argument resoled from {@link AsyncRequest}.
+ * Allows customising the {@link HttpRequest} before resolving the parameter of controller from {@link HttpRequest}
+ * and customizing the argument resoled from {@link HttpRequest}.
  */
 public interface ArgumentResolverAdvice {
 
     /**
-     * This method will be called before {@link ArgumentResolver#resolve(AsyncRequest, AsyncResponse)} method.
+     * This method will be called before {@link ArgumentResolver#resolve(HttpRequest, AsyncResponse)} method.
      *
      * @param request  request
      * @param response response
      */
-    void beforeResolve(AsyncRequest request, AsyncResponse response);
+    void beforeResolve(HttpRequest request, AsyncResponse response);
 
     /**
-     * This method will be called after {@link ArgumentResolver#resolve(AsyncRequest, AsyncResponse)} method, and allows
-     * customising the argument resolved by {@link ArgumentResolver#resolve(AsyncRequest, AsyncResponse)} method which
+     * This method will be called after {@link ArgumentResolver#resolve(HttpRequest, AsyncResponse)} method, and allows
+     * customising the argument resolved by {@link ArgumentResolver#resolve(HttpRequest, AsyncResponse)} method which
      * will be passed as the first parameter of this method.
      *
      * @param arg      argument resolved by {@link ArgumentResolver}
@@ -42,5 +42,5 @@ public interface ArgumentResolverAdvice {
      * @param response response
      * @return argument that was passed or a modified(possibly new) instance.
      */
-    Object afterResolved(Object arg, AsyncRequest request, AsyncResponse response);
+    Object afterResolved(Object arg, HttpRequest request, AsyncResponse response);
 }

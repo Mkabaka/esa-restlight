@@ -5,7 +5,7 @@ import esa.commons.http.HttpHeaderValues;
 import esa.restlight.core.method.Param;
 import esa.restlight.core.serialize.JacksonHttpBodySerializer;
 import esa.restlight.server.bootstrap.WebServerException;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +32,7 @@ class AbstractRequestBodyArgumentResolverTest {
                 return new NameAndValue("X", true);
             }
         };
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withHeader(HttpHeaderNames.CONTENT_TYPE, HttpHeaderValues.TEXT_PLAIN)
                 .withBody("123".getBytes(StandardCharsets.UTF_8))
                 .build();
@@ -53,7 +53,7 @@ class AbstractRequestBodyArgumentResolverTest {
                 return new NameAndValue("X", true);
             }
         };
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withHeader(HttpHeaderNames.CONTENT_TYPE, HttpHeaderValues.TEXT_PLAIN)
                 .build();
         final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
@@ -73,7 +73,7 @@ class AbstractRequestBodyArgumentResolverTest {
                 return new NameAndValue("X", true);
             }
         };
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withHeader(HttpHeaderNames.CONTENT_TYPE, HttpHeaderValues.APPLICATION_JSON)
                 .withBody("{\"foo\": \"bar\"}".getBytes(StandardCharsets.UTF_8))
                 .build();
@@ -95,7 +95,7 @@ class AbstractRequestBodyArgumentResolverTest {
                 return new NameAndValue("X", true);
             }
         };
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withHeader(HttpHeaderNames.CONTENT_TYPE, HttpHeaderValues.APPLICATION_JSON)
                 .build();
         final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
@@ -116,7 +116,7 @@ class AbstractRequestBodyArgumentResolverTest {
                         return new NameAndValue("X", true);
                     }
                 };
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withHeader(HttpHeaderNames.CONTENT_TYPE, HttpHeaderValues.APPLICATION_XML)
                 .withParameter("neg", "json")
                 .withBody("{\"foo\": \"bar\"}".getBytes(StandardCharsets.UTF_8))

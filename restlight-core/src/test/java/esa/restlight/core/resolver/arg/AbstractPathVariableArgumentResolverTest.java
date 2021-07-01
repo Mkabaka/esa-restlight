@@ -1,10 +1,9 @@
 package esa.restlight.core.resolver.arg;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.Param;
 import esa.restlight.server.route.predicate.PatternsPredicate;
-import esa.restlight.server.util.PathVariableUtils;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +25,7 @@ class AbstractPathVariableArgumentResolverTest {
         when(param.genericType()).thenReturn(int.class);
 
         final AbstractPathVariableArgumentResolver resolver = asResolver("foo");
-        final AsyncRequest request = MockAsyncRequest.aMockRequest().build();
+        final HttpRequest request = MockHttpRequest.aMockRequest().build();
         final Map<String, String> variables = new HashMap<>();
         variables.put("foo", "1");
         variables.put("bar", "2");

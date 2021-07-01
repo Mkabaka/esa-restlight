@@ -16,7 +16,7 @@
 package esa.restlight.server.handler;
 
 import esa.commons.Checks;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.restlight.server.schedule.Scheduler;
 import esa.restlight.server.util.Futures;
@@ -62,7 +62,7 @@ public class FilteredHandler implements RestlightHandler {
     }
 
     @Override
-    public CompletableFuture<Void> process(AsyncRequest request, AsyncResponse response) {
+    public CompletableFuture<Void> process(HttpRequest request, AsyncResponse response) {
         return filterChain.doFilter(request, response);
     }
 

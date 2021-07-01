@@ -15,7 +15,7 @@
  */
 package esa.restlight.springmvc.resolver;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.restlight.core.annotation.RequestSerializer;
 import esa.restlight.core.method.HandlerMethod;
@@ -88,7 +88,7 @@ class SpringHandlerResolverFactoryTest0 {
         }
 
         @Override
-        public Object resolve(AsyncRequest request, AsyncResponse response) {
+        public Object resolve(HttpRequest request, AsyncResponse response) {
             return "bar";
         }
     }

@@ -15,7 +15,7 @@
  */
 package esa.restlight.springmvc.resolver.arg;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.HandlerMethod;
 import esa.restlight.core.method.MethodParam;
 import esa.restlight.core.resolver.ArgumentResolver;
@@ -23,7 +23,7 @@ import esa.restlight.core.serialize.FastJsonHttpBodySerializer;
 import esa.restlight.server.bootstrap.WebServerException;
 import esa.restlight.springmvc.ResolverUtils;
 import esa.restlight.springmvc.annotation.shaded.RequestParam0;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -62,7 +62,7 @@ class RequestRequestParamArgumentResolverTest {
     @Test
     void testNormal() throws Exception {
 
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withParameter("foo", "bar")
                 .build();
@@ -72,7 +72,7 @@ class RequestRequestParamArgumentResolverTest {
 
     @Test
     void testNamedParam() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withParameter("baz", "qux")
                 .build();
@@ -82,7 +82,7 @@ class RequestRequestParamArgumentResolverTest {
 
     @Test
     void testRequiredParam() {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .build();
         assertThrows(WebServerException.class, () -> createResolverAndResolve(request, "requestParam"));
@@ -90,7 +90,7 @@ class RequestRequestParamArgumentResolverTest {
 
     @Test
     void testNoneRequiredParam() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .build();
         final Object resolved = createResolverAndResolve(request, "noneRequiredParam");
@@ -99,7 +99,7 @@ class RequestRequestParamArgumentResolverTest {
 
     @Test
     void testDefaultParam() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .build();
         final Object resolved = createResolverAndResolve(request, "defaultParam");
@@ -108,7 +108,7 @@ class RequestRequestParamArgumentResolverTest {
 
     @Test
     void testDefaultCollectionValue() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .build();
         final Object resolved = createResolverAndResolve(request, "defaultCollectionValue");
@@ -118,7 +118,7 @@ class RequestRequestParamArgumentResolverTest {
 
     @Test
     void testDefaultArrayValue() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .build();
         final Object resolved = createResolverAndResolve(request, "defaultArrayValue");
@@ -129,7 +129,7 @@ class RequestRequestParamArgumentResolverTest {
     @SuppressWarnings("unchecked")
     @Test
     void testDefaultOptionalValue() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .build();
         final Optional<String> resolved =
@@ -139,7 +139,7 @@ class RequestRequestParamArgumentResolverTest {
 
     @Test
     void testDefaultAndRequiredParam() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .build();
         final Object resolved = createResolverAndResolve(request, "defaultAndRequiredParam");
@@ -148,7 +148,7 @@ class RequestRequestParamArgumentResolverTest {
 
     @Test
     void testDefaultAndRequiredParamTest1() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withParameter("foo", "bar")
                 .build();
@@ -158,7 +158,7 @@ class RequestRequestParamArgumentResolverTest {
 
     @Test
     void testCollection() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withParameter("collection", "1,  2, 3,4,  5 ")
                 .build();
@@ -170,7 +170,7 @@ class RequestRequestParamArgumentResolverTest {
 
     @Test
     void testGenericCollection() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withParameter("collection", "1,  2, 3,4,  5 ")
                 .build();
@@ -183,7 +183,7 @@ class RequestRequestParamArgumentResolverTest {
 
     @Test
     void testArray() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withParameter("objects", "1,  2, 3,4,  5 ")
                 .build();
@@ -194,7 +194,7 @@ class RequestRequestParamArgumentResolverTest {
 
     @Test
     void testGenericArray() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withParameter("ints", "1,  2, 3,4,  5 ")
                 .build();
@@ -205,7 +205,7 @@ class RequestRequestParamArgumentResolverTest {
 
     @Test
     void testSingleValueMap() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withParameter("a", "1")
                 .withParameter("a", "2")
@@ -220,7 +220,7 @@ class RequestRequestParamArgumentResolverTest {
 
     @Test
     void testEmptySingleValueMap() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .build();
         final Map<String, String> resolved = (Map<String, String>) createResolverAndResolve(request,
@@ -231,7 +231,7 @@ class RequestRequestParamArgumentResolverTest {
 
     @Test
     void testMultiMap() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withParameter("a", "1")
                 .withParameter("a", "2")
@@ -245,7 +245,7 @@ class RequestRequestParamArgumentResolverTest {
         assertEquals("3", resolved.get("b").get(0));
     }
 
-    private static Object createResolverAndResolve(AsyncRequest request, String method) throws Exception {
+    private static Object createResolverAndResolve(HttpRequest request, String method) throws Exception {
         final MethodParam parameter = handlerMethods.get(method).parameters()[0];
         assertTrue(resolverFactory.supports(parameter));
         final ArgumentResolver resolver = resolverFactory.createResolver(parameter,

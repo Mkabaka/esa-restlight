@@ -15,7 +15,7 @@
  */
 package esa.restlight.ext.multipart.resolver;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.MethodParam;
 import esa.restlight.core.resolver.ArgumentResolver;
 import esa.restlight.server.bootstrap.WebServerException;
@@ -28,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MultipartAttrArgumentResolverTest extends AbstractMultipartResolverTest {
 
-    private static Object createResolverAndResolve(AsyncRequest request, String method) throws Exception {
+    private static Object createResolverAndResolve(HttpRequest request, String method) throws Exception {
         final MethodParam parameter = handlerMethods.get(method).parameters()[0];
         assertTrue(attrResolver.supports(parameter));
         final ArgumentResolver resolver = attrResolver.createResolver(parameter, null);

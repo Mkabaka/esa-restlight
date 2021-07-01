@@ -19,7 +19,7 @@ import esa.commons.ClassUtils;
 import esa.commons.StringUtils;
 import esa.commons.collection.LinkedMultiValueMap;
 import esa.commons.collection.MultiValueMap;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.Param;
 import esa.restlight.core.resolver.ArgumentResolver;
 import esa.restlight.core.resolver.ArgumentResolverFactory;
@@ -63,7 +63,7 @@ public abstract class AbstractMatrixArgumentResolver implements ArgumentResolver
         }
 
         @Override
-        protected Object resolveName(String name, AsyncRequest request) {
+        protected Object resolveName(String name, HttpRequest request) {
 
             Map<String, MultiValueMap<String, String>> pathParameters =
                     PathVariableUtils.getMatrixVariables(request);

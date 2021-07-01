@@ -19,7 +19,7 @@ import esa.restlight.core.mock.MockContext;
 import esa.restlight.core.util.Affinity;
 import esa.restlight.server.route.Mapping;
 import esa.restlight.server.route.Route;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -142,7 +142,7 @@ public class HandlerInterceptorWrapTest {
         final Route route = Route.route(Mapping.get("/?o*/b?r"));
         final HandlerInterceptorWrap wrap = new HandlerInterceptorWrap(mock, MockContext.mock(), route);
         assertTrue(wrap.affinity() > 0);
-        assertTrue(wrap.predicate().test(MockAsyncRequest.aMockRequest()
+        assertTrue(wrap.predicate().test(MockHttpRequest.aMockRequest()
                 .withUri("/foo1/bar")
                 .build()));
     }

@@ -16,7 +16,7 @@
 package esa.restlight.core.resolver;
 
 import esa.commons.Checks;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 
 import java.util.Collections;
@@ -35,7 +35,7 @@ class AdvisedArgumentResolver implements ArgumentResolver {
     }
 
     @Override
-    public Object resolve(AsyncRequest request, AsyncResponse response) throws Exception {
+    public Object resolve(HttpRequest request, AsyncResponse response) throws Exception {
         for (ArgumentResolverAdvice advice : advices) {
             advice.beforeResolve(request, response);
         }

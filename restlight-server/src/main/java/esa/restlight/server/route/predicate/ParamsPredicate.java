@@ -15,7 +15,7 @@
  */
 package esa.restlight.server.route.predicate;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.server.util.MappingUtils;
 
 import java.util.Collection;
@@ -54,7 +54,7 @@ public class ParamsPredicate implements RequestPredicate {
     }
 
     @Override
-    public boolean test(AsyncRequest request) {
+    public boolean test(HttpRequest request) {
         for (Expression expression : expressions) {
             if (!expression.match(request)) {
                 return false;
@@ -86,12 +86,12 @@ public class ParamsPredicate implements RequestPredicate {
         }
 
         @Override
-        protected boolean matchName(AsyncRequest request) {
+        protected boolean matchName(HttpRequest request) {
             return request.getParameter(name) != null;
         }
 
         @Override
-        protected boolean matchValue(AsyncRequest request) {
+        protected boolean matchValue(HttpRequest request) {
             return Objects.equals(this.value, request.getParameter(this.name));
         }
 

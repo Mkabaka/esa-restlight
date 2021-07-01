@@ -15,7 +15,7 @@
  */
 package esa.restlight.server.route;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -32,7 +32,7 @@ class RouteRegistryTest {
             }
 
             @Override
-            public Route route(AsyncRequest request) {
+            public Route route(HttpRequest request) {
                 return null;
             }
 

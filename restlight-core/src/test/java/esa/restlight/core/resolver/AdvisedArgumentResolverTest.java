@@ -15,9 +15,9 @@
  */
 package esa.restlight.core.resolver;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import org.junit.jupiter.api.Test;
 
@@ -45,7 +45,7 @@ class AdvisedArgumentResolverTest {
 
         final AdvisedArgumentResolver advise = new AdvisedArgumentResolver(argumentResolver, Arrays.asList(a0, a1));
 
-        final AsyncRequest request = MockAsyncRequest.aMockRequest().build();
+        final HttpRequest request = MockHttpRequest.aMockRequest().build();
         final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
 
         final Object arg = advise.resolve(request, response);

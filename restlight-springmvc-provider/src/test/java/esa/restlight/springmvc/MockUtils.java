@@ -24,7 +24,7 @@ import esa.restlight.core.resolver.ArgumentResolverFactory;
 import esa.restlight.core.resolver.HandlerResolverFactory;
 import esa.restlight.core.resolver.HandlerResolverFactoryImpl;
 import esa.restlight.core.resolver.ReturnValueResolverFactory;
-import esa.restlight.core.resolver.arg.AsyncRequestArgumentResolverFactory;
+import esa.restlight.core.resolver.arg.HttpRequestArgumentResolverFactory;
 import esa.restlight.core.resolver.arg.AsyncResponseArgumentResolverFactory;
 import esa.restlight.core.resolver.arg.QueryBeanArgumentResolver;
 import esa.restlight.core.resolver.result.SimpleReturnValueResolver;
@@ -61,7 +61,7 @@ public class MockUtils {
                 new QueryBeanArgumentResolver(new Context(RestlightOptionsConfigure.defaultOpts())),
                 new RequestBodyArgumentResolver(),
                 new SpecifiedFixedRequestBodyArgumentResolver(),
-                new AsyncRequestArgumentResolverFactory(),
+                new HttpRequestArgumentResolverFactory(),
                 new AsyncResponseArgumentResolverFactory());
     }
 

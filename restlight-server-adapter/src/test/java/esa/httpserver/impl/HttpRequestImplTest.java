@@ -47,7 +47,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class AsyncRequestImplTest {
+class HttpRequestImplTest {
 
     @Test
     void testHeaderAndTrailerConvert() throws IOException {
@@ -61,7 +61,7 @@ class AsyncRequestImplTest {
         when(aggregation.trailers()).thenReturn(new Http1HeadersImpl());
         when(mock.aggregated()).thenReturn(aggregation);
 
-        final AsyncRequestImpl req = new AsyncRequestImpl(mock);
+        final HttpRequestImpl req = new HttpRequestImpl(mock);
 
         when(mock.version()).thenReturn(HttpVersion.HTTP_1_1);
         assertEquals(io.netty.handler.codec.http.HttpVersion.HTTP_1_1, req.httpVersion());
@@ -160,7 +160,7 @@ class AsyncRequestImplTest {
         when(aggregation.trailers()).thenReturn(trailer);
         when(mock.aggregated()).thenReturn(aggregation);
 
-        final AsyncRequestImpl req = new AsyncRequestImpl(mock);
+        final HttpRequestImpl req = new HttpRequestImpl(mock);
         assertSame(headers, req.headers());
         assertSame(trailer, req.trailers());
         verifyHeaders(req);
@@ -183,7 +183,7 @@ class AsyncRequestImplTest {
         when(aggregation.trailers()).thenReturn(trailer);
         when(mock.aggregated()).thenReturn(aggregation);
 
-        final AsyncRequestImpl req = new AsyncRequestImpl(mock);
+        final HttpRequestImpl req = new HttpRequestImpl(mock);
         assertNotSame(headers, req.headers());
         assertNotSame(trailer, req.trailers());
         verifyHeaders(req);
@@ -202,7 +202,7 @@ class AsyncRequestImplTest {
         when(aggregation.trailers()).thenReturn(new Http1HeadersImpl());
         when(mock.aggregated()).thenReturn(aggregation);
 
-        final AsyncRequestImpl req = new AsyncRequestImpl(mock);
+        final HttpRequestImpl req = new HttpRequestImpl(mock);
         final Set<Cookie> cookies = req.cookies();
         assertNotNull(cookies);
         assertEquals(2, cookies.size());
@@ -226,7 +226,7 @@ class AsyncRequestImplTest {
         when(aggregation.trailers()).thenReturn(new Http1HeadersImpl());
         when(mock.aggregated()).thenReturn(aggregation);
 
-        final AsyncRequestImpl req = new AsyncRequestImpl(mock);
+        final HttpRequestImpl req = new HttpRequestImpl(mock);
         final Set<Cookie> cookies = req.cookies();
         assertTrue(cookies.isEmpty());
         assertSame(cookies, req.cookies());
@@ -252,7 +252,7 @@ class AsyncRequestImplTest {
         when(aggregation.body()).thenReturn(body);
         when(mock.aggregated()).thenReturn(aggregation);
 
-        final AsyncRequestImpl req = new AsyncRequestImpl(mock);
+        final HttpRequestImpl req = new HttpRequestImpl(mock);
         assertEquals(3, req.parameterMap().size());
         assertEquals("1", req.getParameter("a"));
         assertEquals("2", req.getParameter("b"));
@@ -279,7 +279,7 @@ class AsyncRequestImplTest {
         when(aggregation.body()).thenReturn(body);
         when(mock.aggregated()).thenReturn(aggregation);
 
-        final AsyncRequestImpl req = new AsyncRequestImpl(mock);
+        final HttpRequestImpl req = new HttpRequestImpl(mock);
         assertEquals(2, req.parameterMap().size());
         assertEquals("1", req.getParameter("a"));
         assertEquals("2", req.getParameter("b"));
@@ -305,7 +305,7 @@ class AsyncRequestImplTest {
         when(aggregation.body()).thenReturn(body);
         when(mock.aggregated()).thenReturn(aggregation);
 
-        final AsyncRequestImpl req = new AsyncRequestImpl(mock);
+        final HttpRequestImpl req = new HttpRequestImpl(mock);
         assertEquals(2, req.parameterMap().size());
         assertEquals("1", req.getParameter("a"));
         assertEquals("2", req.getParameter("b"));
@@ -321,7 +321,7 @@ class AsyncRequestImplTest {
         when(aggregation.trailers()).thenReturn(new Http1HeadersImpl());
         when(mock.aggregated()).thenReturn(aggregation);
 
-        final AsyncRequestImpl req = new AsyncRequestImpl(mock);
+        final HttpRequestImpl req = new HttpRequestImpl(mock);
 
         assertEquals(0, req.attributeNames().length);
         req.setAttribute("a", 1);
@@ -339,7 +339,7 @@ class AsyncRequestImplTest {
     }
 
 
-    private static void verifyHeaders(AsyncRequestImpl req) {
+    private static void verifyHeaders(HttpRequestImpl req) {
         assertEquals("1", req.headers().get("a"));
         assertEquals("2", req.headers().get("b"));
         assertEquals("1", req.getHttpHeaders().get("a"));
@@ -373,7 +373,7 @@ class AsyncRequestImplTest {
         assertEquals("n", req.getHeader("m0"));
     }
 
-    private static void verifyTrailers(AsyncRequestImpl req) {
+    private static void verifyTrailers(HttpRequestImpl req) {
         assertEquals("1", req.trailers().get("c"));
         assertEquals("2", req.trailers().get("d"));
         assertTrue(req.containsTrailer("c"));

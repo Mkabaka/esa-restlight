@@ -20,7 +20,7 @@ import esa.commons.function.ThrowingBiConsumer;
 import esa.commons.function.ThrowingConsumer;
 import esa.commons.function.ThrowingConsumer3;
 import esa.commons.function.ThrowingRunnable;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.restlight.server.route.CompletionHandler;
 import esa.restlight.server.route.ExceptionHandler;
@@ -46,13 +46,13 @@ import java.util.function.Supplier;
 public class RouteImpl implements Route {
 
     private final Mapping mapping;
-    private final Function<AsyncRequest, RouteExecution> executionFactory;
+    private final Function<HttpRequest, RouteExecution> executionFactory;
     private final Scheduler scheduler;
     private final Object handler;
     private String str;
 
     public RouteImpl(Mapping mapping,
-                     Function<AsyncRequest, RouteExecution> executionFactory,
+                     Function<HttpRequest, RouteExecution> executionFactory,
                      Scheduler scheduler,
                      Object handler) {
         // default to empty mapping
@@ -109,7 +109,7 @@ public class RouteImpl implements Route {
      *
      * @return a new instance of {@link RouteImpl}
      */
-    public RouteImpl executionFactory(Function<AsyncRequest, RouteExecution> factory) {
+    public RouteImpl executionFactory(Function<HttpRequest, RouteExecution> factory) {
         Checks.checkNotNull(factory, "factory");
         return new RouteImpl(mapping,
                 factory,
@@ -129,9 +129,9 @@ public class RouteImpl implements Route {
      *
      * @return a new instance of {@link RouteImpl}
      */
-    public RouteImpl handleAsync(BiFunction<AsyncRequest, AsyncResponse, CompletableFuture<Void>> handler) {
+    public RouteImpl handleAsync(BiFunction<HttpRequest, AsyncResponse, CompletableFuture<Void>> handler) {
         Checks.checkNotNull(handler, "handler");
-        Function<AsyncRequest, RouteExecution> factory;
+        Function<HttpRequest, RouteExecution> factory;
         if (this.executionFactory instanceof StatelessExecutionFactory) {
             final StatelessExecutionFactory old = (StatelessExecutionFactory) this.executionFactory;
             factory = new StatelessExecutionFactory(
@@ -153,7 +153,7 @@ public class RouteImpl implements Route {
      * @return a new instance of {@link RouteImpl}
      * @see #handleAsync(BiFunction)
      */
-    public RouteImpl handleAsync(Function<AsyncRequest, CompletableFuture<Void>> handler) {
+    public RouteImpl handleAsync(Function<HttpRequest, CompletableFuture<Void>> handler) {
         return handleAsync(((request, response) -> handler.apply(request)));
     }
 
@@ -178,7 +178,7 @@ public class RouteImpl implements Route {
      *
      * @return a new instance of {@link RouteImpl}
      */
-    public RouteImpl handle(ThrowingBiConsumer<AsyncRequest, AsyncResponse> handler) {
+    public RouteImpl handle(ThrowingBiConsumer<HttpRequest, AsyncResponse> handler) {
         Checks.checkNotNull(handler, "handler");
         return handleAsync((request, response) -> {
             try {
@@ -196,7 +196,7 @@ public class RouteImpl implements Route {
      * @return a new instance of {@link RouteImpl}
      * @see #handle(ThrowingBiConsumer)
      */
-    public RouteImpl handle(ThrowingConsumer<AsyncRequest> handler) {
+    public RouteImpl handle(ThrowingConsumer<HttpRequest> handler) {
         Checks.checkNotNull(handler, "handler");
         return handle((request, response) -> handler.accept(request));
     }
@@ -225,7 +225,7 @@ public class RouteImpl implements Route {
      */
     public RouteImpl onErrorAsync(ExceptionHandler<Throwable> handler) {
         Checks.checkNotNull(handler, "handler");
-        Function<AsyncRequest, RouteExecution> factory;
+        Function<HttpRequest, RouteExecution> factory;
         if (this.executionFactory instanceof StatelessExecutionFactory) {
             final StatelessExecutionFactory old = (StatelessExecutionFactory) this.executionFactory;
             factory = new StatelessExecutionFactory(
@@ -247,7 +247,7 @@ public class RouteImpl implements Route {
      * @return a new instance of {@link RouteImpl}
      * @see #onErrorAsync(ExceptionHandler)
      */
-    public RouteImpl onErrorAsync(BiFunction<AsyncRequest, Throwable, CompletableFuture<Void>> handler) {
+    public RouteImpl onErrorAsync(BiFunction<HttpRequest, Throwable, CompletableFuture<Void>> handler) {
         Checks.checkNotNull(handler, "handler");
         return onErrorAsync(((request, response, throwable) -> handler.apply(request, throwable)));
     }
@@ -285,7 +285,7 @@ public class RouteImpl implements Route {
      *
      * @return a new instance of {@link RouteImpl}
      */
-    public RouteImpl onError(ThrowingConsumer3<AsyncRequest, AsyncResponse, Throwable> handler) {
+    public RouteImpl onError(ThrowingConsumer3<HttpRequest, AsyncResponse, Throwable> handler) {
         Checks.checkNotNull(handler, "handler");
         return onErrorAsync((request, response, error) -> {
             try {
@@ -303,7 +303,7 @@ public class RouteImpl implements Route {
      * @return a new instance of {@link RouteImpl}
      * @see #onError(ThrowingConsumer3)
      */
-    public RouteImpl onError(ThrowingBiConsumer<AsyncRequest, Throwable> handler) {
+    public RouteImpl onError(ThrowingBiConsumer<HttpRequest, Throwable> handler) {
         Checks.checkNotNull(handler, "handler");
         return onError(((request, response, throwable) -> handler.accept(request, throwable)));
     }
@@ -343,7 +343,7 @@ public class RouteImpl implements Route {
      */
     public RouteImpl onCompleteAsync(CompletionHandler handler) {
         Checks.checkNotNull(handler, "handler");
-        Function<AsyncRequest, RouteExecution> factory;
+        Function<HttpRequest, RouteExecution> factory;
         if (this.executionFactory instanceof StatelessExecutionFactory) {
             final StatelessExecutionFactory old = (StatelessExecutionFactory) this.executionFactory;
             factory = new StatelessExecutionFactory(
@@ -365,7 +365,7 @@ public class RouteImpl implements Route {
      * @return a new instance of {@link RouteImpl}
      * @see #onCompleteAsync(CompletionHandler)
      */
-    public RouteImpl onCompleteAsync(BiFunction<AsyncRequest, Throwable, CompletableFuture<Void>> handler) {
+    public RouteImpl onCompleteAsync(BiFunction<HttpRequest, Throwable, CompletableFuture<Void>> handler) {
         Checks.checkNotNull(handler, "handler");
         return onCompleteAsync((request, response, t) -> handler.apply(request, t));
     }
@@ -403,7 +403,7 @@ public class RouteImpl implements Route {
      *
      * @return a new instance of {@link RouteImpl}
      */
-    public RouteImpl onComplete(ThrowingConsumer3<AsyncRequest, AsyncResponse, Throwable> handler) {
+    public RouteImpl onComplete(ThrowingConsumer3<HttpRequest, AsyncResponse, Throwable> handler) {
         Checks.checkNotNull(handler, "handler");
         return onCompleteAsync((request, response, error) -> {
             try {
@@ -469,7 +469,7 @@ public class RouteImpl implements Route {
 
 
     @Override
-    public RouteExecution toExecution(AsyncRequest request) {
+    public RouteExecution toExecution(HttpRequest request) {
         return executionFactory.apply(request);
     }
 
@@ -499,9 +499,9 @@ public class RouteImpl implements Route {
         return scheduler;
     }
 
-    private static class StatelessExecutionFactory implements Function<AsyncRequest, RouteExecution> {
+    private static class StatelessExecutionFactory implements Function<HttpRequest, RouteExecution> {
 
-        final BiFunction<AsyncRequest, AsyncResponse, CompletableFuture<Void>> requestHandler;
+        final BiFunction<HttpRequest, AsyncResponse, CompletableFuture<Void>> requestHandler;
         final ExceptionHandler<Throwable> exceptionHandler;
         final CompletionHandler completionHandler;
 
@@ -509,7 +509,7 @@ public class RouteImpl implements Route {
             this(null, null, null);
         }
 
-        private StatelessExecutionFactory(BiFunction<AsyncRequest,
+        private StatelessExecutionFactory(BiFunction<HttpRequest,
                 AsyncResponse, CompletableFuture<Void>> requestHandler,
                                           ExceptionHandler<Throwable> exceptionHandler,
                                           CompletionHandler completionHandler) {
@@ -522,10 +522,10 @@ public class RouteImpl implements Route {
         }
 
         @Override
-        public RouteExecution apply(AsyncRequest request) {
+        public RouteExecution apply(HttpRequest request) {
             return new RouteExecution() {
                 @Override
-                public CompletableFuture<Void> handle(AsyncRequest request, AsyncResponse response) {
+                public CompletableFuture<Void> handle(HttpRequest request, AsyncResponse response) {
                     if (requestHandler == null) {
                         return Futures.completedFuture();
                     }

@@ -16,7 +16,7 @@
 package esa.restlight.server.route.predicate;
 
 import esa.commons.Checks;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.HttpMethod;
 import esa.restlight.server.route.Mapping;
 import io.netty.handler.codec.http.HttpResponseStatus;
@@ -48,7 +48,7 @@ public class RoutePredicate implements RequestPredicate {
     }
 
     @Override
-    public boolean test(AsyncRequest request) {
+    public boolean test(HttpRequest request) {
         if (!patterns.test(request)) {
             return false;
         }

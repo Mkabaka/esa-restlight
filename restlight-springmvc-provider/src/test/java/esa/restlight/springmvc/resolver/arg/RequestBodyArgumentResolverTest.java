@@ -15,7 +15,7 @@
  */
 package esa.restlight.springmvc.resolver.arg;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.HandlerMethod;
 import esa.restlight.core.method.MethodParam;
 import esa.restlight.core.resolver.ArgumentResolver;
@@ -28,7 +28,7 @@ import esa.restlight.server.bootstrap.WebServerException;
 import esa.restlight.springmvc.ResolverUtils;
 import esa.restlight.springmvc.annotation.shaded.RequestBody0;
 import esa.restlight.springmvc.resolver.Pojo;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import org.junit.jupiter.api.BeforeAll;
@@ -62,7 +62,7 @@ class RequestBodyArgumentResolverTest {
     @Test
     void testSupportIfAnnotationAbsent() throws Exception {
         final Pojo origin = new Pojo(1024, "hello restlight");
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.CONTENT_TYPE.toString(), MediaType.APPLICATION_JSON_UTF8.value())
                 .withBody(JacksonSerializer.getDefaultMapper().writeValueAsBytes(origin))
@@ -74,7 +74,7 @@ class RequestBodyArgumentResolverTest {
     @Test
     void testRequestBody() throws Exception {
         final Pojo origin = new Pojo(1024, "hello restlight");
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.CONTENT_TYPE.toString(), MediaType.APPLICATION_JSON_UTF8.value())
                 .withBody(JacksonSerializer.getDefaultMapper().writeValueAsBytes(origin))
@@ -85,7 +85,7 @@ class RequestBodyArgumentResolverTest {
 
     @Test
     void testRequired() {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.CONTENT_TYPE.toString(), MediaType.APPLICATION_JSON_UTF8.value())
                 .build();
@@ -95,7 +95,7 @@ class RequestBodyArgumentResolverTest {
     @Test
     void testRequestBodyText() throws Exception {
         final Pojo origin = new Pojo(1024, "hello restlight");
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.CONTENT_TYPE.toString(), MediaType.TEXT_PLAIN.value())
                 .withBody(JacksonSerializer.getDefaultMapper().writeValueAsBytes(origin))
@@ -107,7 +107,7 @@ class RequestBodyArgumentResolverTest {
     @Test
     void testNoneContentType() throws Exception {
         final Pojo origin = new Pojo(1024, "hello restlight");
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withBody(JacksonSerializer.getDefaultMapper().writeValueAsBytes(origin))
                 .build();
@@ -117,7 +117,7 @@ class RequestBodyArgumentResolverTest {
 
     @Test
     void testNoneRequiredRequestBody() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.CONTENT_TYPE.toString(), MediaType.APPLICATION_JSON_UTF8.value())
                 .build();
@@ -127,7 +127,7 @@ class RequestBodyArgumentResolverTest {
 
     @Test
     void testUnsupported() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.CONTENT_TYPE.toString(), MediaType.MULTIPART_FORM_DATA.value())
                 .build();
@@ -149,14 +149,14 @@ class RequestBodyArgumentResolverTest {
                 .createResolver(parameter, serializers);
 
         final Pojo origin = new Pojo(1024, "hello restlight");
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.CONTENT_TYPE.toString(), MediaType.APPLICATION_JSON_UTF8.value())
                 .withBody(JacksonSerializer.getDefaultMapper().writeValueAsBytes(origin))
                 .build();
         final Object resolvedWithJson = resolver.resolve(request, MockAsyncResponse.aMockResponse().build());
         assertEquals(origin, resolvedWithJson);
-        final AsyncRequest request2 = MockAsyncRequest
+        final HttpRequest request2 = MockHttpRequest
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.CONTENT_TYPE.toString(), MediaType.APPLICATION_XML.value())
                 .withBody(JacksonSerializer.getDefaultMapper().writeValueAsBytes(origin))
@@ -166,7 +166,7 @@ class RequestBodyArgumentResolverTest {
         assertEquals(origin, resolvedWithXml);
     }
 
-    private static Object createResolverAndResolve(AsyncRequest request, String method) throws Exception {
+    private static Object createResolverAndResolve(HttpRequest request, String method) throws Exception {
         final MethodParam parameter = handlerMethods.get(method).parameters()[0];
         assertTrue(resolverFactory.supports(parameter));
         final ArgumentResolver resolver = resolverFactory.createResolver(parameter,

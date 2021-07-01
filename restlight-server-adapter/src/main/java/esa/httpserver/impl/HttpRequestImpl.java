@@ -20,8 +20,8 @@ import esa.commons.StringUtils;
 import esa.commons.annotation.Internal;
 import esa.commons.logging.Logger;
 import esa.commons.logging.LoggerFactory;
-import esa.httpserver.core.AsyncRequest;
 import esa.httpserver.core.HttpInputStream;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.Request;
 import esa.restlight.core.util.MediaType;
 import io.netty.buffer.ByteBuf;
@@ -50,12 +50,12 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Default implementation of {@link AsyncRequest} that wraps the {@link Request} as delegate.
+ * Default implementation of {@link HttpRequest} that wraps the {@link Request} as delegate.
  */
 @Internal
-public class AsyncRequestImpl implements AsyncRequest {
+public class HttpRequestImpl implements HttpRequest {
 
-    private static final Logger logger = LoggerFactory.getLogger(AsyncRequestImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(HttpRequestImpl.class);
 
     private static final HttpVersion HTTP2 =
             new HttpVersion("HTTP", 2, 0, true);
@@ -68,7 +68,7 @@ public class AsyncRequestImpl implements AsyncRequest {
     private HttpInputStream is;
     private Set<Cookie> cookies;
 
-    public AsyncRequestImpl(Request req) {
+    public HttpRequestImpl(Request req) {
         this.req = req;
         this.method = HttpMethod.valueOf(req.rawMethod());
         if (req.headers() instanceof HttpHeaders) {

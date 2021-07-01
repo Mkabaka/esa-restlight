@@ -21,7 +21,7 @@ import esa.restlight.core.handler.LinkedHandlerInvoker;
 import esa.restlight.core.method.HandlerMethod;
 import esa.restlight.core.method.InvocableMethod;
 import esa.restlight.server.bootstrap.WebServerException;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import org.junit.jupiter.api.Test;
@@ -57,7 +57,7 @@ class HandlerImplTest {
                 new HandlerImpl(HandlerMethod.of(Subject.class.getDeclaredMethod("method"), SUBJECT),
                         HttpResponseStatus.ACCEPTED,
                         invoker);
-        final Object ret = handler.invoke(MockAsyncRequest.aMockRequest().build(),
+        final Object ret = handler.invoke(MockHttpRequest.aMockRequest().build(),
                 MockAsyncResponse.aMockResponse().build(), null);
         assertEquals("foo", ret);
     }
@@ -74,7 +74,7 @@ class HandlerImplTest {
                         null,
                         invoker);
 
-        assertThrows(WebServerException.class, () -> handler.invoke(MockAsyncRequest.aMockRequest().build(),
+        assertThrows(WebServerException.class, () -> handler.invoke(MockHttpRequest.aMockRequest().build(),
                 MockAsyncResponse.aMockResponse().build(), null));
     }
 
@@ -85,7 +85,7 @@ class HandlerImplTest {
                 new HandlerImpl(HandlerMethod.of(Subject.class.getDeclaredMethod("err"), SUBJECT),
                         HttpResponseStatus.ACCEPTED,
                         invoker);
-        assertThrows(UnsupportedOperationException.class, () -> handler.invoke(MockAsyncRequest.aMockRequest().build(),
+        assertThrows(UnsupportedOperationException.class, () -> handler.invoke(MockHttpRequest.aMockRequest().build(),
                 MockAsyncResponse.aMockResponse().build(), null));
     }
 

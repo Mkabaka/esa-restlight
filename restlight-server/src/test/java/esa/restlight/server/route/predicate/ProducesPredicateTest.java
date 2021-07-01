@@ -15,10 +15,10 @@
  */
 package esa.restlight.server.route.predicate;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.HttpMethod;
 import esa.restlight.core.util.MediaType;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import org.junit.jupiter.api.Test;
 
@@ -34,7 +34,7 @@ class ProducesPredicateTest {
     @Test
     void testMatch() {
         final ProducesPredicate predicate = ProducesPredicate.parseFrom(new String[]{"text/plain"});
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), "text/plain")
                 .build();
@@ -44,7 +44,7 @@ class ProducesPredicateTest {
     @Test
     void testMatchNegated() {
         final ProducesPredicate predicate = ProducesPredicate.parseFrom(new String[]{"!text/plain"});
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), "text/plain")
                 .build();
@@ -54,7 +54,7 @@ class ProducesPredicateTest {
     @Test
     void testMatchNegatedWithoutAcceptHeader() {
         final ProducesPredicate predicate = ProducesPredicate.parseFrom(new String[]{"!text/plain"});
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .build();
         assertFalse(predicate.test(request));
@@ -63,7 +63,7 @@ class ProducesPredicateTest {
     @Test
     void testMatchWithoutAcceptHeader() {
         final ProducesPredicate predicate = ProducesPredicate.parseFrom(new String[]{"text/plain"});
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .build();
         assertTrue(predicate.test(request));
@@ -72,7 +72,7 @@ class ProducesPredicateTest {
     @Test
     void testMatchWildcard() {
         final ProducesPredicate predicate = ProducesPredicate.parseFrom(new String[]{"text/*"});
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), "text/plain")
                 .build();
@@ -82,13 +82,13 @@ class ProducesPredicateTest {
     @Test
     void testMultiple() {
         final ProducesPredicate predicate = ProducesPredicate.parseFrom(new String[]{"text/plain", "application/xml"});
-        AsyncRequest request = MockAsyncRequest
+        HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), "text/plain")
                 .build();
         assertTrue(predicate.test(request));
 
-        request = MockAsyncRequest
+        request = MockHttpRequest
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), "application/xml")
                 .build();
@@ -98,7 +98,7 @@ class ProducesPredicateTest {
     @Test
     void testMatchSingle() {
         final ProducesPredicate predicate = ProducesPredicate.parseFrom(new String[]{"text/plain"});
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), "application/xml")
                 .build();
@@ -108,7 +108,7 @@ class ProducesPredicateTest {
     @Test
     void testMatchParseError() {
         final ProducesPredicate predicate = ProducesPredicate.parseFrom(new String[]{"text/plain"});
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), "aaa")
                 .build();
@@ -118,7 +118,7 @@ class ProducesPredicateTest {
     @Test
     void testMatchParseErrorWithNegation() {
         final ProducesPredicate predicate = ProducesPredicate.parseFrom(new String[]{"!text/plain"});
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), "aaa")
                 .build();
@@ -128,7 +128,7 @@ class ProducesPredicateTest {
     @Test
     void testCompatibleMediaTypes() {
         final ProducesPredicate predicate = ProducesPredicate.parseFrom(new String[]{"*/*"});
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/")
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), "*/*")
@@ -141,7 +141,7 @@ class ProducesPredicateTest {
     void testGetAccepts() {
         final ProducesPredicate predicate = ProducesPredicate.parseFrom(new String[]{"application/json",
                 "multipart/form-data"});
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), "application/json,text/plain,multipart/form-data")
                 .build();

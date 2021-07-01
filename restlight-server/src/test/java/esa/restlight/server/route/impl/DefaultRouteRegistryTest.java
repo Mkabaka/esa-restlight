@@ -15,10 +15,10 @@
  */
 package esa.restlight.server.route.impl;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.server.route.Route;
 import esa.restlight.server.route.RouteRegistry;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import org.junit.jupiter.api.Test;
 
 import static esa.restlight.server.route.Mapping.get;
@@ -38,10 +38,10 @@ public class DefaultRouteRegistryTest {
         final RouteRegistry registry = buildMapperRegistry();
         registry.registerRoute(route(get("/foo")));
 
-        final AsyncRequest request = MockAsyncRequest.aMockRequest().withUri("/foo").build();
+        final HttpRequest request = MockHttpRequest.aMockRequest().withUri("/foo").build();
         final Route route = registry.toReadOnly().route(request);
         assertNotNull(route);
-        final AsyncRequest request1 = MockAsyncRequest.aMockRequest().withUri("/bar").build();
+        final HttpRequest request1 = MockHttpRequest.aMockRequest().withUri("/bar").build();
         final Route route1 = registry.toReadOnly().route(request1);
         assertNull(route1);
     }
@@ -51,10 +51,10 @@ public class DefaultRouteRegistryTest {
         final RouteRegistry registry = buildMapperRegistry();
         registry.registerRoute(route(get("/foo/{foo}")));
         registry.registerRoute(route(get("/foo/**")));
-        final AsyncRequest request = MockAsyncRequest.aMockRequest().withUri("/foo/bar").build();
+        final HttpRequest request = MockHttpRequest.aMockRequest().withUri("/foo/bar").build();
         final Route route = registry.toReadOnly().route(request);
         assertNotNull(route);
-        final AsyncRequest request1 = MockAsyncRequest.aMockRequest().withUri("/foo/bar/baz").build();
+        final HttpRequest request1 = MockHttpRequest.aMockRequest().withUri("/foo/bar/baz").build();
         final Route route1 = registry.toReadOnly().route(request1);
         assertNotNull(route1);
     }

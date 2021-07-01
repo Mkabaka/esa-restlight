@@ -15,7 +15,7 @@
  */
 package esa.restlight.ext.multipart.resolver;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.MethodParam;
 import esa.restlight.core.resolver.ArgumentResolver;
 import esa.restlight.ext.multipart.core.MultipartFile;
@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MultipartFileArgumentResolverTest extends AbstractMultipartResolverTest {
 
-    private static Object createResolverAndResolve(AsyncRequest request,
+    private static Object createResolverAndResolve(HttpRequest request,
                                                    String method,
                                                    int index) throws Exception {
         final MethodParam parameter = handlerMethods.get(method).parameters()[index];
@@ -38,7 +38,7 @@ class MultipartFileArgumentResolverTest extends AbstractMultipartResolverTest {
         return resolver.resolve(request, MockAsyncResponse.aMockResponse().build());
     }
 
-    private static Object createFormResolverAndResolve(AsyncRequest request,
+    private static Object createFormResolverAndResolve(HttpRequest request,
                                                        String method,
                                                        int index) throws Exception {
         final MethodParam parameter = handlerMethods.get(method).parameters()[index];

@@ -16,7 +16,7 @@
 package esa.restlight.ext.filter.cors;
 
 import esa.commons.Checks;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.restlight.server.handler.Filter;
 import esa.restlight.server.handler.FilterChain;
@@ -39,7 +39,7 @@ public class CorsFilter implements Filter {
     }
 
     @Override
-    public CompletableFuture<Void> doFilter(AsyncRequest request, AsyncResponse response, FilterChain chain) {
+    public CompletableFuture<Void> doFilter(HttpRequest request, AsyncResponse response, FilterChain chain) {
         final String origin = request.getHeader(HttpHeaderNames.ORIGIN);
         final CachedOpt opt = forOrigin(origin);
         if (isPreflightRequest(request, origin)) {
@@ -137,7 +137,7 @@ public class CorsFilter implements Filter {
         return null;
     }
 
-    private static boolean isPreflightRequest(AsyncRequest request, String origin) {
+    private static boolean isPreflightRequest(HttpRequest request, String origin) {
         return HttpMethod.OPTIONS.equals(request.method()) &&
                 origin != null &&
                 request.headers().contains(HttpHeaderNames.ACCESS_CONTROL_REQUEST_METHOD);

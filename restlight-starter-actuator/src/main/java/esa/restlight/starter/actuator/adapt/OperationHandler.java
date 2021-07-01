@@ -16,7 +16,7 @@
 package esa.restlight.starter.actuator.adapt;
 
 import esa.commons.Checks;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.restlight.server.bootstrap.WebServerException;
 import esa.restlight.server.route.RouteRegistry;
@@ -34,7 +34,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * This handler is a fake handler for Restlight. {@link #handle(AsyncRequest, AsyncResponse, Map)} method will be
+ * This handler is a fake handler for Restlight. {@link #handle(HttpRequest, AsyncResponse, Map)} method will be
  * regarded as a controller interface to be registered into the {@link RouteRegistry}, and it is designed as a
  * asynchronously controller which always returns a {@link CompletableFuture} result.
  */
@@ -48,11 +48,11 @@ class OperationHandler {
     }
 
     @SuppressWarnings("unused")
-    CompletableFuture<Object> handle(AsyncRequest request, AsyncResponse response, Map<String, String> body) {
+    CompletableFuture<Object> handle(HttpRequest request, AsyncResponse response, Map<String, String> body) {
         return handleResult(doInvoke(request, body), response);
     }
 
-    private Object doInvoke(AsyncRequest request, Map<String, String> body) {
+    private Object doInvoke(HttpRequest request, Map<String, String> body) {
         try {
             return this.operation.invoke(new InvocationContext(SecurityContext.NONE,
                     getArguments(request, body)));
@@ -61,7 +61,7 @@ class OperationHandler {
         }
     }
 
-    private Map<String, Object> getArguments(AsyncRequest request,
+    private Map<String, Object> getArguments(HttpRequest request,
                                              Map<String, String> body) {
         Map<String, Object> arguments = new LinkedHashMap<>();
         if (body != null && HttpMethod.POST.equals(request.method())) {

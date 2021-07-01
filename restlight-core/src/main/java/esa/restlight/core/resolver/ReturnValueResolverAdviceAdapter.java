@@ -16,7 +16,7 @@
 package esa.restlight.core.resolver;
 
 import esa.commons.spi.SPI;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.restlight.core.util.Ordered;
 
@@ -25,7 +25,7 @@ public interface ReturnValueResolverAdviceAdapter
         extends ReturnValueResolverPredicate, ReturnValueResolverAdvice, Ordered {
 
     @Override
-    default Object beforeResolve(Object returnValue, AsyncRequest request, AsyncResponse response) {
+    default Object beforeResolve(Object returnValue, HttpRequest request, AsyncResponse response) {
         return returnValue;
     }
 

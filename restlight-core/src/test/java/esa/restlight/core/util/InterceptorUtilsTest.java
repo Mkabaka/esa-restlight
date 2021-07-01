@@ -29,7 +29,7 @@ import esa.restlight.core.interceptor.InternalInterceptor;
 import esa.restlight.core.method.HandlerMethod;
 import esa.restlight.core.mock.MockContext;
 import esa.restlight.server.route.Mapping;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import io.netty.handler.codec.http.HttpMethod;
 import org.junit.jupiter.api.Test;
 
@@ -110,7 +110,7 @@ class InterceptorUtilsTest {
         assertEquals(1, filtered.size());
         assertTrue(filtered.containsKey(InterceptorPredicate.ALWAYS));
         assertEquals(2, filtered.get(InterceptorPredicate.ALWAYS).size());
-        MockAsyncRequest request1 = MockAsyncRequest.aMockRequest().build();
+        MockHttpRequest request1 = MockHttpRequest.aMockRequest().build();
         assertTrue(filtered.values()
                 .iterator()
                 .next()
@@ -144,13 +144,13 @@ class InterceptorUtilsTest {
                 .next()
                 .get(0)
                 .predicate()
-                .test(MockAsyncRequest.aMockRequest().withMethod("POST").build()));
+                .test(MockHttpRequest.aMockRequest().withMethod("POST").build()));
         assertFalse(filtered.values()
                 .iterator()
                 .next()
                 .get(0)
                 .predicate()
-                .test(MockAsyncRequest.aMockRequest().withMethod("GET").build()));
+                .test(MockHttpRequest.aMockRequest().withMethod("GET").build()));
     }
 
     @Test
@@ -177,7 +177,7 @@ class InterceptorUtilsTest {
                 .next()
                 .get(0)
                 .predicate()
-                .test(MockAsyncRequest.aMockRequest().build()));
+                .test(MockHttpRequest.aMockRequest().build()));
 
     }
 

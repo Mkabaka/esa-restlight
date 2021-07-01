@@ -18,7 +18,7 @@ package esa.restlight.server.route.impl;
 import esa.commons.Checks;
 import esa.commons.logging.Logger;
 import esa.commons.logging.LoggerFactory;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.server.route.ReadOnlyRouteRegistry;
 import esa.restlight.server.route.Route;
 import esa.restlight.server.route.RouteRegistry;
@@ -51,7 +51,7 @@ abstract class AbstractRouteRegistry implements RouteRegistry {
     }
 
     @Override
-    public Route route(AsyncRequest request) {
+    public Route route(HttpRequest request) {
         return toReadOnly().route(request);
     }
 

@@ -15,8 +15,8 @@
  */
 package esa.restlight.test.result;
 
-import esa.httpserver.core.AsyncRequest;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.httpserver.core.HttpRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +28,7 @@ class MvcResultHandlerAdviceTest {
     @Test
     void testInvoke() throws Throwable {
         final MvcResultHandlerAdvice advice = new MvcResultHandlerAdvice();
-        final AsyncRequest request = MockAsyncRequest.aMockRequest().build();
+        final HttpRequest request = MockHttpRequest.aMockRequest().build();
         assertEquals("foo", advice.invoke(request,
                 MockAsyncResponse.aMockResponse().build(),
                 null,

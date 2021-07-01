@@ -17,12 +17,12 @@ package esa.restlight.core.resolver.arg;
 
 import esa.commons.collection.LinkedMultiValueMap;
 import esa.commons.collection.MultiValueMap;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.MethodParamImpl;
 import esa.restlight.core.method.Param;
 import esa.restlight.core.resolver.ArgumentResolver;
 import esa.restlight.server.bootstrap.WebServerException;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import org.junit.jupiter.api.Test;
 
@@ -50,7 +50,7 @@ class AbstractMatrixArgumentResolverTest {
         single.putSingle(name, name);
         values.put(name, single);
 
-        final AsyncRequest request0 = MockAsyncRequest
+        final HttpRequest request0 = MockHttpRequest
                 .aMockRequest()
                 .withAttribute(attrKey, values)
                 .build();
@@ -64,7 +64,7 @@ class AbstractMatrixArgumentResolverTest {
         final NameAndValue nav1 = new NameAndValue(name, false, "default");
         final ArgumentResolver resolver1 = asResolver(nav1, false).createResolver(new MethodParamImpl(
                 this.getClass().getMethod("a", String.class), 0), null);
-        final Object resolved1 = resolver1.resolve(MockAsyncRequest.aMockRequest().build(),
+        final Object resolved1 = resolver1.resolve(MockHttpRequest.aMockRequest().build(),
                 MockAsyncResponse.aMockResponse().build());
         assertNotNull(resolved1);
         assertEquals("default", resolved1);
@@ -74,14 +74,14 @@ class AbstractMatrixArgumentResolverTest {
                 this.getClass().getMethod("a", String.class), 0), null);
 
         assertThrows(WebServerException.class, () -> resolver2
-                .resolve(MockAsyncRequest.aMockRequest().build(), MockAsyncResponse.aMockResponse().build()));
+                .resolve(MockHttpRequest.aMockRequest().build(), MockAsyncResponse.aMockResponse().build()));
     }
 
     @SuppressWarnings("unchecked")
     @Test
     void testResolveName1() throws Exception {
         // case1: matrixVariableMap == true, singleValueMap == true, pathVar == null
-        AsyncRequest request = MockAsyncRequest.aMockRequest().withAttribute(attrKey,
+        HttpRequest request = MockHttpRequest.aMockRequest().withAttribute(attrKey,
                 new LinkedMultiValueMap<>()).build();
         NameAndValue nav = new NameAndValue("", false, null);
         AbstractMatrixArgumentResolver.Resolver resolver = (AbstractMatrixArgumentResolver.Resolver)
@@ -98,7 +98,7 @@ class AbstractMatrixArgumentResolverTest {
         v1.add("x", "z");
         values1.put("m1", v1);
 
-        resolved = (Map<String, String>) resolver.resolveName("x", MockAsyncRequest.aMockRequest()
+        resolved = (Map<String, String>) resolver.resolveName("x", MockHttpRequest.aMockRequest()
                 .withAttribute(attrKey, values1).build());
         assertEquals(1, resolved.size());
         assertEquals("y", resolved.get("x"));
@@ -108,7 +108,7 @@ class AbstractMatrixArgumentResolverTest {
     @Test
     void testResolveName2() throws Exception {
         // case2: matrixVariableMap == false, singleValueMap == false, pathVar == null
-        AsyncRequest request = MockAsyncRequest.aMockRequest().withAttribute(attrKey,
+        HttpRequest request = MockHttpRequest.aMockRequest().withAttribute(attrKey,
                 new LinkedMultiValueMap<>()).build();
         NameAndValue nav = new NameAndValue("m1", false, null);
         AbstractMatrixArgumentResolver.Resolver resolver = (AbstractMatrixArgumentResolver.Resolver)
@@ -124,7 +124,7 @@ class AbstractMatrixArgumentResolverTest {
         v1.add("x", "z");
         values1.put("m1", v1);
 
-        resolved = (List<String>) resolver.resolveName("x", MockAsyncRequest.aMockRequest()
+        resolved = (List<String>) resolver.resolveName("x", MockHttpRequest.aMockRequest()
                 .withAttribute(attrKey, values1).build());
         assertEquals(2, resolved.size());
     }
@@ -133,7 +133,7 @@ class AbstractMatrixArgumentResolverTest {
     @Test
     void testResolveName3() throws Exception {
         // case3: matrixVariableMap == true, singleValueMap == false, pathVar == null
-        AsyncRequest request = MockAsyncRequest.aMockRequest().withAttribute(attrKey,
+        HttpRequest request = MockHttpRequest.aMockRequest().withAttribute(attrKey,
                 new LinkedMultiValueMap<>()).build();
         NameAndValue nav = new NameAndValue("", false, null);
         AbstractMatrixArgumentResolver.Resolver resolver = (AbstractMatrixArgumentResolver.Resolver)
@@ -150,7 +150,7 @@ class AbstractMatrixArgumentResolverTest {
         v1.add("x", "z");
         values1.put("m1", v1);
 
-        resolved = (Map<String, List<String>>) resolver.resolveName("x", MockAsyncRequest.aMockRequest()
+        resolved = (Map<String, List<String>>) resolver.resolveName("x", MockHttpRequest.aMockRequest()
                 .withAttribute(attrKey, values1).build());
         assertEquals(1, resolved.size());
         assertEquals("y", resolved.get("x").get(0));
@@ -161,7 +161,7 @@ class AbstractMatrixArgumentResolverTest {
     @Test
     void testResolveName4() throws Exception {
         // case4: matrixVariableMap == true, singleValueMap == true, pathVar != null
-        AsyncRequest request = MockAsyncRequest.aMockRequest().withAttribute(attrKey,
+        HttpRequest request = MockHttpRequest.aMockRequest().withAttribute(attrKey,
                 new LinkedMultiValueMap<>()).build();
         NameAndValue nav = new NameAndValue("", false, null);
         AbstractMatrixArgumentResolver.Resolver resolver = (AbstractMatrixArgumentResolver.Resolver)
@@ -178,7 +178,7 @@ class AbstractMatrixArgumentResolverTest {
         v1.add("x", "z");
         values1.put("", v1);
 
-        resolved = (Map<String, String>) resolver.resolveName("x", MockAsyncRequest.aMockRequest()
+        resolved = (Map<String, String>) resolver.resolveName("x", MockHttpRequest.aMockRequest()
                 .withAttribute(attrKey, values1).build());
         assertEquals(1, resolved.size());
         assertEquals("y", resolved.get("x"));
@@ -188,7 +188,7 @@ class AbstractMatrixArgumentResolverTest {
     @Test
     void testResolveName5() throws Exception {
         // case5: matrixVariableMap == false, singleValueMap == false, pathVar != null
-        AsyncRequest request = MockAsyncRequest.aMockRequest().withAttribute(attrKey,
+        HttpRequest request = MockHttpRequest.aMockRequest().withAttribute(attrKey,
                 new LinkedMultiValueMap<>()).build();
         NameAndValue nav = new NameAndValue("m1", false, null);
         AbstractMatrixArgumentResolver.Resolver resolver = (AbstractMatrixArgumentResolver.Resolver)
@@ -204,7 +204,7 @@ class AbstractMatrixArgumentResolverTest {
         v1.add("x", "z");
         values1.put("m1", v1);
 
-        resolved = (List<String>) resolver.resolveName("x", MockAsyncRequest.aMockRequest()
+        resolved = (List<String>) resolver.resolveName("x", MockHttpRequest.aMockRequest()
                 .withAttribute(attrKey, values1).build());
         assertEquals(2, resolved.size());
     }
@@ -213,7 +213,7 @@ class AbstractMatrixArgumentResolverTest {
     @Test
     void testResolveName6() throws Exception {
         // case6: matrixVariableMap == true, singleValueMap == false, pathVar != null
-        AsyncRequest request = MockAsyncRequest.aMockRequest().withAttribute(attrKey,
+        HttpRequest request = MockHttpRequest.aMockRequest().withAttribute(attrKey,
                 new LinkedMultiValueMap<>()).build();
         NameAndValue nav = new NameAndValue("", false, null);
         AbstractMatrixArgumentResolver.Resolver resolver = (AbstractMatrixArgumentResolver.Resolver)
@@ -231,7 +231,7 @@ class AbstractMatrixArgumentResolverTest {
         values1.put("", v1);
 
         MultiValueMap<String, String> resolved1 = (MultiValueMap<String, String>)
-                resolver.resolveName("x", MockAsyncRequest.aMockRequest()
+                resolver.resolveName("x", MockHttpRequest.aMockRequest()
                 .withAttribute(attrKey, values1).build());
         assertEquals(1, resolved1.size());
         assertEquals("y", resolved1.get("x").get(0));

@@ -1,7 +1,7 @@
 package esa.restlight.core.resolver.arg;
 
 import esa.restlight.core.method.Param;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +21,7 @@ class AbstractParamArgumentResolverTest {
     @Test
     void testResolveSingleString() throws Exception {
         final AbstractParamArgumentResolver resolver = asResolver("foo");
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withParameter("foo", "1")
                 .build();
         final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
@@ -36,7 +36,7 @@ class AbstractParamArgumentResolverTest {
     @Test
     void testResolveMultiValueToSingleString() throws Exception {
         final AbstractParamArgumentResolver resolver = asResolver("foo");
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withParameter("foo", "1")
                 .withParameter("foo", "2")
                 .build();
@@ -52,7 +52,7 @@ class AbstractParamArgumentResolverTest {
     @Test
     void testResolveMultiValueToMultiValueMap() throws Exception {
         final AbstractParamArgumentResolver resolver = asResolver("");
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withParameter("foo", "1")
                 .withParameter("bar", "2")
                 .build();
@@ -71,7 +71,7 @@ class AbstractParamArgumentResolverTest {
     @Test
     void testResolveMultiValueToSingleValueMap() throws Exception {
         final AbstractParamArgumentResolver resolver = asResolver("");
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withParameter("foo", "1")
                 .withParameter("bar", "2")
                 .build();
@@ -90,7 +90,7 @@ class AbstractParamArgumentResolverTest {
     @Test
     void testResolveMultiValueToList() throws Exception {
         final AbstractParamArgumentResolver resolver = asResolver("foo");
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withParameter("foo", "1")
                 .withParameter("foo", "2")
                 .build();
@@ -107,7 +107,7 @@ class AbstractParamArgumentResolverTest {
     @Test
     void testResolveMultiValueToArray() throws Exception {
         final AbstractParamArgumentResolver resolver = asResolver("foo");
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withParameter("foo", "1")
                 .withParameter("foo", "2")
                 .build();

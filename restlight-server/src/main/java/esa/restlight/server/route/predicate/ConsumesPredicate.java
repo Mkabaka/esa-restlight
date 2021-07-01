@@ -16,7 +16,7 @@
 package esa.restlight.server.route.predicate;
 
 import esa.commons.StringUtils;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.util.MediaType;
 import esa.restlight.server.util.MappingUtils;
 import io.netty.handler.codec.http.HttpHeaderNames;
@@ -53,7 +53,7 @@ public class ConsumesPredicate implements RequestPredicate {
     }
 
     @Override
-    public boolean test(AsyncRequest request) {
+    public boolean test(HttpRequest request) {
         for (Expression expression : expressions) {
             if (expression.match(request)) {
                 return true;
@@ -88,7 +88,7 @@ public class ConsumesPredicate implements RequestPredicate {
         }
 
         @Override
-        protected boolean matchMediaType(AsyncRequest request) {
+        protected boolean matchMediaType(HttpRequest request) {
             String contentTypeString = request.getHeader(HttpHeaderNames.CONTENT_TYPE);
             MediaType contentType = StringUtils.isEmpty(contentTypeString) ? MediaType.APPLICATION_OCTET_STREAM
                     : MediaType.valueOf(contentTypeString);

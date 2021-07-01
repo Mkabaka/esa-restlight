@@ -17,7 +17,7 @@ package esa.restlight.core.serialize;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -70,8 +70,8 @@ class JacksonSerializerTest {
 
     @Test
     void testDeSerialize() throws Exception {
-        final MockAsyncRequest.Builder builder = MockAsyncRequest.aMockRequest();
-        final MockAsyncRequest request = builder.withBody(pojoBytes).build();
+        final MockHttpRequest.Builder builder = MockHttpRequest.aMockRequest();
+        final MockHttpRequest request = builder.withBody(pojoBytes).build();
         assertEquals(pojo, defaultJacksonSerializer.deSerialize(request.inputStream(), Pojo.class));
     }
 

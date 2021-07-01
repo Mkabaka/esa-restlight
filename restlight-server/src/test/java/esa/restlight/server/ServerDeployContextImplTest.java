@@ -15,7 +15,7 @@
  */
 package esa.restlight.server;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.server.config.ServerOptions;
 import esa.restlight.server.config.ServerOptionsConfigure;
 import esa.restlight.server.route.ReadOnlyRouteRegistry;
@@ -39,7 +39,7 @@ class ServerDeployContextImplTest {
 
         final ReadOnlyRouteRegistry registry = new ReadOnlyRouteRegistry() {
             @Override
-            public Route route(AsyncRequest request) {
+            public Route route(HttpRequest request) {
                 return null;
             }
 

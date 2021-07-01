@@ -16,7 +16,7 @@
 package esa.restlight.core.resolver.result;
 
 import esa.commons.ClassUtils;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.restlight.core.method.HandlerMethod;
 import esa.restlight.core.method.InvocableMethod;
@@ -24,7 +24,7 @@ import esa.restlight.core.resolver.ReturnValueResolver;
 import esa.restlight.core.serialize.FastJsonHttpBodySerializer;
 import esa.restlight.core.serialize.Serializers;
 import esa.restlight.core.util.MediaType;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -60,7 +60,7 @@ class SimpleReturnValueResolverTest {
 
     @Test
     void testString() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .build();
         final AsyncResponse response = MockAsyncResponse
@@ -80,7 +80,7 @@ class SimpleReturnValueResolverTest {
 
     @Test
     void testByte() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .build();
         final AsyncResponse response = MockAsyncResponse
@@ -94,7 +94,7 @@ class SimpleReturnValueResolverTest {
 
     @Test
     void testByteBuf() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .build();
         final AsyncResponse response = MockAsyncResponse
@@ -108,7 +108,7 @@ class SimpleReturnValueResolverTest {
 
     @Test
     void testPrimitive() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .build();
         final AsyncResponse response = MockAsyncResponse
@@ -120,7 +120,7 @@ class SimpleReturnValueResolverTest {
         assertEquals(MediaType.APPLICATION_OCTET_STREAM.value(), response.getHeader(HttpHeaderNames.CONTENT_TYPE));
     }
 
-    private static byte[] createResolverAndResolve(Object returnValue, AsyncRequest request,
+    private static byte[] createResolverAndResolve(Object returnValue, HttpRequest request,
                                                    AsyncResponse response,
                                                    String method) throws Exception {
         final InvocableMethod invocableMethod = handlerMethods.get(method);

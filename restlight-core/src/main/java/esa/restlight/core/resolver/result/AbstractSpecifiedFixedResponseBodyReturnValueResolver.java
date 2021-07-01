@@ -16,7 +16,7 @@
 package esa.restlight.core.resolver.result;
 
 import esa.commons.reflect.AnnotationUtils;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.restlight.core.annotation.ResponseSerializer;
 import esa.restlight.core.annotation.Serializer;
@@ -116,14 +116,14 @@ public abstract class AbstractSpecifiedFixedResponseBodyReturnValueResolver impl
         }
 
         @Override
-        protected List<MediaType> getMediaTypes(AsyncRequest request) {
+        protected List<MediaType> getMediaTypes(HttpRequest request) {
             return Collections.emptyList();
         }
 
         @Override
         protected byte[] resolve0(Object returnValue,
                                   List<MediaType> mediaTypes,
-                                  AsyncRequest request,
+                                  HttpRequest request,
                                   AsyncResponse response) throws Exception {
             final Object returnValueToWrite = serializer.customResponse(request, response, returnValue);
             return Serializers.serializeBySerializer(serializer, returnValueToWrite, response);

@@ -15,12 +15,12 @@
  */
 package esa.restlight.server.route.predicate;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 
 import java.util.function.Predicate;
 
 @FunctionalInterface
-public interface RequestPredicate extends Predicate<AsyncRequest> {
+public interface RequestPredicate extends Predicate<HttpRequest> {
 
     /**
      * Whether current predicate is able to ambiguous with given predicate.

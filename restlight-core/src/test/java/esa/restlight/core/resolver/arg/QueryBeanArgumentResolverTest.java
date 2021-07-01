@@ -16,7 +16,7 @@
 package esa.restlight.core.resolver.arg;
 
 import esa.commons.ClassUtils;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.annotation.QueryBean;
 import esa.restlight.core.method.HandlerMethod;
 import esa.restlight.core.method.MethodParam;
@@ -24,7 +24,7 @@ import esa.restlight.core.mock.MockContext;
 import esa.restlight.core.resolver.ArgumentResolver;
 import esa.restlight.core.resolver.HandlerResolverFactoryImpl;
 import esa.restlight.core.serialize.JacksonHttpBodySerializer;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -69,7 +69,7 @@ class QueryBeanArgumentResolverTest {
 
     @Test
     void testFieldValueSetByReflection() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withParameter("foo", "1")
                 .withParameter("bar", "bar")
@@ -83,7 +83,7 @@ class QueryBeanArgumentResolverTest {
 
     @Test
     void testAlia() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withParameter("foo", "1")
                 .withParameter("bar", "bar")
@@ -99,7 +99,7 @@ class QueryBeanArgumentResolverTest {
 
     @Test
     void testCollections() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withParameter("colles0", "1,2,3,4,5")
                 .withParameter("colles1", "1,2,3,4,5")
@@ -116,7 +116,7 @@ class QueryBeanArgumentResolverTest {
 
     @Test
     void testArrays() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withParameter("objects", "1,2,3,4,5")
                 .withParameter("ints", "1,2,3,4,5")
@@ -132,7 +132,7 @@ class QueryBeanArgumentResolverTest {
 
     @Test
     void testInitializedValueIfEmptyConstructorPresent() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withParameter("foo", "2")
                 .build();
@@ -146,7 +146,7 @@ class QueryBeanArgumentResolverTest {
         assertEquals(1, pojo.qux);
     }
 
-    private static Object createResolverAndResolve(AsyncRequest request, String method) throws Exception {
+    private static Object createResolverAndResolve(HttpRequest request, String method) throws Exception {
         final MethodParam parameter = handlerMethods.get(method).parameters()[0];
         assertTrue(resolverFactory.supports(parameter));
         final ArgumentResolver resolver = resolverFactory.createResolver(parameter, null);

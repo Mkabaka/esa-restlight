@@ -16,10 +16,11 @@
 package esa.restlight.core.interceptor;
 
 import esa.commons.spi.SPI;
+import esa.httpserver.core.HttpRequest;
 
 /**
- * We will determine that whether a {@link esa.httpserver.core.AsyncRequest} should be matched to this interceptor by
- * the {@link InterceptorPredicate#test(Object)} when a {@link esa.httpserver.core.AsyncRequest} is coming.
+ * We will determine that whether a {@link HttpRequest} should be matched to this interceptor by
+ * the {@link InterceptorPredicate#test(Object)} when a {@link HttpRequest} is coming.
  * @see InternalInterceptor
  * @see InterceptorPredicate
  * @see InterceptorFactory#of(MappingInterceptor)

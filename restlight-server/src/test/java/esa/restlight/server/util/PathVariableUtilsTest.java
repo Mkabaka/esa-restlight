@@ -16,9 +16,9 @@
 package esa.restlight.server.util;
 
 import esa.commons.collection.MultiValueMap;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.server.route.predicate.PatternsPredicate;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -30,7 +30,7 @@ class PathVariableUtilsTest {
 
     @Test
     void testGetTemplateVariables() {
-        final AsyncRequest request = MockAsyncRequest.aMockRequest()
+        final HttpRequest request = MockHttpRequest.aMockRequest()
                 .withUri("/")
                 .build();
         assertNull(PathVariableUtils.getPathVariables(request));
@@ -48,7 +48,7 @@ class PathVariableUtilsTest {
 
     @Test
     void testGetMatrixVariables() {
-        final AsyncRequest request = MockAsyncRequest.aMockRequest()
+        final HttpRequest request = MockHttpRequest.aMockRequest()
                 .withUri("/")
                 .build();
         final Map<String, String> variables = new HashMap<>();
@@ -69,7 +69,7 @@ class PathVariableUtilsTest {
 
         assertEquals(matrix, PathVariableUtils.getMatrixVariables(request));
 
-        final AsyncRequest request1 = MockAsyncRequest.aMockRequest()
+        final HttpRequest request1 = MockHttpRequest.aMockRequest()
                 .withUri("/")
                 .build();
         assertNotNull(PathVariableUtils.getMatrixVariables(request1));

@@ -16,7 +16,7 @@
 package esa.restlight.core.resolver.arg;
 
 import esa.commons.StringUtils;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.Param;
 import esa.restlight.core.resolver.ArgumentResolver;
 import esa.restlight.core.resolver.ArgumentResolverFactory;
@@ -92,7 +92,7 @@ public abstract class AbstractRequestBodyArgumentResolver implements ArgumentRes
         }
 
         @Override
-        protected Object resolveName(String name, AsyncRequest request) throws Exception {
+        protected Object resolveName(String name, HttpRequest request) throws Exception {
             MediaType contentType = getMediaType(request);
             //convert argument if content-type is text/plain or missing.
             if (contentType == null || MediaType.TEXT_PLAIN.isCompatibleWith(contentType)) {
@@ -115,13 +115,13 @@ public abstract class AbstractRequestBodyArgumentResolver implements ArgumentRes
                     "Unsupported media type:" + contentType.toString());
         }
 
-        protected MediaType getMediaType(AsyncRequest request) {
+        protected MediaType getMediaType(HttpRequest request) {
             String contentTypeStr = request.getHeader(HttpHeaderNames.CONTENT_TYPE);
             return StringUtils.isEmpty(contentTypeStr) ? null :
                     MediaType.valueOf(contentTypeStr);
         }
 
-        private Object readArgFromWithSerializer(AsyncRequest request,
+        private Object readArgFromWithSerializer(HttpRequest request,
                                                  Param param,
                                                  HttpRequestSerializer serializer) throws Exception {
             if (serializer.preferStream()) {
@@ -148,7 +148,7 @@ public abstract class AbstractRequestBodyArgumentResolver implements ArgumentRes
         }
 
         @Override
-        protected MediaType getMediaType(AsyncRequest request) {
+        protected MediaType getMediaType(HttpRequest request) {
             // judge by param
             final String format = request.getParameter(paramName);
             if (Constants.NEGOTIATION_JSON_FORMAT.equals(format)) {

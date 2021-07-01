@@ -15,9 +15,9 @@
  */
 package esa.restlight.server.route.predicate;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.HttpMethod;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
@@ -31,7 +31,7 @@ class PatternsPredicateTest {
     void testExactlyMatch() {
         final String path = "/foo";
         final PatternsPredicate predicate = new PatternsPredicate(new String[]{path});
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri(path)
                 .build();
@@ -43,7 +43,7 @@ class PatternsPredicateTest {
         final String path1 = "/foo/{f}";
         final String path2 = "/foo2/{f}";
         final PatternsPredicate predicate = new PatternsPredicate(new String[]{path1, path2});
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/foo2/bar")
                 .build();
@@ -58,7 +58,7 @@ class PatternsPredicateTest {
         final String path = "/foo";
         final String anotherPath = "/bar";
         final PatternsPredicate predicate = new PatternsPredicate(new String[]{path});
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri(anotherPath)
                 .build();
@@ -70,12 +70,12 @@ class PatternsPredicateTest {
         final String path = "/foo/**";
         final String anotherPath = "/foo/bar";
         final PatternsPredicate predicate = new PatternsPredicate(new String[]{path});
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri(anotherPath)
                 .build();
         assertTrue(predicate.test(request));
-        final AsyncRequest request1 = MockAsyncRequest
+        final HttpRequest request1 = MockHttpRequest
                 .aMockRequest()
                 .withUri(anotherPath + "/baz")
                 .build();
@@ -87,7 +87,7 @@ class PatternsPredicateTest {
         final String path = "/foo/**";
         final String anotherPath = "/foo1/bar";
         final PatternsPredicate predicate = new PatternsPredicate(new String[]{path});
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri(anotherPath)
                 .build();
@@ -99,7 +99,7 @@ class PatternsPredicateTest {
         final String path = "/foo/*/1";
         final String anotherPath = "/foo/bar/1";
         final PatternsPredicate predicate = new PatternsPredicate(new String[]{path});
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri(anotherPath)
                 .build();
@@ -111,7 +111,7 @@ class PatternsPredicateTest {
         final String path = "/foo/*/1";
         final String anotherPath = "/foo/1";
         final PatternsPredicate predicate = new PatternsPredicate(new String[]{path});
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri(anotherPath)
                 .build();
@@ -123,7 +123,7 @@ class PatternsPredicateTest {
         final String path = "/foo/{bar}";
         final String anotherPath = "/foo/bar";
         final PatternsPredicate predicate = new PatternsPredicate(new String[]{path});
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri(anotherPath)
                 .build();
@@ -135,7 +135,7 @@ class PatternsPredicateTest {
         final String path = "/foo/b?r";
         final String anotherPath = "/foo/bar";
         final PatternsPredicate predicate = new PatternsPredicate(new String[]{path});
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri(anotherPath)
                 .build();
@@ -147,7 +147,7 @@ class PatternsPredicateTest {
         final String path = "/foo/b?r";
         final String anotherPath = "/foo/baz";
         final PatternsPredicate predicate = new PatternsPredicate(new String[]{path});
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri(anotherPath)
                 .build();
@@ -159,7 +159,7 @@ class PatternsPredicateTest {
         final String path = "/foo/{bar}/b?z/*.qux";
         final String anotherPath = "/foo/bar/baz/test.qux";
         final PatternsPredicate predicate = new PatternsPredicate(new String[]{path});
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri(anotherPath)
                 .build();

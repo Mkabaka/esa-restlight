@@ -15,10 +15,10 @@
  */
 package esa.restlight.server.route.predicate;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.HttpMethod;
 import esa.restlight.server.route.Mapping;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import org.junit.jupiter.api.Test;
 
@@ -34,28 +34,28 @@ class RoutePredicateTest {
         predicate = RoutePredicate.parseFrom(Mapping.get("/test")
                 .consumes("text/plain", "application/json"));
 
-        AsyncRequest request = MockAsyncRequest
+        HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/test")
                 .withHeader(HttpHeaderNames.CONTENT_TYPE.toString(), "aaa")
                 .build();
         assertFalse(predicate.test(request));
 
-        request = MockAsyncRequest
+        request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/test")
                 .withHeader(HttpHeaderNames.CONTENT_TYPE.toString(), "text/plain")
                 .build();
         assertTrue(predicate.test(request));
 
-        request = MockAsyncRequest
+        request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/test")
                 .withHeader(HttpHeaderNames.CONTENT_TYPE.toString(), "application/json")
                 .build();
         assertTrue(predicate.test(request));
 
-        request = MockAsyncRequest
+        request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/test")
                 .withHeader(HttpHeaderNames.CONTENT_TYPE.toString(), "application/xml")
@@ -70,35 +70,35 @@ class RoutePredicateTest {
                 .consumes("application/json")
                 .headers("content-type=application/xml,application/pdf"));
 
-        AsyncRequest request = MockAsyncRequest
+        HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/test")
                 .withHeader(HttpHeaderNames.CONTENT_TYPE.toString(), "aaa")
                 .build();
         assertFalse(predicate.test(request));
 
-        request = MockAsyncRequest
+        request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/test")
                 .withHeader(HttpHeaderNames.CONTENT_TYPE.toString(), "text/plain")
                 .build();
         assertTrue(predicate.test(request));
 
-        request = MockAsyncRequest
+        request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/test")
                 .withHeader(HttpHeaderNames.CONTENT_TYPE.toString(), "application/json")
                 .build();
         assertTrue(predicate.test(request));
 
-        request = MockAsyncRequest
+        request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/test")
                 .withHeader(HttpHeaderNames.CONTENT_TYPE.toString(), "application/xml")
                 .build();
         assertTrue(predicate.test(request));
 
-        request = MockAsyncRequest
+        request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/test")
                 .withHeader(HttpHeaderNames.CONTENT_TYPE.toString(), "text/html")
@@ -113,35 +113,35 @@ class RoutePredicateTest {
                 .combine(Mapping.get("/test")
                         .consumes("text/plain", "application/json")));
 
-        AsyncRequest request = MockAsyncRequest
+        HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/test")
                 .withHeader(HttpHeaderNames.CONTENT_TYPE.toString(), "aaa")
                 .build();
         assertFalse(predicate.test(request));
 
-        request = MockAsyncRequest
+        request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/test")
                 .withHeader(HttpHeaderNames.CONTENT_TYPE.toString(), "text/plain")
                 .build();
         assertTrue(predicate.test(request));
 
-        request = MockAsyncRequest
+        request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/test")
                 .withHeader(HttpHeaderNames.CONTENT_TYPE.toString(), "application/json")
                 .build();
         assertTrue(predicate.test(request));
 
-        request = MockAsyncRequest
+        request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/test")
                 .withHeader(HttpHeaderNames.CONTENT_TYPE.toString(), "application/xml")
                 .build();
         assertFalse(predicate.test(request));
 
-        request = MockAsyncRequest
+        request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/test")
                 .withHeader(HttpHeaderNames.CONTENT_TYPE.toString(), "application/pdf")
@@ -154,28 +154,28 @@ class RoutePredicateTest {
         predicate = RoutePredicate.parseFrom(Mapping.get("/test")
                 .produces("text/plain", "application/json"));
 
-        AsyncRequest request = MockAsyncRequest
+        HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/test")
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), "aaa")
                 .build();
         assertFalse(predicate.test(request));
 
-        request = MockAsyncRequest
+        request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/test")
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), "text/plain")
                 .build();
         assertTrue(predicate.test(request));
 
-        request = MockAsyncRequest
+        request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/test")
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), "application/json")
                 .build();
         assertTrue(predicate.test(request));
 
-        request = MockAsyncRequest
+        request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/test")
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), "application/xml")
@@ -189,35 +189,35 @@ class RoutePredicateTest {
                 .produces("text/plain", "application/json")
                 .headers("accept=application/xml,application/pdf"));
 
-        AsyncRequest request = MockAsyncRequest
+        HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/test")
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), "aaa")
                 .build();
         assertFalse(predicate.test(request));
 
-        request = MockAsyncRequest
+        request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/test")
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), "text/plain")
                 .build();
         assertTrue(predicate.test(request));
 
-        request = MockAsyncRequest
+        request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/test")
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), "application/json")
                 .build();
         assertTrue(predicate.test(request));
 
-        request = MockAsyncRequest
+        request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/test")
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), "application/xml")
                 .build();
         assertTrue(predicate.test(request));
 
-        request = MockAsyncRequest
+        request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/test")
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), "text/html")
@@ -234,35 +234,35 @@ class RoutePredicateTest {
                 .combine(Mapping.get("/test")
                         .produces("text/plain", "application/json")));
 
-        AsyncRequest request = MockAsyncRequest
+        HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/test")
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), "aaa")
                 .build();
         assertFalse(predicate.test(request));
 
-        request = MockAsyncRequest
+        request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/test")
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), "text/plain")
                 .build();
         assertTrue(predicate.test(request));
 
-        request = MockAsyncRequest
+        request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/test")
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), "application/json")
                 .build();
         assertTrue(predicate.test(request));
 
-        request = MockAsyncRequest
+        request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/test")
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), "application/xml")
                 .build();
         assertFalse(predicate.test(request));
 
-        request = MockAsyncRequest
+        request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/test")
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), "application/pdf")

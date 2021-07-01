@@ -17,7 +17,7 @@ package esa.restlight.server.route.predicate;
 
 import esa.commons.Checks;
 import esa.commons.UrlUtils;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.server.util.PathMatcher;
 
 import java.util.Arrays;
@@ -50,7 +50,7 @@ public class PatternsPredicate implements RequestPredicate {
     }
 
     @Override
-    public boolean test(AsyncRequest request) {
+    public boolean test(HttpRequest request) {
         if (this.patterns.length == 0) {
             return true;
         }

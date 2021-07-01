@@ -32,11 +32,11 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class MockAsyncRequestTest {
+class MockHttpRequestTest {
 
     @Test
     void testGetProtocol() {
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withUri("/")
                 .withProtocol(HttpVersion.HTTP_1_1).build();
         assertEquals(HttpVersion.HTTP_1_1.text(), request.protocol());
@@ -44,7 +44,7 @@ class MockAsyncRequestTest {
 
     @Test
     void testGetScheme() {
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withUri("/")
                 .withSchema(HttpScheme.HTTPS)
                 .build();
@@ -53,7 +53,7 @@ class MockAsyncRequestTest {
 
     @Test
     void testUri() {
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withUri("/abc/def?a=1&b=2")
                 .build();
         assertEquals("/abc/def?a=1&b=2", request.uri());
@@ -65,14 +65,14 @@ class MockAsyncRequestTest {
 
     @Test
     void testGetBodyByteBuf() {
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withUri("/")
                 .build();
         assertEquals(0, request.byteBufBody().readableBytes());
         assertEquals(0, request.byteBufBody().maxWritableBytes());
         assertEquals(Unpooled.EMPTY_BUFFER, request.byteBufBody());
 
-        final MockAsyncRequest request1 = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request1 = MockHttpRequest.aMockRequest()
                 .withUri("/")
                 .withBody("Restlight is good!".getBytes()).build();
         assertEquals("Restlight is good!".getBytes().length, request1.byteBufBody().readableBytes());
@@ -84,7 +84,7 @@ class MockAsyncRequestTest {
 
     @Test
     void testGetContentLength() {
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withBody("Restlight is good!".getBytes())
                 .withUri("/")
                 .build();
@@ -93,7 +93,7 @@ class MockAsyncRequestTest {
 
     @Test
     void testGetRemoteAddr() {
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withRemoteAddr("127.0.0.9")
                 .withUri("/")
                 .build();
@@ -102,7 +102,7 @@ class MockAsyncRequestTest {
 
     @Test
     void testGetRemotePort() {
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withRemotePort(8080)
                 .withUri("/")
                 .build();
@@ -111,7 +111,7 @@ class MockAsyncRequestTest {
 
     @Test
     void testGetTcpSourceIp() {
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withTcpSourceId("10.10.12.13")
                 .withUri("/")
                 .build();
@@ -120,7 +120,7 @@ class MockAsyncRequestTest {
 
     @Test
     void testGetMethod() {
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withMethod("GET")
                 .withUri("/")
                 .build();
@@ -129,13 +129,13 @@ class MockAsyncRequestTest {
 
     @Test
     void testGetInputStream() throws IOException {
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withUri("/")
                 .build();
         HttpInputStream ins = request.inputStream();
         assertEquals(0, ins.available());
 
-        final MockAsyncRequest request1 = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request1 = MockHttpRequest.aMockRequest()
                 .withBody("Restlight is good!".getBytes())
                 .withUri("/")
                 .build();
@@ -144,7 +144,7 @@ class MockAsyncRequestTest {
 
     @Test
     void testGetLocalAddr() {
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withLocalAddr("127.0.0.1")
                 .withUri("/")
                 .build();
@@ -154,7 +154,7 @@ class MockAsyncRequestTest {
     @Test
     void testGetLocalPort() {
         final int port = NetworkUtils.selectRandomPort();
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withLocalPort(port)
                 .withUri("/")
                 .build();
@@ -168,7 +168,7 @@ class MockAsyncRequestTest {
         headers.add("B", "Y");
         headers.add("B", "Z");
 
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withUri("/")
                 .withHeaders(headers)
                 .withHeader("A", "X")
@@ -183,7 +183,7 @@ class MockAsyncRequestTest {
 
     @Test
     void testOperateAttribute() {
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withUri("/")
                 .withAttribute("A", "X")
                 .withAttribute("A", "Y").build();
@@ -207,7 +207,7 @@ class MockAsyncRequestTest {
         values.add("Z");
         params.put("A", values);
 
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withUri("/")
                 .withParameters(params)
                 .withParameter("B", "X")
@@ -226,7 +226,7 @@ class MockAsyncRequestTest {
     @Test
     void testTrailer() {
         final HttpHeaders headers = new DefaultHttpHeaders();
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withTrailers(headers)
                 .build();
         assertSame(headers, request.trailers());
@@ -234,15 +234,15 @@ class MockAsyncRequestTest {
 
     @Test
     void testAlloc() {
-        assertSame(UnpooledByteBufAllocator.DEFAULT, MockAsyncRequest.aMockRequest().build().alloc());
+        assertSame(UnpooledByteBufAllocator.DEFAULT, MockHttpRequest.aMockRequest().build().alloc());
     }
 
     @Test
     void testCookies() {
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest().build();
+        final MockHttpRequest request = MockHttpRequest.aMockRequest().build();
         assertTrue(request.cookies().isEmpty());
 
-        final MockAsyncRequest request1 = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request1 = MockHttpRequest.aMockRequest()
                 .withCookie("foo", "A")
                 .withCookie(new DefaultCookie("bar", "B"))
                 .build();
@@ -254,7 +254,7 @@ class MockAsyncRequestTest {
 
     @Test
     void testAsyncTimeout() {
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withAsyncTimeOut(1024L)
                 .build();
         assertEquals(1024L, request.getAsyncTimeout());

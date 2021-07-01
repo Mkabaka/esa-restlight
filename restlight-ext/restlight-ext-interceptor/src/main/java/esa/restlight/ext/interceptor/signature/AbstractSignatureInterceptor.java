@@ -17,7 +17,7 @@ package esa.restlight.ext.interceptor.signature;
 
 import esa.commons.Checks;
 import esa.commons.StringUtils;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.restlight.core.interceptor.InternalInterceptor;
 import esa.restlight.core.util.MediaType;
@@ -56,7 +56,7 @@ abstract class AbstractSignatureInterceptor implements InternalInterceptor {
     }
 
     @Override
-    public boolean preHandle(AsyncRequest request, AsyncResponse response, Object handler) {
+    public boolean preHandle(HttpRequest request, AsyncResponse response, Object handler) {
         boolean emptyParams = request.parameterMap() == null || request.parameterMap().isEmpty();
         if (emptyParams && request.contentLength() == 0) {
             return true;
@@ -90,7 +90,7 @@ abstract class AbstractSignatureInterceptor implements InternalInterceptor {
         throw new WebServerException(HttpResponseStatus.UNAUTHORIZED, "Unmatched secret");
     }
 
-    protected byte[] buildData(AsyncRequest request) {
+    protected byte[] buildData(HttpRequest request) {
         // Sort all request parameters in ascending order by parameter name
         byte[] paramsData = new byte[0];
         final Map<String, List<String>> params = request.parameterMap();
@@ -153,23 +153,23 @@ abstract class AbstractSignatureInterceptor implements InternalInterceptor {
      */
     protected abstract boolean validate(byte[] data, String signature, String sk);
 
-    protected String getAppId(AsyncRequest request) {
+    protected String getAppId(HttpRequest request) {
         return getValue(request, options.getAppId());
     }
 
-    protected String getSecretVersion(AsyncRequest request) {
+    protected String getSecretVersion(HttpRequest request) {
         return getValue(request, options.getSecretVersion());
     }
 
-    protected String getTimestamp(AsyncRequest request) {
+    protected String getTimestamp(HttpRequest request) {
         return getValue(request, options.getTimestamp());
     }
 
-    protected String getSignature(AsyncRequest request) {
+    protected String getSignature(HttpRequest request) {
         return getValue(request, options.getSignature());
     }
 
-    private String getValue(AsyncRequest request, String key) {
+    private String getValue(HttpRequest request, String key) {
         String value;
         return (value = request.getParameter(key)) != null ? value : request.getHeader(key);
     }

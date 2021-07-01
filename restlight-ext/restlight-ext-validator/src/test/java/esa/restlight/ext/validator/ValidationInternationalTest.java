@@ -22,7 +22,7 @@ import esa.restlight.core.handler.impl.HandlerInvokerImpl;
 import esa.restlight.core.handler.impl.RouteHandlerImpl;
 import esa.restlight.core.method.HandlerMethod;
 import esa.restlight.core.method.InvocableMethod;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator;
 import org.hibernate.validator.resourceloading.PlatformResourceBundleLocator;
@@ -82,7 +82,7 @@ class ValidationInternationalTest {
         RouteHandlerImpl handlerMethodInvokerAdapter = handlerMethodAdapters.get("testSimpleValidation");
         try {
             final Object[] simpleArg = {"Hello"};
-            handlerMethodInvokerAdapter.invoke(MockAsyncRequest.aMockRequest().build(),
+            handlerMethodInvokerAdapter.invoke(MockHttpRequest.aMockRequest().build(),
                     MockAsyncResponse.aMockResponse().build(),
                     simpleArg);
         } catch (ConstraintViolationException e) {

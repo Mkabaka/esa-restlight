@@ -15,7 +15,7 @@
  */
 package esa.restlight.springmvc.resolver.arg;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.HandlerMethod;
 import esa.restlight.core.method.MethodParam;
 import esa.restlight.core.resolver.ArgumentResolver;
@@ -24,7 +24,7 @@ import esa.restlight.server.route.predicate.PatternsPredicate;
 import esa.restlight.springmvc.ResolverUtils;
 import esa.restlight.springmvc.annotation.shaded.RequestMapping0;
 import esa.restlight.springmvc.util.RequestMappingUtils;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -60,7 +60,7 @@ class MatrixVariableArgumentResolverTest {
     @Test
     void testNormal() throws Exception {
         final String realPath = "/foo/bar;a=bar";
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri(realPath)
                 .build();
@@ -72,7 +72,7 @@ class MatrixVariableArgumentResolverTest {
     @Test
     void testNormal1() throws Exception {
         final String realPath = "/foo1/qux;a=qux,qux1,qux2";
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri(realPath)
                 .build();
@@ -88,7 +88,7 @@ class MatrixVariableArgumentResolverTest {
     @Test
     void testRequiredMatrixVariable() {
         final String realPath = "/foo1/qux";
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri(realPath)
                 .build();
@@ -100,7 +100,7 @@ class MatrixVariableArgumentResolverTest {
     @Test
     void testNoneRequiredMatrixVariable() throws Exception {
         final String realPath = "/foo2/qux";
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri(realPath)
                 .build();
@@ -113,7 +113,7 @@ class MatrixVariableArgumentResolverTest {
     @Test
     void testMultipartMatrixVariables() throws Exception {
         final String realPath = "/foo3/qux;a=qux1,qux2,qux3/abc/qux;a=qux1,qux2,qux3";
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri(realPath)
                 .build();
@@ -137,7 +137,7 @@ class MatrixVariableArgumentResolverTest {
     @Test
     void testNoneNameMultipartVariable() throws Exception {
         final String realPath = "/foo4/qux;name=qux";
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri(realPath)
                 .build();
@@ -149,7 +149,7 @@ class MatrixVariableArgumentResolverTest {
     @Test
     void testMatrixVariableMap() throws Exception {
         final String realPath = "/foo5/a=11,12/foo2/21;a=22;s=23";
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri(realPath)
                 .build();
@@ -164,7 +164,7 @@ class MatrixVariableArgumentResolverTest {
     @Test
     void testMultiMatrixVariableMap() throws Exception {
         final String realPath = "/foo6/a=11,12/foo2/21;a=22;s=23";
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri(realPath)
                 .build();
@@ -182,7 +182,7 @@ class MatrixVariableArgumentResolverTest {
 
     @Test
     void testDefaultValue() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/foo7")
                 .build();
@@ -193,7 +193,7 @@ class MatrixVariableArgumentResolverTest {
 
     @Test
     void testDefaultCollectionValue() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/foo9")
                 .build();
@@ -204,7 +204,7 @@ class MatrixVariableArgumentResolverTest {
 
     @Test
     void testDefaultArrayValue() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/foo8")
                 .build();
@@ -216,7 +216,7 @@ class MatrixVariableArgumentResolverTest {
     @SuppressWarnings("unchecked")
     @Test
     void testDefaultOptionalValue() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/foo10")
                 .build();
@@ -225,7 +225,7 @@ class MatrixVariableArgumentResolverTest {
         assertFalse(resolved.isPresent());
     }
 
-    private static Object createResolverAndResolve(AsyncRequest request, String method, int index) throws Exception {
+    private static Object createResolverAndResolve(HttpRequest request, String method, int index) throws Exception {
         final MethodParam parameter = handlerMethods.get(method).parameters()[index];
         assertTrue(resolverFactory.supports(parameter));
         // match first

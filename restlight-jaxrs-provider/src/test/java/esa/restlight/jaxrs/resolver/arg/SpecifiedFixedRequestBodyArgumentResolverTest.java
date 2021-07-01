@@ -15,7 +15,7 @@
  */
 package esa.restlight.jaxrs.resolver.arg;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.annotation.RequestSerializer;
 import esa.restlight.core.method.HandlerMethod;
 import esa.restlight.core.method.MethodParam;
@@ -26,7 +26,7 @@ import esa.restlight.core.serialize.JacksonSerializer;
 import esa.restlight.core.util.MediaType;
 import esa.restlight.jaxrs.ResolverUtils;
 import esa.restlight.jaxrs.resolver.Pojo;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import org.junit.jupiter.api.BeforeAll;
@@ -74,7 +74,7 @@ class SpecifiedFixedRequestBodyArgumentResolverTest {
     @Test
     void testSpecified() throws Exception {
         final Pojo origin = new Pojo(1024, "hell restlight");
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.CONTENT_TYPE.toString(), MediaType.APPLICATION_JSON_UTF8.value())
                 .withBody(JacksonSerializer.getDefaultMapper().writeValueAsBytes(origin))
@@ -83,7 +83,7 @@ class SpecifiedFixedRequestBodyArgumentResolverTest {
         assertEquals(origin, resolved);
     }
 
-    private static Object createResolverAndResolve(AsyncRequest request, String method) throws Exception {
+    private static Object createResolverAndResolve(HttpRequest request, String method) throws Exception {
         final MethodParam parameter = handlerMethods.get(method).parameters()[0];
         assertTrue(resolverFactory.supports(parameter));
         final ArgumentResolver resolver = resolverFactory.createResolver(parameter,

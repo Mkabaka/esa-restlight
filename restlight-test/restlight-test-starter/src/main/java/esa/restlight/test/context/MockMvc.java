@@ -15,7 +15,7 @@
  */
 package esa.restlight.test.context;
 
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.result.ResultActions;
 
 public interface MockMvc {
@@ -26,6 +26,6 @@ public interface MockMvc {
      * @param request mockRequest
      * @return actions allow chaining use.
      */
-    ResultActions perform(MockAsyncRequest request);
+    ResultActions perform(MockHttpRequest request);
 
 }

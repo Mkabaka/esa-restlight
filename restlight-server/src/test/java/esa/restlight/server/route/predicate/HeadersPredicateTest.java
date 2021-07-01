@@ -15,9 +15,9 @@
  */
 package esa.restlight.server.route.predicate;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.HttpMethod;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -25,11 +25,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class HeadersPredicateTest {
 
-    private static AsyncRequest request;
+    private static HttpRequest request;
 
     @BeforeAll
     public static void setUpRequest() {
-        request = MockAsyncRequest
+        request = MockHttpRequest
                 .aMockRequest()
                 .withHeader("foo", "a")
                 .withHeader("bar", "b")

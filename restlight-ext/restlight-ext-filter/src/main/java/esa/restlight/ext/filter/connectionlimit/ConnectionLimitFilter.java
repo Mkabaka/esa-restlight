@@ -17,7 +17,7 @@ package esa.restlight.ext.filter.connectionlimit;
 
 import com.google.common.util.concurrent.RateLimiter;
 import esa.commons.Checks;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.restlight.server.handler.Filter;
 import esa.restlight.server.handler.FilterChain;
@@ -57,7 +57,7 @@ public class ConnectionLimitFilter implements Filter {
     }
 
     @Override
-    public CompletableFuture<Void> doFilter(AsyncRequest request,
+    public CompletableFuture<Void> doFilter(HttpRequest request,
                                             AsyncResponse response,
                                             FilterChain chain) {
         return chain.doFilter(request, response);

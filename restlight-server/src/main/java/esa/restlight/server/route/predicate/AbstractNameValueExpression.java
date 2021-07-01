@@ -15,7 +15,7 @@
  */
 package esa.restlight.server.route.predicate;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 
 import java.util.Objects;
 
@@ -68,7 +68,7 @@ abstract class AbstractNameValueExpression {
         return valueExpression;
     }
 
-    public final boolean match(AsyncRequest request) {
+    public final boolean match(HttpRequest request) {
         boolean isMatch;
         if (this.value != null) {
             isMatch = matchValue(request);
@@ -85,7 +85,7 @@ abstract class AbstractNameValueExpression {
      *
      * @return is matched
      */
-    protected abstract boolean matchName(AsyncRequest request);
+    protected abstract boolean matchName(HttpRequest request);
 
     /**
      * is value matched
@@ -94,7 +94,7 @@ abstract class AbstractNameValueExpression {
      *
      * @return is matched
      */
-    protected abstract boolean matchValue(AsyncRequest request);
+    protected abstract boolean matchValue(HttpRequest request);
 
     @Override
     public boolean equals(Object obj) {

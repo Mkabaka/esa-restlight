@@ -15,7 +15,7 @@
  */
 package esa.restlight.core.resolver.exception;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.restlight.core.handler.impl.ExceptionHandlerExecution;
 import esa.restlight.core.handler.impl.HandlerAdapter;
@@ -34,7 +34,7 @@ public class ExecutionExceptionResolver implements ExceptionResolver<Throwable> 
     }
 
     @Override
-    public CompletableFuture<Void> handleException(AsyncRequest request,
+    public CompletableFuture<Void> handleException(HttpRequest request,
                                                    AsyncResponse response,
                                                    Throwable ex) {
         try {

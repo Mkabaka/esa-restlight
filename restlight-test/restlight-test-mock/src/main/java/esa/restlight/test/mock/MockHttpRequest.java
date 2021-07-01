@@ -17,7 +17,7 @@ package esa.restlight.test.mock;
 
 import esa.commons.Checks;
 import esa.commons.StringUtils;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.HttpInputStream;
 import esa.httpserver.impl.ByteBufHttpInputStream;
 import io.netty.buffer.ByteBuf;
@@ -44,7 +44,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class MockAsyncRequest implements AsyncRequest {
+public class MockHttpRequest implements HttpRequest {
 
     private HttpScheme scheme;
     private long asyncTimeout;
@@ -350,8 +350,8 @@ public class MockAsyncRequest implements AsyncRequest {
             return this;
         }
 
-        public MockAsyncRequest build() {
-            MockAsyncRequest mockRequest = new MockAsyncRequest();
+        public MockHttpRequest build() {
+            MockHttpRequest mockRequest = new MockHttpRequest();
             mockRequest.scheme = scheme;
             mockRequest.asyncTimeout = this.asyncTimeout;
             mockRequest.uri = StringUtils.nonEmptyOrElse(this.uri, "/");

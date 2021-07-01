@@ -16,10 +16,10 @@
 package esa.restlight.test.context;
 
 import esa.commons.Checks;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.util.FutureUtils;
 import esa.restlight.server.handler.RestlightHandler;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import esa.restlight.test.result.DefaultMvcResult;
 import esa.restlight.test.result.MvcResult;
@@ -38,13 +38,13 @@ public class DefaultMockMvc implements MockMvc {
     }
 
     @Override
-    public ResultActions perform(MockAsyncRequest request) {
+    public ResultActions perform(MockHttpRequest request) {
         final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
         handler.process(request, response).join();
         return new DefaultResultActions(new DefaultMvcResult(request, response, getResultAndClear(request)));
     }
 
-    private Object getResultAndClear(AsyncRequest request) {
+    private Object getResultAndClear(HttpRequest request) {
         return FutureUtils.getFutureResult(request.removeAttribute(RETURN_VALUE_KEY));
     }
 

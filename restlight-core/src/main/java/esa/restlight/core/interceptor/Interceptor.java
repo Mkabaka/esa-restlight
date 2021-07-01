@@ -16,17 +16,18 @@
 package esa.restlight.core.interceptor;
 
 import esa.commons.spi.SPI;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.util.Affinity;
 
 /**
  * We will determine whether to attach the {@link Interceptor} to the target {@link esa.restlight.server.route.Route}
  * before starting the restlight server by the return value of {@link #affinity()} while every instances of {@link
  * esa.restlight.server.route.Route} maintains its own interceptors which have possibility to match to it when a {@link
- * esa.httpserver.core.AsyncRequest} is coming.
+ * HttpRequest} is coming.
  * <p>
- * And we will also determine that whether a {@link esa.httpserver.core.AsyncRequest} should be matched to this
+ * And we will also determine that whether a {@link HttpRequest} should be matched to this
  * interceptor by the return value of {@link #predicate()}'s {@link InterceptorPredicate#test(Object)} when a {@link
- * esa.httpserver.core.AsyncRequest} is coming.
+ * HttpRequest} is coming.
  * @see Affinity
  * @see InternalInterceptor
  */
@@ -35,7 +36,7 @@ public interface Interceptor extends InternalInterceptor, Affinity {
 
     /**
      * Gets the predicate of current interceptor. determines whether current interceptor should be matched to a {@link
-     * esa.httpserver.core.AsyncRequest}.
+     * HttpRequest}.
      *
      * @return predicate, or {@code null} if {@link #affinity()} return's a negative value.
      */

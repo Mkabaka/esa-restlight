@@ -15,7 +15,7 @@
  */
 package esa.restlight.jaxrs.resolver.arg;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.HandlerMethod;
 import esa.restlight.core.method.MethodParam;
 import esa.restlight.core.resolver.ArgumentResolver;
@@ -25,7 +25,7 @@ import esa.restlight.jaxrs.resolver.arg.subject.FromStringSubject;
 import esa.restlight.jaxrs.resolver.arg.subject.ValueOfSubject;
 import esa.restlight.jaxrs.util.JaxrsMappingUtils;
 import esa.restlight.server.route.predicate.PatternsPredicate;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -58,7 +58,7 @@ class MatrixParamArgumentResolverTest {
 
     @Test
     void testSingleValue() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/foo;a=1")
                 .build();
@@ -69,7 +69,7 @@ class MatrixParamArgumentResolverTest {
 
     @Test
     void testMultiValue() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/foo;a=1;b=2")
                 .build();
@@ -82,7 +82,7 @@ class MatrixParamArgumentResolverTest {
 
     @Test
     void testListValue() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/foo;a=1,2,3")
                 .build();
@@ -98,7 +98,7 @@ class MatrixParamArgumentResolverTest {
 
     @Test
     void testNoneMatrixParam() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/foo/bar")
                 .build();
@@ -110,7 +110,7 @@ class MatrixParamArgumentResolverTest {
 
     @Test
     void testDefaultValue() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/foo")
                 .build();
@@ -121,7 +121,7 @@ class MatrixParamArgumentResolverTest {
 
     @Test
     void testDefaultCollectionValue() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/foo")
                 .build();
@@ -132,7 +132,7 @@ class MatrixParamArgumentResolverTest {
 
     @Test
     void testDefaultArrayValue() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/foo")
                 .build();
@@ -144,7 +144,7 @@ class MatrixParamArgumentResolverTest {
     @SuppressWarnings("unchecked")
     @Test
     void testDefaultOptionalValue() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/foo")
                 .build();
@@ -155,7 +155,7 @@ class MatrixParamArgumentResolverTest {
 
     @Test
     void testConstructorValue() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/foo;a=1")
                 .build();
@@ -167,7 +167,7 @@ class MatrixParamArgumentResolverTest {
 
     @Test
     void testValueOf() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/foo;a=1")
                 .build();
@@ -179,7 +179,7 @@ class MatrixParamArgumentResolverTest {
 
     @Test
     void testFromString() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/foo;a=1")
                 .build();
@@ -189,7 +189,7 @@ class MatrixParamArgumentResolverTest {
         assertEquals("1", ((FromStringSubject) resolved).getValue());
     }
 
-    private static Object createResolverAndResolve(AsyncRequest request, String method, int index) throws Exception {
+    private static Object createResolverAndResolve(HttpRequest request, String method, int index) throws Exception {
         final MethodParam parameter = handlerMethods.get(method).parameters()[index];
         assertTrue(resolverFactory.supports(parameter));
         // match first

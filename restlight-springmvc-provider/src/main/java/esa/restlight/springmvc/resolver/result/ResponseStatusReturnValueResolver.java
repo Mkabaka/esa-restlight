@@ -17,7 +17,7 @@ package esa.restlight.springmvc.resolver.result;
 
 import esa.commons.StringUtils;
 import esa.commons.reflect.AnnotationUtils;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.restlight.core.method.InvocableMethod;
 import esa.restlight.core.resolver.ArgumentResolverFactory;
@@ -74,7 +74,7 @@ public class ResponseStatusReturnValueResolver implements ReturnValueResolverFac
         }
 
         @Override
-        public byte[] resolve(Object returnValue, AsyncRequest request, AsyncResponse response) {
+        public byte[] resolve(Object returnValue, HttpRequest request, AsyncResponse response) {
             response.setHeader(HttpHeaderNames.CONTENT_TYPE, MediaType.TEXT_PLAIN.value());
             return reason;
         }

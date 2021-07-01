@@ -18,7 +18,7 @@ package esa.restlight.server.route.impl;
 import esa.commons.Checks;
 import esa.commons.collection.LinkedMultiValueMap;
 import esa.commons.collection.MultiValueMap;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.server.route.Mapping;
 import esa.restlight.server.route.ReadOnlyRouteRegistry;
 import esa.restlight.server.route.Route;
@@ -63,7 +63,7 @@ abstract class AbstractReadOnlyRouteRegistry<R extends RouteWrap,
     }
 
     @Override
-    public Route route(AsyncRequest request) {
+    public Route route(HttpRequest request) {
         // find from url lookup
         R route = matchByUri(request);
         if (route == null) {
@@ -75,7 +75,7 @@ abstract class AbstractReadOnlyRouteRegistry<R extends RouteWrap,
         return route.route;
     }
 
-    R matchByUri(AsyncRequest request) {
+    R matchByUri(HttpRequest request) {
         // find from url lookup
         final R[] routes = urlLookup.get(request.path());
         if (routes == null || routes.length == 0) {
@@ -84,7 +84,7 @@ abstract class AbstractReadOnlyRouteRegistry<R extends RouteWrap,
         return findFor(routes, request);
     }
 
-    R matchAll(AsyncRequest request) {
+    R matchAll(HttpRequest request) {
         return findFor(routes.lookup(), request);
     }
 
@@ -95,7 +95,7 @@ abstract class AbstractReadOnlyRouteRegistry<R extends RouteWrap,
      * @param request request
      * @return RouteHandler found, {@code null} if not found
      */
-    R findFor(R[] routes, AsyncRequest request) {
+    R findFor(R[] routes, HttpRequest request) {
         for (R route : routes) {
             if (route.test(request)) {
                 return route;

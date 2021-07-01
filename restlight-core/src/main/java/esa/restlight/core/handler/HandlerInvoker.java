@@ -15,7 +15,7 @@
  */
 package esa.restlight.core.handler;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 
 /**
@@ -24,7 +24,7 @@ import esa.httpserver.core.AsyncResponse;
 public interface HandlerInvoker {
 
     /**
-     * Resolves the arguments from the given {@link AsyncRequest} and do the controller invocation by reflection. this
+     * Resolves the arguments from the given {@link HttpRequest} and do the controller invocation by reflection. this
      * function won't do anything about the return value of the controller and the exception threw in the invocation.
      *
      * @param request  request
@@ -33,6 +33,6 @@ public interface HandlerInvoker {
      * @return future
      * @throws Throwable exception occurred
      */
-    Object invoke(AsyncRequest request, AsyncResponse response, Object[] args) throws Throwable;
+    Object invoke(HttpRequest request, AsyncResponse response, Object[] args) throws Throwable;
 
 }

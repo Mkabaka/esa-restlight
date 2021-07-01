@@ -16,7 +16,7 @@
 package esa.restlight.core.interceptor;
 
 import esa.commons.Checks;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 
 import java.util.concurrent.CompletableFuture;
@@ -31,33 +31,33 @@ abstract class AbstractInterceptorWrap<I extends InternalInterceptor> implements
     }
 
     @Override
-    public CompletableFuture<Boolean> preHandle0(AsyncRequest request, AsyncResponse response, Object handler) {
+    public CompletableFuture<Boolean> preHandle0(HttpRequest request, AsyncResponse response, Object handler) {
         return interceptor.preHandle0(request, response, handler);
     }
 
     @Override
-    public boolean preHandle(AsyncRequest request, AsyncResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpRequest request, AsyncResponse response, Object handler) throws Exception {
         return interceptor.preHandle(request, response, handler);
     }
 
     @Override
-    public CompletableFuture<Void> postHandle0(AsyncRequest request, AsyncResponse response, Object handler) {
+    public CompletableFuture<Void> postHandle0(HttpRequest request, AsyncResponse response, Object handler) {
         return interceptor.postHandle0(request, response, handler);
     }
 
     @Override
-    public void postHandle(AsyncRequest request, AsyncResponse response, Object handler) throws Exception {
+    public void postHandle(HttpRequest request, AsyncResponse response, Object handler) throws Exception {
         interceptor.postHandle(request, response, handler);
     }
 
     @Override
-    public CompletableFuture<Void> afterCompletion0(AsyncRequest request, AsyncResponse response, Object handler,
+    public CompletableFuture<Void> afterCompletion0(HttpRequest request, AsyncResponse response, Object handler,
                                                     Exception ex) {
         return interceptor.afterCompletion0(request, response, handler, ex);
     }
 
     @Override
-    public void afterCompletion(AsyncRequest request, AsyncResponse response, Object handler, Exception ex) {
+    public void afterCompletion(HttpRequest request, AsyncResponse response, Object handler, Exception ex) {
         interceptor.afterCompletion(request, response, handler, ex);
     }
 

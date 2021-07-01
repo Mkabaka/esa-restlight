@@ -17,7 +17,7 @@ package esa.restlight.core.handler.impl;
 
 import esa.commons.Checks;
 import esa.commons.StringUtils;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.restlight.core.handler.Handler;
 import esa.restlight.core.handler.HandlerInvoker;
@@ -48,7 +48,7 @@ public class HandlerImpl implements Handler {
     }
 
     @Override
-    public Object invoke(AsyncRequest request, AsyncResponse response, Object[] args) throws Throwable {
+    public Object invoke(HttpRequest request, AsyncResponse response, Object[] args) throws Throwable {
         return invoker.invoke(request, response, args);
     }
 

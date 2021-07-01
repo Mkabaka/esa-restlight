@@ -24,7 +24,7 @@ import esa.restlight.core.interceptor.InternalInterceptor;
 import esa.restlight.core.method.HandlerMethod;
 import esa.restlight.core.resolver.ExceptionResolver;
 import esa.restlight.core.resolver.HandlerResolverFactory;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -53,7 +53,7 @@ class RouteHandlerAdapterTest {
         assertEquals(handler.scheduler(), adapter.scheduler());
         assertTrue(handler.intercepted() && adapter.intercepted());
         assertEquals(handler.toString(), adapter.toString());
-        assertNull(adapter.getMatchingInterceptors(MockAsyncRequest.aMockRequest().build()));
+        assertNull(adapter.getMatchingInterceptors(MockHttpRequest.aMockRequest().build()));
     }
 
     @Test
@@ -105,7 +105,7 @@ class RouteHandlerAdapterTest {
                 new RouteHandlerAdapter(handler, mock(HandlerResolverFactory.class), interceptors, null);
 
         final List<InternalInterceptor> matched =
-                adapter.getMatchingInterceptors(MockAsyncRequest.aMockRequest().build());
+                adapter.getMatchingInterceptors(MockHttpRequest.aMockRequest().build());
         assertNotNull(matched);
         assertEquals(2, matched.size());
         assertSame(interceptor1, matched.get(0));
@@ -184,7 +184,7 @@ class RouteHandlerAdapterTest {
         final RouteHandlerAdapter adapter =
                 new RouteHandlerAdapter(handler, mock(HandlerResolverFactory.class), interceptors, null);
 
-        List<InternalInterceptor> matched = adapter.getMatchingInterceptors(MockAsyncRequest.aMockRequest().build());
+        List<InternalInterceptor> matched = adapter.getMatchingInterceptors(MockHttpRequest.aMockRequest().build());
         assertNotNull(matched);
         assertEquals(4, matched.size());
         assertSame(interceptor1, matched.get(0));
@@ -195,7 +195,7 @@ class RouteHandlerAdapterTest {
         verify(p1, times(1)).test(any());
 
         // match 2 times for testing cleared thread local status
-        matched = adapter.getMatchingInterceptors(MockAsyncRequest.aMockRequest().build());
+        matched = adapter.getMatchingInterceptors(MockHttpRequest.aMockRequest().build());
         assertNotNull(matched);
         assertEquals(4, matched.size());
         assertSame(interceptor1, matched.get(0));

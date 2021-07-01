@@ -16,7 +16,7 @@
 package esa.restlight.server.route.impl;
 
 import esa.commons.Checks;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.server.route.Mapping;
 import esa.restlight.server.route.Route;
 import esa.restlight.server.route.RouteExecution;
@@ -42,7 +42,7 @@ class RouteWrap implements Route, RequestPredicate {
     }
 
     @Override
-    public RouteExecution toExecution(AsyncRequest request) {
+    public RouteExecution toExecution(HttpRequest request) {
         return route.toExecution(request);
     }
 
@@ -52,7 +52,7 @@ class RouteWrap implements Route, RequestPredicate {
     }
 
     @Override
-    public boolean test(AsyncRequest request) {
+    public boolean test(HttpRequest request) {
         return predicate.test(request);
     }
 

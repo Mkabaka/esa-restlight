@@ -1,7 +1,7 @@
 package esa.restlight.core.resolver.arg;
 
 import esa.restlight.core.method.Param;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import io.netty.handler.codec.http.HttpHeaders;
 import org.junit.jupiter.api.Test;
@@ -21,7 +21,7 @@ class AbstractHeaderArgumentResolverTest {
     @Test
     void testResolveStringValue() throws Exception {
         final AbstractHeaderArgumentResolver resolver = asResolver("foo");
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withHeader("foo", "1")
                 .build();
         final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
@@ -36,7 +36,7 @@ class AbstractHeaderArgumentResolverTest {
     @Test
     void testResolveMultiValueToSingleStringValue() throws Exception {
         final AbstractHeaderArgumentResolver resolver = asResolver("foo");
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withHeader("foo", "1")
                 .withHeader("foo", "2")
                 .build();
@@ -52,7 +52,7 @@ class AbstractHeaderArgumentResolverTest {
     @Test
     void testResolveMultiValuesToList() throws Exception {
         final AbstractHeaderArgumentResolver resolver = asResolver("foo");
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withHeader("foo", "1")
                 .withHeader("foo", "2")
                 .build();
@@ -70,7 +70,7 @@ class AbstractHeaderArgumentResolverTest {
     @Test
     void testResolveMultiValuesToArray() throws Exception {
         final AbstractHeaderArgumentResolver resolver = asResolver("foo");
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withHeader("foo", "1")
                 .withHeader("foo", "2")
                 .build();
@@ -87,7 +87,7 @@ class AbstractHeaderArgumentResolverTest {
     @Test
     void testResolveHttpHeadersObject() throws Exception {
         final AbstractHeaderArgumentResolver resolver = asResolver("foo");
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withHeader("foo", "1")
                 .withHeader("bar", "2")
                 .build();

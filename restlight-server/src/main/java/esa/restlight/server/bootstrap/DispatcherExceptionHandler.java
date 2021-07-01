@@ -16,7 +16,7 @@
 package esa.restlight.server.bootstrap;
 
 import esa.commons.annotation.Internal;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.restlight.core.util.Ordered;
 import esa.restlight.server.route.ExceptionHandler;
@@ -24,7 +24,7 @@ import esa.restlight.server.route.ExceptionHandler;
 /**
  * All exceptions must be resolved even though there is no custom {@link ExceptionHandler} has been matched, and
  * this class is used to handle those exceptions which can't be resolved by {@link ExceptionHandler} or are thrown
- * during {@link ExceptionHandler#handleException(AsyncRequest, AsyncResponse, Throwable)}.
+ * during {@link ExceptionHandler#handleException(HttpRequest, AsyncResponse, Throwable)}.
  */
 @Internal
 public interface DispatcherExceptionHandler extends Ordered {
@@ -37,7 +37,7 @@ public interface DispatcherExceptionHandler extends Ordered {
      * @param throwable throwable
      * @return  the {@link HandleStatus} which represents the handle result.
      */
-    HandleStatus handleException(AsyncRequest request,
+    HandleStatus handleException(HttpRequest request,
                                  AsyncResponse response,
                                  Throwable throwable);
 
@@ -45,7 +45,7 @@ public interface DispatcherExceptionHandler extends Ordered {
     /**
      * The {@link #handled} which represents the exception has been handled successfully and the {@link #retained}
      * which means the exception should been continue to be used after
-     * {@link DispatcherExceptionHandler#handleException(AsyncRequest, AsyncResponse, Throwable)}ing are both
+     * {@link DispatcherExceptionHandler#handleException(HttpRequest, AsyncResponse, Throwable)}ing are both
      * necessary as the handle result.
      */
     enum HandleStatus {

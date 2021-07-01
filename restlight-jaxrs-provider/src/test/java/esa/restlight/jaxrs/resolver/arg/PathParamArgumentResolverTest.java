@@ -15,7 +15,7 @@
  */
 package esa.restlight.jaxrs.resolver.arg;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.HandlerMethod;
 import esa.restlight.core.method.MethodParam;
 import esa.restlight.core.resolver.ArgumentResolver;
@@ -25,7 +25,7 @@ import esa.restlight.jaxrs.resolver.arg.subject.FromStringSubject;
 import esa.restlight.jaxrs.resolver.arg.subject.ValueOfSubject;
 import esa.restlight.jaxrs.util.JaxrsMappingUtils;
 import esa.restlight.server.route.predicate.PatternsPredicate;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -59,7 +59,7 @@ class PathParamArgumentResolverTest {
 
     @Test
     void testPathVar() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/foo")
                 .build();
@@ -70,7 +70,7 @@ class PathParamArgumentResolverTest {
 
     @Test
     void testCleanMatrixVariables() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/foo;a=b;c=d")
                 .build();
@@ -80,7 +80,7 @@ class PathParamArgumentResolverTest {
 
     @Test
     void testNone() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/")
                 .build();
@@ -93,7 +93,7 @@ class PathParamArgumentResolverTest {
 
     @Test
     void testDefaultValue() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/")
                 .build();
@@ -104,7 +104,7 @@ class PathParamArgumentResolverTest {
 
     @Test
     void testDefaultCollectionValue() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/")
                 .build();
@@ -115,7 +115,7 @@ class PathParamArgumentResolverTest {
 
     @Test
     void testDefaultArrayValue() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/")
                 .build();
@@ -127,7 +127,7 @@ class PathParamArgumentResolverTest {
     @SuppressWarnings("unchecked")
     @Test
     void testDefaultOptionalValue() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/")
                 .build();
@@ -138,7 +138,7 @@ class PathParamArgumentResolverTest {
 
     @Test
     void testConstructor() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/foo")
                 .build();
@@ -150,7 +150,7 @@ class PathParamArgumentResolverTest {
 
     @Test
     void testValueOf() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/foo")
                 .build();
@@ -162,7 +162,7 @@ class PathParamArgumentResolverTest {
 
     @Test
     void testFromString() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri("/foo")
                 .build();
@@ -172,7 +172,7 @@ class PathParamArgumentResolverTest {
         assertEquals("foo", ((FromStringSubject) resolved).getValue());
     }
 
-    private static Object createResolverAndResolve(AsyncRequest request, String method) throws Exception {
+    private static Object createResolverAndResolve(HttpRequest request, String method) throws Exception {
         final MethodParam parameter = handlerMethods.get(method).parameters()[0];
         assertTrue(resolverFactory.supports(parameter));
         // match first

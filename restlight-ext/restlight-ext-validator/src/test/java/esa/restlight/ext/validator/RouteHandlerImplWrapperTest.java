@@ -16,7 +16,7 @@
 package esa.restlight.ext.validator;
 
 import esa.commons.ClassUtils;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.restlight.core.handler.HandlerInvoker;
 import esa.restlight.core.handler.LinkedHandlerInvoker;
@@ -24,7 +24,7 @@ import esa.restlight.core.handler.impl.HandlerInvokerImpl;
 import esa.restlight.core.handler.impl.RouteHandlerImpl;
 import esa.restlight.core.method.HandlerMethod;
 import esa.restlight.core.method.InvocableMethod;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator;
 import org.hibernate.validator.resourceloading.PlatformResourceBundleLocator;
@@ -54,7 +54,7 @@ class RouteHandlerImplWrapperTest {
     private static final Object[] simpleArg = {"Hello"};
     private static final String MESSAGE_INTERPOLATOR_FILE = "validation-message";
 
-    private final AsyncRequest request = MockAsyncRequest.aMockRequest().build();
+    private final HttpRequest request = MockHttpRequest.aMockRequest().build();
     private final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
 
     private static final Validator validator =

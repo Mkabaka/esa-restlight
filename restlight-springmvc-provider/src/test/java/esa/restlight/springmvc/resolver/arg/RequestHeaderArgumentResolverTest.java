@@ -15,7 +15,7 @@
  */
 package esa.restlight.springmvc.resolver.arg;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.HandlerMethod;
 import esa.restlight.core.method.MethodParam;
 import esa.restlight.core.resolver.ArgumentResolver;
@@ -23,7 +23,7 @@ import esa.restlight.core.serialize.FastJsonHttpBodySerializer;
 import esa.restlight.server.bootstrap.WebServerException;
 import esa.restlight.springmvc.ResolverUtils;
 import esa.restlight.springmvc.annotation.shaded.RequestHeader0;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import io.netty.handler.codec.http.HttpHeaders;
 import org.junit.jupiter.api.BeforeAll;
@@ -59,7 +59,7 @@ class RequestHeaderArgumentResolverTest {
 
     @Test
     void testNormal() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withHeader("foo", "bar")
                 .build();
@@ -69,7 +69,7 @@ class RequestHeaderArgumentResolverTest {
 
     @Test
     void testHttpHeaders() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withHeader("foo", "bar")
                 .build();
@@ -81,7 +81,7 @@ class RequestHeaderArgumentResolverTest {
 
     @Test
     void testNamedHeader() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withHeader("baz", "qux")
                 .build();
@@ -91,7 +91,7 @@ class RequestHeaderArgumentResolverTest {
 
     @Test
     void testRequiredHeader() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .build();
         assertThrows(WebServerException.class, () -> createResolverAndResolve(request, "requestHeader"));
@@ -99,7 +99,7 @@ class RequestHeaderArgumentResolverTest {
 
     @Test
     void testNoneRequiredHeader() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .build();
         final Object resolved = createResolverAndResolve(request, "noneRequiredHeader");
@@ -108,7 +108,7 @@ class RequestHeaderArgumentResolverTest {
 
     @Test
     void testDefaultHeader() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .build();
         final Object resolved = createResolverAndResolve(request, "defaultHeader");
@@ -118,7 +118,7 @@ class RequestHeaderArgumentResolverTest {
 
     @Test
     void testDefaultCollectionValue() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .build();
         final Object resolved = createResolverAndResolve(request, "defaultCollectionValue");
@@ -128,7 +128,7 @@ class RequestHeaderArgumentResolverTest {
 
     @Test
     void testDefaultArrayValue() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .build();
         final Object resolved = createResolverAndResolve(request, "defaultArrayValue");
@@ -139,7 +139,7 @@ class RequestHeaderArgumentResolverTest {
     @SuppressWarnings("unchecked")
     @Test
     void testDefaultOptionalValue() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .build();
         final Optional<String> resolved =
@@ -149,7 +149,7 @@ class RequestHeaderArgumentResolverTest {
 
     @Test
     void testDefaultAndRequiredHeader() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .build();
         final Object resolved = createResolverAndResolve(request, "defaultAndRequiredHeader");
@@ -158,7 +158,7 @@ class RequestHeaderArgumentResolverTest {
 
     @Test
     void testDefaultAndRequiredHeader1() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withHeader("foo", "bar")
                 .build();
@@ -166,7 +166,7 @@ class RequestHeaderArgumentResolverTest {
         assertEquals("bar", resolved);
     }
 
-    private static Object createResolverAndResolve(AsyncRequest request, String method) throws Exception {
+    private static Object createResolverAndResolve(HttpRequest request, String method) throws Exception {
         final MethodParam parameter = handlerMethods.get(method).parameters()[0];
         assertTrue(resolverFactory.supports(parameter));
         final ArgumentResolver resolver = resolverFactory.createResolver(parameter,

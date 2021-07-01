@@ -16,7 +16,7 @@
 package esa.restlight.server.route.impl;
 
 import esa.commons.concurrent.UnsafeUtils;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.server.route.ReadOnlyRouteRegistry;
 
 import java.util.List;
@@ -67,7 +67,7 @@ public class CachedRouteRegistry extends AbstractRouteRegistry {
         }
 
         @Override
-        CountedRoute findFor(CountedRoute[] routes, AsyncRequest request) {
+        CountedRoute findFor(CountedRoute[] routes, HttpRequest request) {
             CountedRoute found = super.findFor(routes, request);
             if (found != null) {
                 this.routes.hit(found);

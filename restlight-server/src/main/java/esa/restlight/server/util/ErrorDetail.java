@@ -16,7 +16,7 @@
 package esa.restlight.server.util;
 
 import esa.commons.StringUtils;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.restlight.core.util.MediaType;
 import io.netty.handler.codec.http.HttpHeaderNames;
@@ -85,7 +85,7 @@ public class ErrorDetail<T> {
         return this.toString().getBytes(StandardCharsets.UTF_8);
     }
 
-    public static void sendErrorResult(AsyncRequest request,
+    public static void sendErrorResult(HttpRequest request,
                                        AsyncResponse response,
                                        Throwable ex,
                                        HttpResponseStatus status) {
@@ -93,7 +93,7 @@ public class ErrorDetail<T> {
         sendErrorResult(request, response, msg, status);
     }
 
-    public static void sendErrorResult(AsyncRequest request,
+    public static void sendErrorResult(HttpRequest request,
                                        AsyncResponse response,
                                        String msg,
                                        HttpResponseStatus status) {

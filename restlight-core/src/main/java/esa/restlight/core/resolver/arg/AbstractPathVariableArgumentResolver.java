@@ -16,7 +16,7 @@
 package esa.restlight.core.resolver.arg;
 
 import esa.commons.StringUtils;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.Param;
 import esa.restlight.core.resolver.ArgumentResolver;
 import esa.restlight.core.resolver.ArgumentResolverFactory;
@@ -42,7 +42,7 @@ public abstract class AbstractPathVariableArgumentResolver implements ArgumentRe
                     ConverterUtils.str2ObjectConverter(param.genericType(), p -> p);
 
             @Override
-            protected Object resolveName(String name, AsyncRequest request) throws Exception {
+            protected Object resolveName(String name, HttpRequest request) throws Exception {
                 String value = PathVariableUtils.getPathVariable(request, name);
                 return converter.apply(StringUtils.isEmpty(value) ? value : cleanTemplateValueIfNecessary(value));
             }

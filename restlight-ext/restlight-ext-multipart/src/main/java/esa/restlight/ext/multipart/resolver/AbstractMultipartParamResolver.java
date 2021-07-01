@@ -19,8 +19,8 @@ import esa.commons.Checks;
 import esa.commons.StringUtils;
 import esa.commons.logging.Logger;
 import esa.commons.logging.LoggerFactory;
-import esa.httpserver.core.AsyncRequest;
 import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.Param;
 import esa.restlight.core.resolver.arg.AbstractNameAndValueArgumentResolver;
 import esa.restlight.ext.multipart.core.MultipartConfig;
@@ -28,7 +28,6 @@ import esa.restlight.ext.multipart.core.MultipartFile;
 import esa.restlight.ext.multipart.core.MultipartFileImpl;
 import io.netty.handler.codec.http.DefaultFullHttpRequest;
 import io.netty.handler.codec.http.HttpHeaderNames;
-import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.multipart.Attribute;
 import io.netty.handler.codec.http.multipart.DefaultHttpDataFactory;
 import io.netty.handler.codec.http.multipart.DiskFileUpload;
@@ -63,7 +62,7 @@ abstract class AbstractMultipartParamResolver extends AbstractNameAndValueArgume
     }
 
     @Override
-    public Object resolve(AsyncRequest request, AsyncResponse response) throws Exception {
+    public Object resolve(HttpRequest request, AsyncResponse response) throws Exception {
         try {
             return super.resolve(request, response);
         } finally {
@@ -72,9 +71,9 @@ abstract class AbstractMultipartParamResolver extends AbstractNameAndValueArgume
     }
 
     @Override
-    protected Object resolveName(String name, AsyncRequest request) throws Exception {
+    protected Object resolveName(String name, HttpRequest request) throws Exception {
         if (!request.hasAttribute(MULTIPART_BODY_RESOLVED)) {
-            final HttpRequest request0 = formattedReq(request);
+            final io.netty.handler.codec.http.HttpRequest request0 = formattedReq(request);
 
             if (!HttpPostRequestDecoder.isMultipart(request0)) {
                 throw new IllegalStateException("You excepted to accept a multipart file or attribute," +
@@ -125,7 +124,7 @@ abstract class AbstractMultipartParamResolver extends AbstractNameAndValueArgume
         }
     }
 
-    private void tryAddCleaner(AsyncRequest request, AsyncResponse response) {
+    private void tryAddCleaner(HttpRequest request, AsyncResponse response) {
         final List<MultipartFile> files = request.getUncheckedAttribute(MULTIPART_FILES);
 
         // Note: decoder.destroy() is only allowed to invoke once.
@@ -152,13 +151,14 @@ abstract class AbstractMultipartParamResolver extends AbstractNameAndValueArgume
     }
 
     /**
-     * Detect {@link HttpRequest} from known request, try to get it by reflection by default.
+     * Detect {@link io.netty.handler.codec.http.HttpRequest} from known request,
+     * try to get it by reflection by default.
      *
      * @param request request
      *
      * @return original http request
      */
-    protected HttpRequest formattedReq(AsyncRequest request) {
+    protected io.netty.handler.codec.http.HttpRequest formattedReq(HttpRequest request) {
         return new DefaultFullHttpRequest(request.httpVersion(), request.method(), request.uri(),
                 request.byteBufBody(), request.headers(), request.trailers());
     }
@@ -182,5 +182,5 @@ abstract class AbstractMultipartParamResolver extends AbstractNameAndValueArgume
      *
      * @return obj
      */
-    abstract Object getParamValue(String name, AsyncRequest request);
+    abstract Object getParamValue(String name, HttpRequest request);
 }

@@ -15,12 +15,14 @@
  */
 package esa.restlight.core.annotation;
 
+import esa.httpserver.core.HttpRequest;
+
 import java.lang.annotation.*;
 
 /**
  * Indicates that the parameter annotated by this annotation will be resolved from the Url parameters or form
  * parameters(application/x-www-form-urlencoded only).
- * @see esa.httpserver.core.AsyncRequest#getParameter(String)
+ * @see HttpRequest#getParameter(String)
  */
 @Target({ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)

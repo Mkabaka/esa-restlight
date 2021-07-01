@@ -1,7 +1,7 @@
 package esa.restlight.core.resolver.arg;
 
 import esa.restlight.core.method.Param;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import io.netty.handler.codec.http.cookie.Cookie;
 import org.junit.jupiter.api.Test;
@@ -21,7 +21,7 @@ class AbstractCookieValueArgumentResolverTest {
     @Test
     void testResolveStringValue() throws Exception {
         final AbstractCookieValueArgumentResolver resolver = asResolver("foo");
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withCookie("foo", "1")
                 .build();
         final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
@@ -36,7 +36,7 @@ class AbstractCookieValueArgumentResolverTest {
     @Test
     void testResolveCookieObject() throws Exception {
         final AbstractCookieValueArgumentResolver resolver = asResolver("foo");
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withCookie("foo", "1")
                 .build();
         final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
@@ -53,7 +53,7 @@ class AbstractCookieValueArgumentResolverTest {
     @Test
     void testResolveCookieSet() throws Exception {
         final AbstractCookieValueArgumentResolver resolver = asResolver("foo");
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest()
+        final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withCookie("foo", "1")
                 .withCookie("bar", "2")
                 .build();

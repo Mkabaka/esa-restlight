@@ -15,12 +15,12 @@
  */
 package esa.restlight.ext.filter.cors;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.restlight.core.method.HttpMethod;
 import esa.restlight.server.handler.FilterChain;
 import esa.restlight.server.util.Futures;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import io.netty.handler.codec.http.HttpResponseStatus;
@@ -39,7 +39,7 @@ class CorsFilterTest {
     @Test
     void testNoneCors() {
         final CorsFilter filter = new CorsFilter(Collections.singletonList(CorsOptionsConfigure.defaultOpts()));
-        final AsyncRequest request = MockAsyncRequest.aMockRequest()
+        final HttpRequest request = MockHttpRequest.aMockRequest()
                 .withUri("/foo")
                 .withMethod("GET")
                 .build();
@@ -57,7 +57,7 @@ class CorsFilterTest {
     @Test
     void testSimpleRequestWithDefaultOptions() {
         final CorsFilter filter = new CorsFilter(Collections.singletonList(CorsOptionsConfigure.defaultOpts()));
-        final AsyncRequest request = MockAsyncRequest.aMockRequest()
+        final HttpRequest request = MockHttpRequest.aMockRequest()
                 .withUri("/foo")
                 .withMethod("GET")
                 .withHeader(HttpHeaderNames.ORIGIN.toString(), "http://localhost:8080")
@@ -81,7 +81,7 @@ class CorsFilterTest {
     void testPreflighRequestWithDefaultOptions() {
         final CorsOptions opts = CorsOptionsConfigure.defaultOpts();
         final CorsFilter filter = new CorsFilter(Collections.singletonList(opts));
-        final AsyncRequest request = MockAsyncRequest.aMockRequest()
+        final HttpRequest request = MockHttpRequest.aMockRequest()
                 .withUri("/")
                 .withMethod("OPTIONS")
                 .withHeader(HttpHeaderNames.ORIGIN.toString(), "http://localhost:8080")
@@ -113,7 +113,7 @@ class CorsFilterTest {
                 .anyOrigin(false)
                 .origins(Collections.singleton("http://localhost:8080"))
                 .configured()));
-        final AsyncRequest request = MockAsyncRequest.aMockRequest()
+        final HttpRequest request = MockHttpRequest.aMockRequest()
                 .withUri("/foo")
                 .withMethod("GET")
                 .withHeader(HttpHeaderNames.ORIGIN.toString(), "http://localhost:8080")
@@ -140,7 +140,7 @@ class CorsFilterTest {
                 .origins(Collections.singleton("http://localhost:8080"))
                 .allowCredentials(false)
                 .configured()));
-        final AsyncRequest request = MockAsyncRequest.aMockRequest()
+        final HttpRequest request = MockHttpRequest.aMockRequest()
                 .withUri("/foo")
                 .withMethod("GET")
                 .withHeader(HttpHeaderNames.ORIGIN.toString(), "http://localhost:8080")
@@ -157,7 +157,7 @@ class CorsFilterTest {
                 response.getHeader(HttpHeaderNames.ACCESS_CONTROL_ALLOW_ORIGIN));
         assertEquals("*", response.getHeader(HttpHeaderNames.ACCESS_CONTROL_EXPOSE_HEADERS));
 
-        final AsyncRequest preflight = MockAsyncRequest.aMockRequest()
+        final HttpRequest preflight = MockHttpRequest.aMockRequest()
                 .withUri("/")
                 .withMethod("OPTIONS")
                 .withHeader(HttpHeaderNames.ORIGIN.toString(), "http://localhost:8080")
@@ -180,7 +180,7 @@ class CorsFilterTest {
                 .anyOrigin(true)
                 .allowCredentials(false)
                 .configured()));
-        final AsyncRequest request = MockAsyncRequest.aMockRequest()
+        final HttpRequest request = MockHttpRequest.aMockRequest()
                 .withUri("/foo")
                 .withMethod("GET")
                 .withHeader(HttpHeaderNames.ORIGIN.toString(), "http://localhost:8080")
@@ -197,7 +197,7 @@ class CorsFilterTest {
                 response.getHeader(HttpHeaderNames.ACCESS_CONTROL_ALLOW_ORIGIN));
         assertFalse(response.containsHeader(HttpHeaderNames.VARY));
 
-        final AsyncRequest preflight = MockAsyncRequest.aMockRequest()
+        final HttpRequest preflight = MockHttpRequest.aMockRequest()
                 .withUri("/")
                 .withMethod("OPTIONS")
                 .withHeader(HttpHeaderNames.ORIGIN.toString(), "http://localhost:8080")
@@ -219,7 +219,7 @@ class CorsFilterTest {
                 .anyOrigin(false)
                 .origins(Collections.singleton("http://localhost:8080"))
                 .configured()));
-        final AsyncRequest request = MockAsyncRequest.aMockRequest()
+        final HttpRequest request = MockHttpRequest.aMockRequest()
                 .withUri("/foo")
                 .withMethod("GET")
                 .withHeader(HttpHeaderNames.ORIGIN.toString(), "http://localhost:8081")
@@ -241,7 +241,7 @@ class CorsFilterTest {
                 .anyOrigin(false)
                 .origins(Collections.singleton("http://localhost:8080"))
                 .configured()));
-        final AsyncRequest request = MockAsyncRequest.aMockRequest()
+        final HttpRequest request = MockHttpRequest.aMockRequest()
                 .withUri("/")
                 .withMethod("OPTIONS")
                 .withHeader(HttpHeaderNames.ORIGIN.toString(), "http://localhost:8081")
@@ -265,7 +265,7 @@ class CorsFilterTest {
                 .anyOrigin(false)
                 .origins(new LinkedHashSet<>(Arrays.asList("http://localhost:8080", "http://localhost:8081")))
                 .configured()));
-        final AsyncRequest request = MockAsyncRequest.aMockRequest()
+        final HttpRequest request = MockHttpRequest.aMockRequest()
                 .withUri("/foo")
                 .withMethod("GET")
                 .withHeader(HttpHeaderNames.ORIGIN.toString(), "http://localhost:8081")
@@ -288,7 +288,7 @@ class CorsFilterTest {
                 .anyOrigin(false)
                 .origins(new LinkedHashSet<>(Arrays.asList("http://localhost:8080", "http://localhost:8081")))
                 .configured()));
-        final AsyncRequest request = MockAsyncRequest.aMockRequest()
+        final HttpRequest request = MockHttpRequest.aMockRequest()
                 .withUri("/")
                 .withMethod("OPTIONS")
                 .withHeader(HttpHeaderNames.ORIGIN.toString(), "http://localhost:8081")
@@ -316,7 +316,7 @@ class CorsFilterTest {
                         .anyOrigin(false)
                         .origins(Collections.singleton("http://localhost:8081"))
                         .configured()));
-        final AsyncRequest request = MockAsyncRequest.aMockRequest()
+        final HttpRequest request = MockHttpRequest.aMockRequest()
                 .withUri("/foo")
                 .withMethod("GET")
                 .withHeader(HttpHeaderNames.ORIGIN.toString(), "http://localhost:8081")
@@ -343,7 +343,7 @@ class CorsFilterTest {
                         .anyOrigin(false)
                         .origins(Collections.singleton("http://localhost:8081"))
                         .configured()));
-        final AsyncRequest request = MockAsyncRequest.aMockRequest()
+        final HttpRequest request = MockHttpRequest.aMockRequest()
                 .withUri("/")
                 .withMethod("OPTIONS")
                 .withHeader(HttpHeaderNames.ORIGIN.toString(), "http://localhost:8081")

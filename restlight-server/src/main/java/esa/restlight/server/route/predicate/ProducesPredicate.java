@@ -15,7 +15,7 @@
  */
 package esa.restlight.server.route.predicate;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.util.MediaType;
 import esa.restlight.server.util.MappingUtils;
 import io.netty.handler.codec.http.HttpHeaderNames;
@@ -62,7 +62,7 @@ public class ProducesPredicate implements RequestPredicate {
     }
 
     @Override
-    public boolean test(AsyncRequest request) {
+    public boolean test(HttpRequest request) {
         try {
             for (Expression expression : expressions) {
                 if (expression.match(request)) {
@@ -98,7 +98,7 @@ public class ProducesPredicate implements RequestPredicate {
         return compatibleMediaTypes;
     }
 
-    private static List<MediaType> getAcceptedMediaTypes(AsyncRequest request) {
+    private static List<MediaType> getAcceptedMediaTypes(HttpRequest request) {
         List<MediaType> mediaTypes = MediaType.valuesOf(request.getHeader(HttpHeaderNames.ACCEPT));
         return (mediaTypes.isEmpty())
                 ? ALL
@@ -156,7 +156,7 @@ public class ProducesPredicate implements RequestPredicate {
         }
 
         @Override
-        protected boolean matchMediaType(AsyncRequest request) {
+        protected boolean matchMediaType(HttpRequest request) {
             List<MediaType> mediaTypes = ACCEPTABLE_MEDIA_TYPES.getIfExists();
             if (mediaTypes == null) {
                 ACCEPTABLE_MEDIA_TYPES.set(mediaTypes = getAcceptedMediaTypes(request));

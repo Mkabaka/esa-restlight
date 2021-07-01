@@ -16,7 +16,7 @@
 package esa.restlight.server.handler;
 
 import esa.commons.spi.SPI;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.restlight.core.util.Ordered;
 import io.netty.channel.ChannelHandlerContext;
@@ -51,7 +51,7 @@ public interface Filter extends Ordered {
      * @param chain    filter chain
      * @return future
      */
-    CompletableFuture<Void> doFilter(AsyncRequest request, AsyncResponse response, FilterChain chain);
+    CompletableFuture<Void> doFilter(HttpRequest request, AsyncResponse response, FilterChain chain);
 
     /**
      * Shutdown event

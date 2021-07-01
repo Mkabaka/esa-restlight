@@ -19,7 +19,7 @@ import esa.restlight.core.handler.HandlerAdvice;
 import esa.restlight.core.handler.HandlerAdvicesFactory;
 import esa.restlight.core.handler.RouteHandler;
 import esa.restlight.core.method.InvocableMethod;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import org.junit.jupiter.api.Test;
@@ -56,7 +56,7 @@ class AbstractRouteHandlerLocatorTest {
         assertTrue(handler.get().hasCustomResponse());
         assertEquals(HttpResponseStatus.OK, handler.get().customResponse());
         assertEquals("bar",
-                handler.get().invoke(MockAsyncRequest.aMockRequest().build(),
+                handler.get().invoke(MockHttpRequest.aMockRequest().build(),
                         MockAsyncResponse.aMockResponse().build(),
                         null));
     }

@@ -16,7 +16,7 @@
 package esa.restlight.core.handler.impl;
 
 import esa.commons.collection.MultiValueMap;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.handler.RouteHandler;
 import esa.restlight.core.interceptor.Interceptor;
 import esa.restlight.core.interceptor.InterceptorPredicate;
@@ -67,11 +67,11 @@ public class RouteHandlerAdapter extends HandlerAdapter<RouteHandler> implements
         return handler.scheduler();
     }
 
-    public RouteExecution toExecution(AsyncRequest request) {
+    public RouteExecution toExecution(HttpRequest request) {
         return executionFactory.getRouteExecution(this, getMatchingInterceptors(request));
     }
 
-    List<InternalInterceptor> getMatchingInterceptors(AsyncRequest request) {
+    List<InternalInterceptor> getMatchingInterceptors(HttpRequest request) {
         if (handler.intercepted()) {
             return interceptorMatcher.match(request);
         }
@@ -134,7 +134,7 @@ public class RouteHandlerAdapter extends HandlerAdapter<RouteHandler> implements
             this.interceptorMappings = interceptorMappings;
         }
 
-        List<InternalInterceptor> match(AsyncRequest request) {
+        List<InternalInterceptor> match(HttpRequest request) {
             //if lookup map is empty -> just return the all mapping interceptors
             if (interceptorMappings.isEmpty()) {
                 return null;
@@ -145,7 +145,7 @@ public class RouteHandlerAdapter extends HandlerAdapter<RouteHandler> implements
             return doMatch(request);
         }
 
-        protected List<InternalInterceptor> doMatch(AsyncRequest request) {
+        protected List<InternalInterceptor> doMatch(HttpRequest request) {
             // match interceptors by order
             final List<InternalInterceptor> matchedInterceptors =
                     new LinkedList<>();
@@ -175,7 +175,7 @@ public class RouteHandlerAdapter extends HandlerAdapter<RouteHandler> implements
         }
 
         @Override
-        protected List<InternalInterceptor> doMatch(AsyncRequest request) {
+        protected List<InternalInterceptor> doMatch(HttpRequest request) {
             try {
                 return super.doMatch(request);
             } finally {
@@ -197,7 +197,7 @@ public class RouteHandlerAdapter extends HandlerAdapter<RouteHandler> implements
         }
 
         @Override
-        public boolean test(AsyncRequest request) {
+        public boolean test(HttpRequest request) {
             return predicate.test(request);
         }
 
@@ -221,7 +221,7 @@ public class RouteHandlerAdapter extends HandlerAdapter<RouteHandler> implements
         }
 
         @Override
-        public boolean test(AsyncRequest request) {
+        public boolean test(HttpRequest request) {
             Boolean isMatched = matched.getIfExists();
             if (isMatched == null) {
                 boolean matchResult = super.test(request);

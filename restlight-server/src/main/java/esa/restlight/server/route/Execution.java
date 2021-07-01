@@ -15,25 +15,25 @@
  */
 package esa.restlight.server.route;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 
 import java.util.concurrent.CompletableFuture;
 
 /**
- * A Execution is used to handle current {@link AsyncRequest}'s lifecycle after routing this {@link AsyncRequest}.
+ * A Execution is used to handle current {@link HttpRequest}'s lifecycle after routing this {@link HttpRequest}.
  */
 public interface Execution {
 
     /**
-     * Handles current {@link AsyncRequest}, this method must make sure that current {@link AsyncResponse} has been
+     * Handles current {@link HttpRequest}, this method must make sure that current {@link AsyncResponse} has been
      * committed or else Restlight will handle it for you which probably means a error.
      *
      * @param request  current request
      * @param response current response
      * @return future
      */
-    CompletableFuture<Void> handle(AsyncRequest request, AsyncResponse response);
+    CompletableFuture<Void> handle(HttpRequest request, AsyncResponse response);
 
     /**
      * Returns an instance of {@link CompletionHandler} to handle the completion event of current request.

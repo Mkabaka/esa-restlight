@@ -15,11 +15,11 @@
  */
 package esa.restlight.test.context;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.restlight.server.handler.RestlightHandler;
 import esa.restlight.server.util.Futures;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import io.netty.buffer.ByteBufUtil;
 import org.junit.jupiter.api.Test;
 
@@ -36,9 +36,9 @@ class DefaultMockMvcTest {
         final RestlightHandler handler = mock(RestlightHandler.class);
         final DefaultMockMvc mockMvc = new DefaultMockMvc(handler);
 
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest().build();
+        final MockHttpRequest request = MockHttpRequest.aMockRequest().build();
         when(handler.process(same(request), any())).then(mock -> {
-            final AsyncRequest req = mock.getArgument(0, AsyncRequest.class);
+            final HttpRequest req = mock.getArgument(0, HttpRequest.class);
             final AsyncResponse res = mock.getArgument(1, AsyncResponse.class);
             req.setAttribute(DefaultMockMvc.RETURN_VALUE_KEY, "foo");
             res.sendResult(200, "foo".getBytes());
@@ -64,9 +64,9 @@ class DefaultMockMvcTest {
         final RestlightHandler handler = mock(RestlightHandler.class);
         final DefaultMockMvc mockMvc = new DefaultMockMvc(handler);
 
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest().build();
+        final MockHttpRequest request = MockHttpRequest.aMockRequest().build();
         when(handler.process(same(request), any())).then(mock -> {
-            final AsyncRequest req = mock.getArgument(0, AsyncRequest.class);
+            final HttpRequest req = mock.getArgument(0, HttpRequest.class);
             req.setAttribute(DefaultMockMvc.RETURN_VALUE_KEY, Futures.completedFuture("foo"));
             return Futures.completedFuture();
         });

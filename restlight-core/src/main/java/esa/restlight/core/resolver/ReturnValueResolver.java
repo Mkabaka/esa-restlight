@@ -15,7 +15,7 @@
  */
 package esa.restlight.core.resolver;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 
 public interface ReturnValueResolver {
@@ -32,6 +32,6 @@ public interface ReturnValueResolver {
      * @return resoled value
      * @throws Exception exception
      */
-    byte[] resolve(Object returnValue, AsyncRequest request, AsyncResponse response) throws Exception;
+    byte[] resolve(Object returnValue, HttpRequest request, AsyncResponse response) throws Exception;
 
 }

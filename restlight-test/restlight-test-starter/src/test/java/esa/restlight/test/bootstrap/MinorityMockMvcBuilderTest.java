@@ -15,7 +15,7 @@
  */
 package esa.restlight.test.bootstrap;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.httpserver.core.HttpInputStream;
 import esa.httpserver.core.HttpOutputStream;
@@ -28,7 +28,7 @@ import esa.restlight.core.resolver.ReturnValueResolverAdapter;
 import esa.restlight.core.resolver.ReturnValueResolverAdviceAdapter;
 import esa.restlight.core.serialize.HttpBodySerializer;
 import esa.restlight.test.context.MockMvc;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
@@ -51,7 +51,7 @@ class MinorityMockMvcBuilderTest {
         builder.interceptors(Collections.singletonList(new InterceptorImpl()));
 
         final MockMvc mvc = builder.build();
-        mvc.perform(MockAsyncRequest.aMockRequest().withUri("/abc").build()).addExpect(result ->
+        mvc.perform(MockHttpRequest.aMockRequest().withUri("/abc").build()).addExpect(result ->
                 assertEquals(404, result.response().status()));
     }
 
@@ -67,7 +67,7 @@ class MinorityMockMvcBuilderTest {
 
     private static class HttpBodySerializerImpl implements HttpBodySerializer {
         @Override
-        public Object customResponse(AsyncRequest request, AsyncResponse response, Object returnValue) {
+        public Object customResponse(HttpRequest request, AsyncResponse response, Object returnValue) {
             return null;
         }
 
@@ -98,7 +98,7 @@ class MinorityMockMvcBuilderTest {
         }
 
         @Override
-        public Object resolve(AsyncRequest request, AsyncResponse response) throws Exception {
+        public Object resolve(HttpRequest request, AsyncResponse response) throws Exception {
             return null;
         }
 
@@ -124,7 +124,7 @@ class MinorityMockMvcBuilderTest {
         }
 
         @Override
-        public byte[] resolve(Object returnValue, AsyncRequest request, AsyncResponse response) throws Exception {
+        public byte[] resolve(Object returnValue, HttpRequest request, AsyncResponse response) throws Exception {
             return new byte[0];
         }
 

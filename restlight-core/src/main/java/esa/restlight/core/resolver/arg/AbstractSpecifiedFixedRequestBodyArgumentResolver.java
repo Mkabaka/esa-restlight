@@ -16,7 +16,7 @@
 package esa.restlight.core.resolver.arg;
 
 import esa.commons.reflect.AnnotationUtils;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.annotation.RequestSerializer;
 import esa.restlight.core.annotation.Serializer;
 import esa.restlight.core.method.Param;
@@ -124,7 +124,7 @@ public abstract class AbstractSpecifiedFixedRequestBodyArgumentResolver implemen
         }
 
         @Override
-        protected Object resolveName(String name, AsyncRequest request) throws Exception {
+        protected Object resolveName(String name, HttpRequest request) throws Exception {
             Object resolved;
             if (serializer.preferStream()) {
                 resolved = serializer.deSerialize(request.inputStream(), param.genericType());

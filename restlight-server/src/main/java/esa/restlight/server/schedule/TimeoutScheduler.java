@@ -16,7 +16,7 @@
 package esa.restlight.server.schedule;
 
 import esa.commons.Checks;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.restlight.core.util.MediaType;
 import esa.restlight.server.config.TimeoutOptions;
@@ -106,7 +106,7 @@ class TimeoutScheduler implements Scheduler {
         }
 
         @Override
-        public AsyncRequest request() {
+        public HttpRequest request() {
             return delegate.request();
         }
 

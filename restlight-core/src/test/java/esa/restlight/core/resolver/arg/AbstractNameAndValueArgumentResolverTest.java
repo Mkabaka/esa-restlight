@@ -1,9 +1,9 @@
 package esa.restlight.core.resolver.arg;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.Param;
 import esa.restlight.server.bootstrap.WebServerException;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import org.junit.jupiter.api.Test;
 
@@ -33,11 +33,11 @@ class AbstractNameAndValueArgumentResolverTest {
             }
 
             @Override
-            protected Object resolveName(String name, AsyncRequest request) throws Exception {
+            protected Object resolveName(String name, HttpRequest request) throws Exception {
                 return value;
             }
         };
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest().build();
+        final MockHttpRequest request = MockHttpRequest.aMockRequest().build();
         final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
         assertSame(value, resolver.resolve(request, response));
     }
@@ -55,11 +55,11 @@ class AbstractNameAndValueArgumentResolverTest {
             }
 
             @Override
-            protected Object resolveName(String name, AsyncRequest request) throws Exception {
+            protected Object resolveName(String name, HttpRequest request) throws Exception {
                 return null;
             }
         };
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest().build();
+        final MockHttpRequest request = MockHttpRequest.aMockRequest().build();
         final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
         assertThrows(WebServerException.class, () -> resolver.resolve(request, response));
     }
@@ -76,11 +76,11 @@ class AbstractNameAndValueArgumentResolverTest {
             }
 
             @Override
-            protected Object resolveName(String name, AsyncRequest request) throws Exception {
+            protected Object resolveName(String name, HttpRequest request) throws Exception {
                 return null;
             }
         };
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest().build();
+        final MockHttpRequest request = MockHttpRequest.aMockRequest().build();
         final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
         assertSame(def, resolver.resolve(request, response));
     }
@@ -99,11 +99,11 @@ class AbstractNameAndValueArgumentResolverTest {
             }
 
             @Override
-            protected Object resolveName(String name, AsyncRequest request) throws Exception {
+            protected Object resolveName(String name, HttpRequest request) throws Exception {
                 return "";
             }
         };
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest().build();
+        final MockHttpRequest request = MockHttpRequest.aMockRequest().build();
         final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
         assertEquals("", resolver.resolve(request, response));
     }
@@ -124,12 +124,12 @@ class AbstractNameAndValueArgumentResolverTest {
             }
 
             @Override
-            protected Object resolveName(String name, AsyncRequest request) throws Exception {
+            protected Object resolveName(String name, HttpRequest request) throws Exception {
                 nameRef.set(name);
                 return new Object();
             }
         };
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest().build();
+        final MockHttpRequest request = MockHttpRequest.aMockRequest().build();
         final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
         assertNotNull(resolver.resolve(request, response));
         assertEquals("foo", nameRef.get());
@@ -148,11 +148,11 @@ class AbstractNameAndValueArgumentResolverTest {
             }
 
             @Override
-            protected Object resolveName(String name, AsyncRequest request) throws Exception {
+            protected Object resolveName(String name, HttpRequest request) throws Exception {
                 return null;
             }
         };
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest().build();
+        final MockHttpRequest request = MockHttpRequest.aMockRequest().build();
         final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
         assertEquals(0, resolver.resolve(request, response));
     }
@@ -171,11 +171,11 @@ class AbstractNameAndValueArgumentResolverTest {
             }
 
             @Override
-            protected Object resolveName(String name, AsyncRequest request) throws Exception {
+            protected Object resolveName(String name, HttpRequest request) throws Exception {
                 return null;
             }
         };
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest().build();
+        final MockHttpRequest request = MockHttpRequest.aMockRequest().build();
         final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
         assertEquals(1, resolver.resolve(request, response));
     }
@@ -194,7 +194,7 @@ class AbstractNameAndValueArgumentResolverTest {
             }
 
             @Override
-            protected Object resolveName(String name, AsyncRequest request) throws Exception {
+            protected Object resolveName(String name, HttpRequest request) throws Exception {
                 return null;
             }
         });

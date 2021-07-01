@@ -15,7 +15,7 @@
  */
 package esa.restlight.server.route.predicate;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.server.util.MappingUtils;
 import io.netty.handler.codec.http.HttpHeaderNames;
 
@@ -47,7 +47,7 @@ public class HeadersPredicate implements RequestPredicate {
     }
 
     @Override
-    public boolean test(AsyncRequest request) {
+    public boolean test(HttpRequest request) {
         for (Expression expression : expressions) {
             if (!expression.match(request)) {
                 return false;
@@ -94,12 +94,12 @@ public class HeadersPredicate implements RequestPredicate {
         }
 
         @Override
-        protected boolean matchName(AsyncRequest request) {
+        protected boolean matchName(HttpRequest request) {
             return request.getHeader(name) != null;
         }
 
         @Override
-        protected boolean matchValue(AsyncRequest request) {
+        protected boolean matchValue(HttpRequest request) {
             return Objects.equals(this.value, request.getHeader(this.name));
         }
 

@@ -15,7 +15,7 @@
  */
 package esa.restlight.springmvc.resolver.result;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.restlight.core.method.HandlerMethod;
 import esa.restlight.core.method.InvocableMethod;
@@ -24,7 +24,7 @@ import esa.restlight.core.serialize.FastJsonHttpBodySerializer;
 import esa.restlight.springmvc.ResolverUtils;
 import esa.restlight.springmvc.annotation.shaded.ResponseStatus0;
 import esa.restlight.springmvc.resolver.Pojo;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -71,7 +71,7 @@ class ResponseStatusReturnValueResolverTest {
 
     @Test
     void testResolve() throws Exception {
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .build();
         final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
@@ -84,7 +84,7 @@ class ResponseStatusReturnValueResolverTest {
     @Test
     void testResolveFromClass() throws Exception {
         Map<String, HandlerMethod> handlerMethods = ResolverUtils.extractHandlerMethods(new Subject1());
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .build();
         final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
@@ -95,14 +95,14 @@ class ResponseStatusReturnValueResolverTest {
     }
 
     private static byte[] createResolverAndResolve(Object returnValue,
-                                                   AsyncRequest request,
+                                                   HttpRequest request,
                                                    AsyncResponse response,
                                                    String method) throws Exception {
         return createResolverAndResolve(returnValue, request, response, method, handlerMethods);
     }
 
     private static byte[] createResolverAndResolve(Object returnValue,
-                                                   AsyncRequest request,
+                                                   HttpRequest request,
                                                    AsyncResponse response,
                                                    String method,
                                                    Map<String, HandlerMethod> handlerMethods) throws Exception {

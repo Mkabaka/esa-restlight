@@ -17,7 +17,7 @@ package esa.restlight.server.schedule;
 
 import esa.httpserver.core.AsyncResponse;
 import esa.restlight.server.config.TimeoutOptionsConfigure;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import org.junit.jupiter.api.Test;
 
@@ -61,7 +61,7 @@ class TimeoutSchedulerTest {
             flag.set(true);
             response0.sendResult(1000);
         };
-        final RequestTask task0 = RequestTaskImpl.newRequestTask(MockAsyncRequest.aMockRequest().build(),
+        final RequestTask task0 = RequestTaskImpl.newRequestTask(MockHttpRequest.aMockRequest().build(),
                 response0, new CompletableFuture<>(), runnable0);
         scheduler0.schedule(task0);
         assertTrue(flag.get());
@@ -74,7 +74,7 @@ class TimeoutSchedulerTest {
             response1.sendResult(1000);
             flag.set(true);
         };
-        final RequestTask task1 = RequestTaskImpl.newRequestTask(MockAsyncRequest.aMockRequest().build(),
+        final RequestTask task1 = RequestTaskImpl.newRequestTask(MockHttpRequest.aMockRequest().build(),
                 MockAsyncResponse.aMockResponse().build(), new CompletableFuture<>(), runnable1);
         final TimeoutScheduler scheduler1 = new TimeoutScheduler(new Scheduler() {
 

@@ -16,7 +16,7 @@
 package esa.restlight.core.resolver.result;
 
 import esa.commons.Primitives;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.restlight.core.method.InvocableMethod;
 import esa.restlight.core.resolver.ReturnValueResolver;
@@ -102,7 +102,7 @@ public class SimpleReturnValueResolver implements ReturnValueResolverFactory {
         @Override
         protected byte[] resolve0(Object returnValue,
                                   List<MediaType> mediaTypes,
-                                  AsyncRequest request,
+                                  HttpRequest request,
                                   AsyncResponse response) {
             return Serializers.serializeCharSequence(((CharSequence) returnValue),
                     response,
@@ -122,7 +122,7 @@ public class SimpleReturnValueResolver implements ReturnValueResolverFactory {
         @Override
         protected byte[] resolve0(Object returnValue,
                                   List<MediaType> mediaTypes,
-                                  AsyncRequest request,
+                                  HttpRequest request,
                                   AsyncResponse response) {
             return Serializers.serializeByteArray((byte[]) returnValue,
                     response,
@@ -142,7 +142,7 @@ public class SimpleReturnValueResolver implements ReturnValueResolverFactory {
         @Override
         protected byte[] resolve0(Object returnValue,
                                   List<MediaType> mediaTypes,
-                                  AsyncRequest request,
+                                  HttpRequest request,
                                   AsyncResponse response) {
             return Serializers.serializeByteBuf((ByteBuf) returnValue,
                     response,
@@ -162,7 +162,7 @@ public class SimpleReturnValueResolver implements ReturnValueResolverFactory {
         @Override
         protected byte[] resolve0(Object returnValue,
                                   List<MediaType> mediaTypes,
-                                  AsyncRequest request,
+                                  HttpRequest request,
                                   AsyncResponse response) {
             return Serializers.serializePrimitives(returnValue,
                     response,

@@ -18,7 +18,7 @@ package esa.restlight.core.resolver.result;
 import esa.commons.StringUtils;
 import esa.commons.logging.Logger;
 import esa.commons.logging.LoggerFactory;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.restlight.core.method.InvocableMethod;
 import esa.restlight.core.resolver.ArgumentResolverFactory;
@@ -84,7 +84,7 @@ public abstract class AbstractResponseBodyReturnValueResolver implements ReturnV
         @Override
         protected byte[] resolve0(Object returnValue,
                                   List<MediaType> mediaTypes,
-                                  AsyncRequest request,
+                                  HttpRequest request,
                                   AsyncResponse response) throws Exception {
             if (serializers.isEmpty()) {
                 throw WebServerException.badRequest("Could not find any compatible serializer to handle " +
@@ -127,7 +127,7 @@ public abstract class AbstractResponseBodyReturnValueResolver implements ReturnV
         }
 
         @Override
-        protected List<MediaType> getMediaTypes(AsyncRequest request) {
+        protected List<MediaType> getMediaTypes(HttpRequest request) {
             // judge by parameter
             final String format = request.getParameter(parameterName);
             if (Constants.NEGOTIATION_JSON_FORMAT.equals(format)) {

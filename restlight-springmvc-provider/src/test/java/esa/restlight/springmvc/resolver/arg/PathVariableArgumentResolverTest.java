@@ -15,7 +15,7 @@
  */
 package esa.restlight.springmvc.resolver.arg;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.HandlerMethod;
 import esa.restlight.core.method.MethodParam;
 import esa.restlight.core.resolver.ArgumentResolver;
@@ -24,7 +24,7 @@ import esa.restlight.server.route.predicate.PatternsPredicate;
 import esa.restlight.springmvc.ResolverUtils;
 import esa.restlight.springmvc.annotation.shaded.RequestMapping0;
 import esa.restlight.springmvc.util.RequestMappingUtils;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -55,7 +55,7 @@ class PathVariableArgumentResolverTest {
     @Test
     void testNormal() throws Exception {
         final String realPath = "/foo/bar";
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri(realPath)
                 .build();
@@ -67,7 +67,7 @@ class PathVariableArgumentResolverTest {
     @Test
     void testCleanMatrixVariables() throws Exception {
         final String realPath = "/foo/bar;a=b;c=d";
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri(realPath)
                 .build();
@@ -78,7 +78,7 @@ class PathVariableArgumentResolverTest {
     @Test
     void testNamedPathVariable() throws Exception {
         final String realPath = "/foo1/qux";
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri(realPath)
                 .build();
@@ -91,7 +91,7 @@ class PathVariableArgumentResolverTest {
     @Test
     void testRequiredPathVariable() {
         final String realPath = "/foo1";
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri(realPath)
                 .build();
@@ -101,7 +101,7 @@ class PathVariableArgumentResolverTest {
     @Test
     void testNoneRequiredPathVariable() throws Exception {
         final String realPath = "/foo2";
-        final AsyncRequest request = MockAsyncRequest
+        final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .withUri(realPath)
                 .build();
@@ -110,7 +110,7 @@ class PathVariableArgumentResolverTest {
         assertEquals(resolved, "");
     }
 
-    private static Object createResolverAndResolve(AsyncRequest request, String method) throws Exception {
+    private static Object createResolverAndResolve(HttpRequest request, String method) throws Exception {
         final MethodParam parameter = handlerMethods.get(method).parameters()[0];
         assertTrue(resolverFactory.supports(parameter));
         // match first

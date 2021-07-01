@@ -17,7 +17,7 @@ package esa.restlight.ext.filter.cpuload;
 
 
 import esa.commons.concurrent.ThreadFactories;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.restlight.server.handler.Filter;
 import esa.restlight.server.handler.FilterChain;
@@ -124,7 +124,7 @@ public class CpuLoadProtectionFilter implements Filter {
     }
 
     @Override
-    public CompletableFuture<Void> doFilter(AsyncRequest request, AsyncResponse response, FilterChain chain) {
+    public CompletableFuture<Void> doFilter(HttpRequest request, AsyncResponse response, FilterChain chain) {
         return chain.doFilter(request, response);
     }
 

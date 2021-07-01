@@ -15,7 +15,7 @@
  */
 package esa.restlight.test.result;
 
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +25,7 @@ class DefaultMvcResultTest {
 
     @Test
     void testProps() {
-        final MockAsyncRequest request = MockAsyncRequest.aMockRequest().build();
+        final MockHttpRequest request = MockHttpRequest.aMockRequest().build();
         final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
         final Object ret = new Object();
         final DefaultMvcResult result = new DefaultMvcResult(request, response, ret);

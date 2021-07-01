@@ -15,10 +15,10 @@
  */
 package esa.restlight.server.route;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 
 /**
- * A RouteExecution is used to handle current {@link AsyncRequest}'s lifecycle after routing this {@link AsyncRequest}.
+ * A RouteExecution is used to handle current {@link HttpRequest}'s lifecycle after routing this {@link HttpRequest}.
  */
 public interface RouteExecution extends Execution {
 

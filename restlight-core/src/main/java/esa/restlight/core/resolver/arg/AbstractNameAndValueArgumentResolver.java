@@ -16,7 +16,7 @@
 package esa.restlight.core.resolver.arg;
 
 import esa.commons.ObjectUtils;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.restlight.core.method.Param;
 import esa.restlight.core.resolver.ArgumentResolver;
@@ -41,7 +41,7 @@ public abstract class AbstractNameAndValueArgumentResolver implements ArgumentRe
     }
 
     @Override
-    public Object resolve(AsyncRequest request, AsyncResponse response) throws Exception {
+    public Object resolve(HttpRequest request, AsyncResponse response) throws Exception {
         Object arg = this.resolveName(nav.name, request);
         if (arg == null) {
             if (nav.hasDefaultValue) {
@@ -73,7 +73,7 @@ public abstract class AbstractNameAndValueArgumentResolver implements ArgumentRe
     }
 
     /**
-     * Try to resolve the value by the given name from the {@link AsyncRequest}
+     * Try to resolve the value by the given name from the {@link HttpRequest}
      *
      * @param name    name
      * @param request request
@@ -81,7 +81,7 @@ public abstract class AbstractNameAndValueArgumentResolver implements ArgumentRe
      * @return resolved value
      * @throws Exception occurred
      */
-    protected abstract Object resolveName(String name, AsyncRequest request) throws Exception;
+    protected abstract Object resolveName(String name, HttpRequest request) throws Exception;
 
     private NameAndValue updateNamedValueInfo(Param param, NameAndValue nav) {
         String name = nav.name;

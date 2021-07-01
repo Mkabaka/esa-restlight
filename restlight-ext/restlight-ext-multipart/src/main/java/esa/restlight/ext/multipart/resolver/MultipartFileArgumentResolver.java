@@ -16,7 +16,7 @@
 package esa.restlight.ext.multipart.resolver;
 
 import esa.commons.StringUtils;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.Param;
 import esa.restlight.core.resolver.ArgumentResolver;
 import esa.restlight.core.resolver.ArgumentResolverFactory;
@@ -64,7 +64,7 @@ public class MultipartFileArgumentResolver implements ArgumentResolverFactory {
         }
 
         @Override
-        Object getParamValue(String name, AsyncRequest request) {
+        Object getParamValue(String name, HttpRequest request) {
             final List<MultipartFile> files = request.getUncheckedAttribute(MULTIPART_FILES);
             if (files == null) {
                 return null;

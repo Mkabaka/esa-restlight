@@ -19,7 +19,7 @@ import esa.httpserver.core.AsyncResponse;
 import esa.httpserver.utils.Constants;
 import esa.restlight.server.config.TimeoutOptions;
 import esa.restlight.server.config.TimeoutOptionsConfigure;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import org.junit.jupiter.api.Test;
 
@@ -45,7 +45,7 @@ class TTFBTimeoutSchedulerTest {
 
         scheduler = new TTFBTimeoutScheduler(Schedulers.io(),
                 TimeoutOptionsConfigure.defaultOpts());
-        final RequestTask task = RequestTaskImpl.newRequestTask(MockAsyncRequest.aMockRequest()
+        final RequestTask task = RequestTaskImpl.newRequestTask(MockHttpRequest.aMockRequest()
                         .withHeader(Constants.TTFB.toString(),
                                 String.valueOf(System.currentTimeMillis() + 1000L)).build(),
                 MockAsyncResponse.aMockResponse().build(), new CompletableFuture<>(), runnable);
@@ -68,7 +68,7 @@ class TTFBTimeoutSchedulerTest {
             flag.set(true);
             response0.sendResult(1000);
         };
-        final RequestTask task0 = RequestTaskImpl.newRequestTask(MockAsyncRequest.aMockRequest()
+        final RequestTask task0 = RequestTaskImpl.newRequestTask(MockHttpRequest.aMockRequest()
                         .withHeader(Constants.TTFB.toString(),
                                 String.valueOf(System.currentTimeMillis() + 100L)).build(),
                 response0, new CompletableFuture<>(), runnable0);
@@ -83,7 +83,7 @@ class TTFBTimeoutSchedulerTest {
             response1.sendResult(1000);
             flag.set(true);
         };
-        final RequestTask task1 = RequestTaskImpl.newRequestTask(MockAsyncRequest.aMockRequest()
+        final RequestTask task1 = RequestTaskImpl.newRequestTask(MockHttpRequest.aMockRequest()
                         .withHeader(Constants.TTFB.toString(),
                                 String.valueOf(System.currentTimeMillis() - 100L)).build(),
                 MockAsyncResponse.aMockResponse().build(), new CompletableFuture<>(), runnable1);

@@ -15,7 +15,7 @@
  */
 package esa.restlight.core.handler;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.restlight.core.method.InvocableMethod;
 import io.netty.handler.codec.http.HttpResponseStatus;
@@ -23,7 +23,7 @@ import io.netty.handler.codec.http.HttpResponseStatus;
 /**
  * A {@link Handler} defines abstract of an bean {@link java.lang.reflect.Method} which probably will be expressed as
  * the return value of {@link #handler()}, and the {@link Handler} could be invoke by calling {@link
- * #invoke(AsyncRequest, AsyncResponse, Object[])} method.
+ * #invoke(HttpRequest, AsyncResponse, Object[])} method.
  */
 public interface Handler extends HandlerInvoker {
 

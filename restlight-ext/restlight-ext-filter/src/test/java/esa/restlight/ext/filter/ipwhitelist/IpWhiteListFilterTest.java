@@ -15,12 +15,12 @@
  */
 package esa.restlight.ext.filter.ipwhitelist;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.restlight.core.util.MediaType;
 import esa.restlight.server.handler.FilterChain;
 import esa.restlight.server.util.Futures;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import org.junit.jupiter.api.Test;
@@ -48,25 +48,25 @@ class IpWhiteListFilterTest {
                 .configured();
         final IpWhiteListFilter cached = new IpWhiteListFilter(options1);
 
-        assertAllowed(MockAsyncRequest.aMockRequest().withRemoteAddr("127.0.0.1").build(), nonCached);
-        assertAllowed(MockAsyncRequest.aMockRequest().withRemoteAddr("127.0.0.1").build(), cached);
-        assertNotAllowed(MockAsyncRequest.aMockRequest().withRemoteAddr("127.0.0.2").build(), nonCached);
-        assertNotAllowed(MockAsyncRequest.aMockRequest().withRemoteAddr("127.0.0.2").build(), cached);
+        assertAllowed(MockHttpRequest.aMockRequest().withRemoteAddr("127.0.0.1").build(), nonCached);
+        assertAllowed(MockHttpRequest.aMockRequest().withRemoteAddr("127.0.0.1").build(), cached);
+        assertNotAllowed(MockHttpRequest.aMockRequest().withRemoteAddr("127.0.0.2").build(), nonCached);
+        assertNotAllowed(MockHttpRequest.aMockRequest().withRemoteAddr("127.0.0.2").build(), cached);
         // test again for hitting cache
-        assertNotAllowed(MockAsyncRequest.aMockRequest().withRemoteAddr("127.0.0.2").build(), cached);
+        assertNotAllowed(MockHttpRequest.aMockRequest().withRemoteAddr("127.0.0.2").build(), cached);
 
-        assertAllowed(MockAsyncRequest.aMockRequest().withRemoteAddr("10.11.11.123").build(), nonCached);
+        assertAllowed(MockHttpRequest.aMockRequest().withRemoteAddr("10.11.11.123").build(), nonCached);
         // test again for hitting cache
-        assertAllowed(MockAsyncRequest.aMockRequest().withRemoteAddr("10.11.11.123").build(), cached);
-        assertAllowed(MockAsyncRequest.aMockRequest().withRemoteAddr("10.11.11.123").build(), cached);
+        assertAllowed(MockHttpRequest.aMockRequest().withRemoteAddr("10.11.11.123").build(), cached);
+        assertAllowed(MockHttpRequest.aMockRequest().withRemoteAddr("10.11.11.123").build(), cached);
 
-        assertNotAllowed(MockAsyncRequest.aMockRequest().withRemoteAddr("127.0.0.2").build(), nonCached);
-        assertNotAllowed(MockAsyncRequest.aMockRequest().withRemoteAddr("127.0.0.2").build(), cached);
+        assertNotAllowed(MockHttpRequest.aMockRequest().withRemoteAddr("127.0.0.2").build(), nonCached);
+        assertNotAllowed(MockHttpRequest.aMockRequest().withRemoteAddr("127.0.0.2").build(), cached);
         // test again for hitting cache
-        assertNotAllowed(MockAsyncRequest.aMockRequest().withRemoteAddr("127.0.0.2").build(), cached);
+        assertNotAllowed(MockHttpRequest.aMockRequest().withRemoteAddr("127.0.0.2").build(), cached);
     }
 
-    private static void assertAllowed(AsyncRequest request, IpWhiteListFilter filter) {
+    private static void assertAllowed(HttpRequest request, IpWhiteListFilter filter) {
         final FilterChain chain = ((req, res) -> {
             res.sendResult(200);
             return Futures.completedFuture();
@@ -76,7 +76,7 @@ class IpWhiteListFilterTest {
         assertEquals(200, response.status());
     }
 
-    private static void assertNotAllowed(AsyncRequest request, IpWhiteListFilter filter) {
+    private static void assertNotAllowed(HttpRequest request, IpWhiteListFilter filter) {
         final FilterChain chain = ((req, res) -> {
             res.sendResult(200);
             return Futures.completedFuture();

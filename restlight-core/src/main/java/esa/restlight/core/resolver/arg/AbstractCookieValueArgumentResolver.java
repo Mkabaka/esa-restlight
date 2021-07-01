@@ -16,7 +16,7 @@
 package esa.restlight.core.resolver.arg;
 
 import esa.commons.ClassUtils;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.Param;
 import esa.restlight.core.resolver.ArgumentResolver;
 import esa.restlight.core.resolver.ArgumentResolverFactory;
@@ -76,7 +76,7 @@ public abstract class AbstractCookieValueArgumentResolver implements ArgumentRes
         }
 
         @Override
-        protected Object resolveName(String name, AsyncRequest request) {
+        protected Object resolveName(String name, HttpRequest request) {
             Cookie cookie = request.getCookie(name);
             return cookie == null ? null : converter.apply(cookie.value());
         }
@@ -92,7 +92,7 @@ public abstract class AbstractCookieValueArgumentResolver implements ArgumentRes
         }
 
         @Override
-        protected Cookie resolveName(String name, AsyncRequest request) {
+        protected Cookie resolveName(String name, HttpRequest request) {
             return request.getCookie(name);
         }
     }
@@ -107,7 +107,7 @@ public abstract class AbstractCookieValueArgumentResolver implements ArgumentRes
         }
 
         @Override
-        protected Set<Cookie> resolveName(String name, AsyncRequest request) {
+        protected Set<Cookie> resolveName(String name, HttpRequest request) {
             return request.cookies();
         }
     }

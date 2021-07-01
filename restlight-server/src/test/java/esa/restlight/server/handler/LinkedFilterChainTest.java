@@ -15,10 +15,10 @@
  */
 package esa.restlight.server.handler;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.restlight.server.util.Futures;
-import esa.restlight.test.mock.MockAsyncRequest;
+import esa.restlight.test.mock.MockHttpRequest;
 import esa.restlight.test.mock.MockAsyncResponse;
 import org.junit.jupiter.api.Test;
 
@@ -34,7 +34,7 @@ public class LinkedFilterChainTest {
     @Test
     void testImmutable() {
         final AtomicInteger ret = new AtomicInteger(0);
-        final AsyncRequest req = MockAsyncRequest.aMockRequest().build();
+        final HttpRequest req = MockHttpRequest.aMockRequest().build();
         final AsyncResponse res = MockAsyncResponse.aMockResponse().build();
         final Filter filter1 = (request, response, chain) -> {
             if (req == request && response == res) {
@@ -42,7 +42,7 @@ public class LinkedFilterChainTest {
             }
             return chain.doFilter(request, response);
         };
-        final AsyncRequest req1 = MockAsyncRequest.aMockRequest().build();
+        final HttpRequest req1 = MockHttpRequest.aMockRequest().build();
         final AsyncResponse res1 = MockAsyncResponse.aMockResponse().build();
         final Filter filter2 = (request, response, chain) -> CompletableFuture.runAsync(() -> {
             if (req == request && response == res) {
@@ -68,7 +68,7 @@ public class LinkedFilterChainTest {
 
     @Test
     void testUncompleted() {
-        final AsyncRequest req = MockAsyncRequest.aMockRequest().build();
+        final HttpRequest req = MockHttpRequest.aMockRequest().build();
         final AsyncResponse res = MockAsyncResponse.aMockResponse().build();
         final Filter filter1 = (request, response, chain) -> new CompletableFuture<>();
 
@@ -86,7 +86,7 @@ public class LinkedFilterChainTest {
     @Test
     void testBreakChain() {
         final AtomicInteger ret = new AtomicInteger(0);
-        final AsyncRequest req = MockAsyncRequest.aMockRequest().build();
+        final HttpRequest req = MockHttpRequest.aMockRequest().build();
         final AsyncResponse res = MockAsyncResponse.aMockResponse().build();
         final Filter filter1 = (request, response, chain) -> CompletableFuture.runAsync(ret::incrementAndGet);
         final Filter filter2 = (request, response, chain) -> {
@@ -109,7 +109,7 @@ public class LinkedFilterChainTest {
     @Test
     void testBreakChainWithError() {
         final AtomicInteger ret = new AtomicInteger(0);
-        final AsyncRequest req = MockAsyncRequest.aMockRequest().build();
+        final HttpRequest req = MockHttpRequest.aMockRequest().build();
         final AsyncResponse res = MockAsyncResponse.aMockResponse().build();
         final Filter filter1 = (request, response, chain) ->
                 Futures.completedExceptionally(new IllegalArgumentException());
@@ -135,9 +135,9 @@ public class LinkedFilterChainTest {
 
     @Test
     void testChangeArgs() {
-        final AsyncRequest req = MockAsyncRequest.aMockRequest().build();
+        final HttpRequest req = MockHttpRequest.aMockRequest().build();
         final AsyncResponse res = MockAsyncResponse.aMockResponse().build();
-        final AsyncRequest req1 = MockAsyncRequest.aMockRequest().build();
+        final HttpRequest req1 = MockHttpRequest.aMockRequest().build();
         final AsyncResponse res1 = MockAsyncResponse.aMockResponse().build();
         final Filter filter1 = (request, response, chain) -> chain.doFilter(req1, res1);
         final LinkedFilterChain chain = LinkedFilterChain.immutable(new Filter[]{filter1},

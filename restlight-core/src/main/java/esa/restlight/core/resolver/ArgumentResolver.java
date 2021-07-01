@@ -15,7 +15,7 @@
  */
 package esa.restlight.core.resolver;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 
 /**
@@ -31,6 +31,6 @@ public interface ArgumentResolver {
      * @return value resolved
      * @throws Exception ex
      */
-    Object resolve(AsyncRequest request, AsyncResponse response) throws Exception;
+    Object resolve(HttpRequest request, AsyncResponse response) throws Exception;
 }
 

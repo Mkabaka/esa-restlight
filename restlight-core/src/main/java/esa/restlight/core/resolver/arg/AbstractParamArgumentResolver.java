@@ -17,7 +17,7 @@ package esa.restlight.core.resolver.arg;
 
 import esa.commons.ClassUtils;
 import esa.commons.StringUtils;
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.Param;
 import esa.restlight.core.resolver.ArgumentResolver;
 import esa.restlight.core.resolver.ArgumentResolverFactory;
@@ -90,7 +90,7 @@ public abstract class AbstractParamArgumentResolver implements ArgumentResolverF
         }
 
         @Override
-        protected Object resolveName(String name, AsyncRequest request) {
+        protected Object resolveName(String name, HttpRequest request) {
             final List<String> values = request.getParameters(name);
             if (values == null || values.isEmpty()) {
                 return null;
@@ -112,7 +112,7 @@ public abstract class AbstractParamArgumentResolver implements ArgumentResolverF
         }
 
         @Override
-        protected Map<String, List<String>> resolveName(String name, AsyncRequest request) {
+        protected Map<String, List<String>> resolveName(String name, HttpRequest request) {
             return request.parameterMap();
         }
     }
@@ -124,7 +124,7 @@ public abstract class AbstractParamArgumentResolver implements ArgumentResolverF
         }
 
         @Override
-        protected Map<String, String> resolveName(String name, AsyncRequest request) {
+        protected Map<String, String> resolveName(String name, HttpRequest request) {
             Map<String, List<String>> p = request.parameterMap();
             if (p.isEmpty()) {
                 return Collections.emptyMap();

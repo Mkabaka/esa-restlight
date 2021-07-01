@@ -15,7 +15,7 @@
  */
 package esa.restlight.core.interceptor;
 
-import esa.httpserver.core.AsyncRequest;
+import esa.httpserver.core.HttpRequest;
 import esa.httpserver.core.AsyncResponse;
 import esa.restlight.core.util.Ordered;
 import esa.restlight.server.util.Futures;
@@ -31,8 +31,8 @@ import java.util.concurrent.CompletableFuture;
 public interface InternalInterceptor extends Ordered {
 
     /**
-     * Asynchronous implementation of {@link #preHandle(AsyncRequest, AsyncResponse, Object)}, which will be called in
-     * the lifecycle of the request(if matched) actually instead of {@link #preHandle(AsyncRequest, AsyncResponse,
+     * Asynchronous implementation of {@link #preHandle(HttpRequest, AsyncResponse, Object)}, which will be called in
+     * the lifecycle of the request(if matched) actually instead of {@link #preHandle(HttpRequest, AsyncResponse,
      * Object)}.
      *
      * @param request  request
@@ -41,7 +41,7 @@ public interface InternalInterceptor extends Ordered {
      *
      * @return future result
      */
-    default CompletableFuture<Boolean> preHandle0(AsyncRequest request,
+    default CompletableFuture<Boolean> preHandle0(HttpRequest request,
                                                   AsyncResponse response,
                                                   Object handler) {
         CompletableFuture<Boolean> future;
@@ -64,15 +64,15 @@ public interface InternalInterceptor extends Ordered {
      * OldDispatcherHandler assumes that this interceptor has already dealt with the response itself.
      * @throws Exception in case of errors
      */
-    default boolean preHandle(AsyncRequest request,
+    default boolean preHandle(HttpRequest request,
                               AsyncResponse response,
                               Object handler) throws Exception {
         return true;
     }
 
     /**
-     * Asynchronous implementation of {@link #postHandle(AsyncRequest, AsyncResponse, Object)}, which will be called in
-     * the lifecycle of the request(if matched). actually instead of {@link #preHandle(AsyncRequest, AsyncResponse,
+     * Asynchronous implementation of {@link #postHandle(HttpRequest, AsyncResponse, Object)}, which will be called in
+     * the lifecycle of the request(if matched). actually instead of {@link #preHandle(HttpRequest, AsyncResponse,
      * Object)}
      *
      * @param request  request
@@ -81,7 +81,7 @@ public interface InternalInterceptor extends Ordered {
      *
      * @return future result
      */
-    default CompletableFuture<Void> postHandle0(AsyncRequest request,
+    default CompletableFuture<Void> postHandle0(HttpRequest request,
                                                 AsyncResponse response,
                                                 Object handler) {
         CompletableFuture<Void> future;
@@ -103,15 +103,15 @@ public interface InternalInterceptor extends Ordered {
      *
      * @throws Exception in case of errors
      */
-    default void postHandle(AsyncRequest request,
+    default void postHandle(HttpRequest request,
                             AsyncResponse response,
                             Object handler) throws Exception {
 
     }
 
     /**
-     * Asynchronous implementation of {@link #afterCompletion(AsyncRequest, AsyncResponse, Object, Exception)}, which
-     * will be called in the lifecycle of the request(if matched) actually instead of {@link #preHandle(AsyncRequest,
+     * Asynchronous implementation of {@link #afterCompletion(HttpRequest, AsyncResponse, Object, Exception)}, which
+     * will be called in the lifecycle of the request(if matched) actually instead of {@link #preHandle(HttpRequest,
      * AsyncResponse, Object)}
      *
      * @param request  request
@@ -121,7 +121,7 @@ public interface InternalInterceptor extends Ordered {
      *
      * @return future result
      */
-    default CompletableFuture<Void> afterCompletion0(AsyncRequest request,
+    default CompletableFuture<Void> afterCompletion0(HttpRequest request,
                                                      AsyncResponse response,
                                                      Object handler,
                                                      Exception ex) {
@@ -145,7 +145,7 @@ public interface InternalInterceptor extends Ordered {
      * @param handler  handler
      * @param ex       exception occurred
      */
-    default void afterCompletion(AsyncRequest request,
+    default void afterCompletion(HttpRequest request,
                                  AsyncResponse response,
                                  Object handler,
                                  Exception ex) {
