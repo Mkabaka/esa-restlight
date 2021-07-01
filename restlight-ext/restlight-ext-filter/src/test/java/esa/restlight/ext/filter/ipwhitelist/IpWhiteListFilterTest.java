@@ -16,12 +16,12 @@
 package esa.restlight.ext.filter.ipwhitelist;
 
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.core.util.MediaType;
 import esa.restlight.server.handler.FilterChain;
 import esa.restlight.server.util.Futures;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import org.junit.jupiter.api.Test;
 
@@ -71,7 +71,7 @@ class IpWhiteListFilterTest {
             res.sendResult(200);
             return Futures.completedFuture();
         });
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         filter.doFilter(request, response, chain);
         assertEquals(200, response.status());
     }
@@ -81,7 +81,7 @@ class IpWhiteListFilterTest {
             res.sendResult(200);
             return Futures.completedFuture();
         });
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         filter.doFilter(request, response, chain);
         assertEquals(401, response.status());
         assertEquals(MediaType.TEXT_PLAIN.value(), response.getHeader(HttpHeaderNames.CONTENT_TYPE));

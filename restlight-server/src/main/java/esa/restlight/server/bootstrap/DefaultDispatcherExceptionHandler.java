@@ -18,7 +18,7 @@ package esa.restlight.server.bootstrap;
 
 import esa.commons.annotation.Internal;
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;
 
 import static esa.restlight.server.util.ErrorDetail.sendErrorResult;
@@ -28,7 +28,7 @@ public class DefaultDispatcherExceptionHandler implements DispatcherExceptionHan
 
     @Override
     public HandleStatus handleException(HttpRequest request,
-                                        AsyncResponse response,
+                                        HttpResponse response,
                                         Throwable throwable) {
         final HttpResponseStatus status;
         if (throwable instanceof WebServerException) {

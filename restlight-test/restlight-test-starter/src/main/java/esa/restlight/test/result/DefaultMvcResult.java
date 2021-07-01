@@ -17,17 +17,17 @@ package esa.restlight.test.result;
 
 import esa.commons.Checks;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 
 public class DefaultMvcResult implements MvcResult {
 
     private final MockHttpRequest request;
-    private final MockAsyncResponse response;
+    private final MockHttpResponse response;
     private final Object result;
 
-    public DefaultMvcResult(MockHttpRequest request, MockAsyncResponse response, Object result) {
+    public DefaultMvcResult(MockHttpRequest request, MockHttpResponse response, Object result) {
         Checks.checkNotNull(request, "MockHttpRequest must not be null!");
-        Checks.checkNotNull(response, "MockAsyncResponse must not be null!");
+        Checks.checkNotNull(response, "MockHttpResponse must not be null!");
         this.request = request;
         this.response = response;
         this.result = result;
@@ -39,7 +39,7 @@ public class DefaultMvcResult implements MvcResult {
     }
 
     @Override
-    public MockAsyncResponse response() {
+    public MockHttpResponse response() {
         return response;
     }
 

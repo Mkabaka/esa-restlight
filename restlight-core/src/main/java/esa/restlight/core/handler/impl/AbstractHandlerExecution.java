@@ -19,7 +19,7 @@ import esa.commons.StringUtils;
 import esa.commons.logging.Logger;
 import esa.commons.logging.LoggerFactory;
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.core.method.MethodParam;
 import esa.restlight.core.serialize.Serializers;
 import esa.restlight.server.bootstrap.WebServerException;
@@ -47,7 +47,7 @@ public abstract class AbstractHandlerExecution<H extends HandlerAdapter> impleme
     }
 
     @Override
-    public CompletableFuture<Void> handle(HttpRequest request, AsyncResponse response) {
+    public CompletableFuture<Void> handle(HttpRequest request, HttpResponse response) {
         try {
             final Object[] args = resolveArguments(request, response);
             return invoke(request, response, args)
@@ -58,7 +58,7 @@ public abstract class AbstractHandlerExecution<H extends HandlerAdapter> impleme
         }
     }
 
-    protected Object[] resolveArguments(HttpRequest request, AsyncResponse response) {
+    protected Object[] resolveArguments(HttpRequest request, HttpResponse response) {
         HandlerAdapter.ResolvableParam[] params = handlerAdapter.params();
         Object[] args = new Object[params.length];
         //resolve parameters one by one
@@ -91,12 +91,12 @@ public abstract class AbstractHandlerExecution<H extends HandlerAdapter> impleme
 
     protected Object resolveFixedArg(MethodParam parameter,
                                      HttpRequest request,
-                                     AsyncResponse response) {
+                                     HttpResponse response) {
         return null;
     }
 
 
-    protected CompletableFuture<Object> invoke(HttpRequest request, AsyncResponse response, Object[] args) {
+    protected CompletableFuture<Object> invoke(HttpRequest request, HttpResponse response, Object[] args) {
         CompletableFuture<Object> future;
         try {
             final Object returnValue = handlerAdapter.invoke(request, response, args);
@@ -122,7 +122,7 @@ public abstract class AbstractHandlerExecution<H extends HandlerAdapter> impleme
     protected abstract CompletableFuture<Object> transferToFuture(Object returnValue);
 
 
-    protected void handleReturnValue(Object returnValue, HttpRequest request, AsyncResponse response) {
+    protected void handleReturnValue(Object returnValue, HttpRequest request, HttpResponse response) {
 
         if (this.handlerAdapter.hasCustomResponse()) {
             response.setStatus(handlerAdapter.customResponse().code());

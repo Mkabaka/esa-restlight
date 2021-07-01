@@ -17,7 +17,7 @@ package esa.restlight.core.resolver.result;
 
 import esa.commons.Primitives;
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.core.method.InvocableMethod;
 import esa.restlight.core.resolver.ReturnValueResolver;
 import esa.restlight.core.resolver.ReturnValueResolverFactory;
@@ -103,7 +103,7 @@ public class SimpleReturnValueResolver implements ReturnValueResolverFactory {
         protected byte[] resolve0(Object returnValue,
                                   List<MediaType> mediaTypes,
                                   HttpRequest request,
-                                  AsyncResponse response) {
+                                  HttpResponse response) {
             return Serializers.serializeCharSequence(((CharSequence) returnValue),
                     response,
                     getMediaType(mediaTypes));
@@ -123,7 +123,7 @@ public class SimpleReturnValueResolver implements ReturnValueResolverFactory {
         protected byte[] resolve0(Object returnValue,
                                   List<MediaType> mediaTypes,
                                   HttpRequest request,
-                                  AsyncResponse response) {
+                                  HttpResponse response) {
             return Serializers.serializeByteArray((byte[]) returnValue,
                     response,
                     getMediaType(mediaTypes));
@@ -143,7 +143,7 @@ public class SimpleReturnValueResolver implements ReturnValueResolverFactory {
         protected byte[] resolve0(Object returnValue,
                                   List<MediaType> mediaTypes,
                                   HttpRequest request,
-                                  AsyncResponse response) {
+                                  HttpResponse response) {
             return Serializers.serializeByteBuf((ByteBuf) returnValue,
                     response,
                     getMediaType(mediaTypes));
@@ -163,7 +163,7 @@ public class SimpleReturnValueResolver implements ReturnValueResolverFactory {
         protected byte[] resolve0(Object returnValue,
                                   List<MediaType> mediaTypes,
                                   HttpRequest request,
-                                  AsyncResponse response) {
+                                  HttpResponse response) {
             return Serializers.serializePrimitives(returnValue,
                     response,
                     getMediaType(mediaTypes));

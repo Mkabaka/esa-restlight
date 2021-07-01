@@ -16,7 +16,7 @@
 package esa.restlight.core.handler;
 
 import esa.commons.annotation.Internal;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.util.Ordered;
 
@@ -38,7 +38,7 @@ public interface MethodAdvice extends Ordered {
      * @param args     args
      * @return true if allow next step, otherwise false
      */
-    default boolean preInvoke(HttpRequest request, AsyncResponse response, Object[] args) {
+    default boolean preInvoke(HttpRequest request, HttpResponse response, Object[] args) {
         return true;
     }
 
@@ -50,7 +50,7 @@ public interface MethodAdvice extends Ordered {
      * @param response response
      * @return default return result
      */
-    default Object postInvoke(HttpRequest request, AsyncResponse response, Object result) {
+    default Object postInvoke(HttpRequest request, HttpResponse response, Object result) {
         return result;
     }
 

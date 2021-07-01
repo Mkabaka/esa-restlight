@@ -17,13 +17,13 @@ package esa.restlight.server.bootstrap;
 
 import esa.commons.ExceptionUtils;
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.server.route.Route;
 import esa.restlight.server.route.RouteRegistry;
 import esa.restlight.server.route.impl.SimpleRouteRegistry;
 import esa.restlight.server.schedule.RequestTask;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import io.netty.handler.codec.http.HttpMethod;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import org.junit.jupiter.api.Test;
@@ -52,7 +52,7 @@ class DefaultDispatcherTest {
                 exceptionHandlers());
         assertTrue(dispatcher.routes().isEmpty());
         final HttpRequest req = MockHttpRequest.aMockRequest().withUri("/foo").build();
-        final AsyncResponse res = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse res = MockHttpResponse.aMockResponse().build();
         assertNull(dispatcher.route(req, res));
     }
 
@@ -65,14 +65,14 @@ class DefaultDispatcherTest {
                 exceptionHandlers());
         assertEquals(2, dispatcher.routes().size());
         assertNotNull(dispatcher.route(MockHttpRequest.aMockRequest().withUri("/foo").build(),
-                MockAsyncResponse.aMockResponse().build()));
+                MockHttpResponse.aMockResponse().build()));
 
         assertNotNull(dispatcher.route(
                 MockHttpRequest.aMockRequest()
                         .withUri("/bar")
                         .withMethod(HttpMethod.POST)
                         .build(),
-                MockAsyncResponse.aMockResponse()
+                MockHttpResponse.aMockResponse()
                         .build()));
     }
 
@@ -150,12 +150,12 @@ class DefaultDispatcherTest {
     private static class Req implements RequestTask {
 
         private final HttpRequest req;
-        private final AsyncResponse res;
+        private final HttpResponse res;
         private final CompletableFuture<Void> promise;
 
         private Req() {
             this.req = MockHttpRequest.aMockRequest().build();
-            this.res = MockAsyncResponse.aMockResponse().build();
+            this.res = MockHttpResponse.aMockResponse().build();
             this.promise = new CompletableFuture<>();
         }
 
@@ -165,7 +165,7 @@ class DefaultDispatcherTest {
         }
 
         @Override
-        public AsyncResponse response() {
+        public HttpResponse response() {
             return res;
         }
 

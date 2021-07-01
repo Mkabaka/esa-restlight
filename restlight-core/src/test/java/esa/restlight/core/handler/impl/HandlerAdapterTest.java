@@ -16,14 +16,14 @@
 package esa.restlight.core.handler.impl;
 
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.core.handler.Handler;
 import esa.restlight.core.method.HandlerMethod;
 import esa.restlight.core.resolver.ArgumentResolver;
 import esa.restlight.core.resolver.HandlerResolverFactory;
 import esa.restlight.core.resolver.ReturnValueResolver;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import org.junit.jupiter.api.Test;
 
@@ -71,7 +71,7 @@ class HandlerAdapterTest {
 
         // invoke
         final HttpRequest request = MockHttpRequest.aMockRequest().withUri("/foo").build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         final Object ret = adapter.invoke(request,
                 response,
                 new Object[]{adapter.params()[0].resolver.resolve(request, response)});

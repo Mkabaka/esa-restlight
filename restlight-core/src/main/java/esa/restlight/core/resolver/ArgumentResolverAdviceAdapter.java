@@ -16,18 +16,18 @@
 package esa.restlight.core.resolver;
 
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.core.util.Ordered;
 
 public interface ArgumentResolverAdviceAdapter
         extends ArgumentResolverPredicate, ArgumentResolverAdvice, Ordered {
 
     @Override
-    default void beforeResolve(HttpRequest request, AsyncResponse response) {
+    default void beforeResolve(HttpRequest request, HttpResponse response) {
     }
 
     @Override
-    default Object afterResolved(Object arg, HttpRequest request, AsyncResponse response) {
+    default Object afterResolved(Object arg, HttpRequest request, HttpResponse response) {
         return arg;
     }
 }

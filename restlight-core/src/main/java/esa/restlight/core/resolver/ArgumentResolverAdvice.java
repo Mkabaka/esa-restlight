@@ -16,7 +16,7 @@
 package esa.restlight.core.resolver;
 
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 
 /**
  * Allows customising the {@link HttpRequest} before resolving the parameter of controller from {@link HttpRequest}
@@ -25,16 +25,16 @@ import esa.httpserver.core.AsyncResponse;
 public interface ArgumentResolverAdvice {
 
     /**
-     * This method will be called before {@link ArgumentResolver#resolve(HttpRequest, AsyncResponse)} method.
+     * This method will be called before {@link ArgumentResolver#resolve(HttpRequest, HttpResponse)} method.
      *
      * @param request  request
      * @param response response
      */
-    void beforeResolve(HttpRequest request, AsyncResponse response);
+    void beforeResolve(HttpRequest request, HttpResponse response);
 
     /**
-     * This method will be called after {@link ArgumentResolver#resolve(HttpRequest, AsyncResponse)} method, and allows
-     * customising the argument resolved by {@link ArgumentResolver#resolve(HttpRequest, AsyncResponse)} method which
+     * This method will be called after {@link ArgumentResolver#resolve(HttpRequest, HttpResponse)} method, and allows
+     * customising the argument resolved by {@link ArgumentResolver#resolve(HttpRequest, HttpResponse)} method which
      * will be passed as the first parameter of this method.
      *
      * @param arg      argument resolved by {@link ArgumentResolver}
@@ -42,5 +42,5 @@ public interface ArgumentResolverAdvice {
      * @param response response
      * @return argument that was passed or a modified(possibly new) instance.
      */
-    Object afterResolved(Object arg, HttpRequest request, AsyncResponse response);
+    Object afterResolved(Object arg, HttpRequest request, HttpResponse response);
 }

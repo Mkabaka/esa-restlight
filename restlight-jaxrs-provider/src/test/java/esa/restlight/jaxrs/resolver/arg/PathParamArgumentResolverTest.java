@@ -26,7 +26,7 @@ import esa.restlight.jaxrs.resolver.arg.subject.ValueOfSubject;
 import esa.restlight.jaxrs.util.JaxrsMappingUtils;
 import esa.restlight.server.route.predicate.PatternsPredicate;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -179,7 +179,7 @@ class PathParamArgumentResolverTest {
         new PatternsPredicate(JaxrsMappingUtils.extractMapping(SUBJECT.getClass(),
                 parameter.method()).get().path()).test(request);
         final ArgumentResolver resolver = resolverFactory.createResolver(parameter, null);
-        return resolver.resolve(request, MockAsyncResponse.aMockResponse().build());
+        return resolver.resolve(request, MockHttpResponse.aMockResponse().build());
     }
 
     private static class Subject {

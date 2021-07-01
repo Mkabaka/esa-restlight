@@ -16,7 +16,7 @@
 package esa.restlight.jaxrs.resolver.result;
 
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.core.method.HandlerMethod;
 import esa.restlight.core.method.InvocableMethod;
 import esa.restlight.core.resolver.ReturnValueResolver;
@@ -25,7 +25,7 @@ import esa.restlight.core.util.MediaType;
 import esa.restlight.jaxrs.ResolverUtils;
 import esa.restlight.jaxrs.resolver.Pojo;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.http.HttpHeaderNames;
@@ -65,7 +65,7 @@ class ResponseBodyReturnValueResolverTest {
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), MediaType.APPLICATION_JSON_UTF8.value())
                 .build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
 
         final Pojo pojo = new Pojo(1024, "foo");
         final byte[] resolved = createResolverAndResolve(pojo, request, response, "responseBody");
@@ -78,7 +78,7 @@ class ResponseBodyReturnValueResolverTest {
                 .aMockRequest()
                 .withParameter("format", "json")
                 .build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
 
         final Pojo pojo = new Pojo(1024, "foo");
         final byte[] resolved = createMultiResolverAndResolve(pojo, request, response, "responseBody");
@@ -91,7 +91,7 @@ class ResponseBodyReturnValueResolverTest {
                 .aMockRequest()
                 .withParameter("format", "pb")
                 .build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
 
         final Pojo pojo = new Pojo(1024, "foo");
         assertThrows(UnsupportedOperationException.class,
@@ -104,7 +104,7 @@ class ResponseBodyReturnValueResolverTest {
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), MediaType.APPLICATION_JSON_UTF8.value())
                 .build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
 
         final String foo = "foo";
         final byte[] resolved = createResolverAndResolve(foo, request, response, "str");
@@ -117,7 +117,7 @@ class ResponseBodyReturnValueResolverTest {
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), MediaType.APPLICATION_JSON_UTF8.value())
                 .build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
 
         final byte[] foo = "foo".getBytes(StandardCharsets.UTF_8);
         final byte[] resolved = createResolverAndResolve(foo, request, response, "byteArray");
@@ -130,7 +130,7 @@ class ResponseBodyReturnValueResolverTest {
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), MediaType.APPLICATION_JSON_UTF8.value())
                 .build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
 
         final ByteBuf foo = Unpooled.copiedBuffer("foo".getBytes(StandardCharsets.UTF_8));
         final byte[] resolved = createResolverAndResolve(foo, request, response, "byteBuf");
@@ -143,14 +143,14 @@ class ResponseBodyReturnValueResolverTest {
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), MediaType.APPLICATION_JSON_UTF8.value())
                 .build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
 
         final int foo = 1;
         final byte[] resolved = createResolverAndResolve(foo, request, response, "byteBuf");
         assertArrayEquals(String.valueOf(foo).getBytes(StandardCharsets.UTF_8), resolved);
     }
 
-    private static byte[] createResolverAndResolve(Object returnValue, HttpRequest request, AsyncResponse response,
+    private static byte[] createResolverAndResolve(Object returnValue, HttpRequest request, HttpResponse response,
                                                    String method) throws Exception {
         final InvocableMethod invocableMethod = handlerMethods.get(method);
         assertTrue(resolverFactory.supports(invocableMethod));
@@ -160,7 +160,7 @@ class ResponseBodyReturnValueResolverTest {
     }
 
     private static byte[] createMultiResolverAndResolve(Object returnValue, HttpRequest request,
-                                                        AsyncResponse response,
+                                                        HttpResponse response,
                                                         String method) throws Exception {
         final InvocableMethod invocableMethod = handlerMethods.get(method);
         assertTrue(resolverFactory.supports(invocableMethod));

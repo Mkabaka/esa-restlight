@@ -38,11 +38,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class MockAsyncResponseTest {
+class MockHttpResponseTest {
 
     @Test
     void testGetStatus() {
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse()
+        final MockHttpResponse response = MockHttpResponse.aMockResponse()
                 .build();
         response.setStatus(302);
         assertEquals(302, response.status());
@@ -50,7 +50,7 @@ class MockAsyncResponseTest {
 
     @Test
     void testOperateHeader() {
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse()
+        final MockHttpResponse response = MockHttpResponse.aMockResponse()
                 .build();
         CharSequence seq = "A";
         response.addHeader(seq, "foo");
@@ -81,7 +81,7 @@ class MockAsyncResponseTest {
 
     @Test
     void testOperateTrailer() {
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final MockHttpResponse response = MockHttpResponse.aMockResponse().build();
         response.addTrailer("t1", "v1");
         response.setTrailer("t2", "v2");
         response.setTrailers("t3", Collections.singletonList("v3"));
@@ -105,7 +105,7 @@ class MockAsyncResponseTest {
 
     @Test
     void testOperateCookie() {
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final MockHttpResponse response = MockHttpResponse.aMockResponse().build();
         response.addCookie(new DefaultCookie("c1", "v1"));
         response.addCookie("c2", "v2");
 
@@ -122,7 +122,7 @@ class MockAsyncResponseTest {
                 out.write("foo".getBytes(StandardCharsets.UTF_8));
                 out.flush();
             }
-            final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
+            final MockHttpResponse response = MockHttpResponse.aMockResponse().build();
             response.sendFile(file);
             assertTrue(response.isCommitted());
             assertEquals("foo", response.getSentData().toString(StandardCharsets.UTF_8));
@@ -134,7 +134,7 @@ class MockAsyncResponseTest {
 
     @Test
     void testGetOutputStream0() throws IOException {
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse()
+        final MockHttpResponse response = MockHttpResponse.aMockResponse()
                 .build();
 
         HttpOutputStream os = response.outputStream();
@@ -144,7 +144,7 @@ class MockAsyncResponseTest {
 
     @Test
     void testGetOutputStream1() {
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse()
+        final MockHttpResponse response = MockHttpResponse.aMockResponse()
                 .build();
 
         response.sendResult(200, new byte[0]);
@@ -154,7 +154,7 @@ class MockAsyncResponseTest {
 
     @Test
     void testSendResult0() {
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse()
+        final MockHttpResponse response = MockHttpResponse.aMockResponse()
                 .build();
 
         response.setStatus(200);
@@ -169,7 +169,7 @@ class MockAsyncResponseTest {
 
     @Test
     void testSendResult1() {
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse()
+        final MockHttpResponse response = MockHttpResponse.aMockResponse()
                 .build();
 
         response.sendResult(404, null, 0, 0, true);
@@ -182,7 +182,7 @@ class MockAsyncResponseTest {
 
     @Test
     void testCollectResult() throws IOException {
-        MockAsyncResponse response = MockAsyncResponse.aMockResponse()
+        MockHttpResponse response = MockHttpResponse.aMockResponse()
                 .build();
 
         response.sendResult(404, null, 0, 0, true);
@@ -190,17 +190,17 @@ class MockAsyncResponseTest {
         assertTrue(response.isCommitted());
         assertFalse(response.getSentData().isReadable());
 
-        response = MockAsyncResponse.aMockResponse()
+        response = MockHttpResponse.aMockResponse()
                 .build();
         response.sendResult("a".getBytes(StandardCharsets.UTF_8));
         assertEquals("a", response.getSentData().toString(StandardCharsets.UTF_8));
 
-        response = MockAsyncResponse.aMockResponse()
+        response = MockHttpResponse.aMockResponse()
                 .build();
         response.sendResult(Unpooled.copiedBuffer("a".getBytes(StandardCharsets.UTF_8)));
         assertEquals("a", response.getSentData().toString(StandardCharsets.UTF_8));
 
-        response = MockAsyncResponse.aMockResponse()
+        response = MockHttpResponse.aMockResponse()
                 .build();
         response.outputStream().writeUTF("abc");
         response.outputStream().close();
@@ -209,7 +209,7 @@ class MockAsyncResponseTest {
 
     @Test
     void testOpsAfterCommitted() {
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final MockHttpResponse response = MockHttpResponse.aMockResponse().build();
         // end response
         response.sendResult(200);
         response.addHeader("a", "b");
@@ -232,7 +232,7 @@ class MockAsyncResponseTest {
         final AtomicBoolean end0 = new AtomicBoolean();
         final AtomicBoolean end1 = new AtomicBoolean();
 
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse()
+        final MockHttpResponse response = MockHttpResponse.aMockResponse()
                 .withEndListener(rsp -> end0.set(true))
                 .withEndListeners(Collections.singletonList(rsp -> end1.set(true)))
                 .build();

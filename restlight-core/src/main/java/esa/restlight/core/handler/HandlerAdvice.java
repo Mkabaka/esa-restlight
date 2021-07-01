@@ -17,7 +17,7 @@ package esa.restlight.core.handler;
 
 import esa.commons.annotation.Internal;
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.core.util.Ordered;
 
 /**
@@ -31,14 +31,14 @@ public interface HandlerAdvice extends Ordered {
      * Performs some additional operations around invoking
      *
      * @param request  HttpRequest
-     * @param response AsyncResponse
+     * @param response HttpResponse
      * @param args     args of target method
      * @param invoker  HandlerInvoker
      * @return object
      * @throws Throwable exception occurred
      */
     Object invoke(HttpRequest request,
-                  AsyncResponse response,
+                  HttpResponse response,
                   Object[] args,
                   HandlerInvoker invoker) throws Throwable;
 }

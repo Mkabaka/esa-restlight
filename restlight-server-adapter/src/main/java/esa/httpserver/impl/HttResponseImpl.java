@@ -19,7 +19,7 @@ import esa.commons.Checks;
 import esa.commons.ExceptionUtils;
 import esa.commons.annotation.Internal;
 import esa.commons.netty.http.CookieImpl;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.httpserver.core.HttpOutputStream;
 import esa.httpserver.core.Response;
 import io.netty.buffer.ByteBuf;
@@ -34,16 +34,16 @@ import java.util.List;
 import java.util.function.Consumer;
 
 /**
- * Default implementation of {@link AsyncResponse} that wraps the {@link Response} as delegate.
+ * Default implementation of {@link HttpResponse} that wraps the {@link Response} as delegate.
  */
 @Internal
-public class AsyncResponseImpl implements AsyncResponse {
+public class HttResponseImpl implements HttpResponse {
 
     private final Response res;
     private int bufferSize = DEFAULT_BUFFER_SIZE;
     private HttpOutputStream os;
 
-    public AsyncResponseImpl(Response res) {
+    public HttResponseImpl(Response res) {
         this.res = res;
     }
 
@@ -253,7 +253,7 @@ public class AsyncResponseImpl implements AsyncResponse {
     }
 
     @Override
-    public void onEnd(Consumer<AsyncResponse> listener) {
+    public void onEnd(Consumer<HttpResponse> listener) {
         res.onEndFuture().addListener(f -> listener.accept(this));
     }
 

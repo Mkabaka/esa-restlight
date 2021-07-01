@@ -17,7 +17,7 @@ package esa.httpserver.impl;
 
 import esa.commons.http.HttpHeaders;
 import esa.commons.netty.http.Http1HeadersImpl;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.httpserver.core.HttpOutputStream;
 import esa.httpserver.core.Response;
 import io.netty.buffer.ByteBuf;
@@ -46,7 +46,7 @@ class HttpResponseImplTest {
     @Test
     void testDelegate() {
         final Response mock = mock(Response.class);
-        final AsyncResponseImpl response = new AsyncResponseImpl(mock);
+        final HttResponseImpl response = new HttResponseImpl(mock);
 
         when(mock.status()).thenReturn(500);
         assertEquals(500, response.status());
@@ -126,7 +126,7 @@ class HttpResponseImplTest {
     @Test
     void testOutputStream() {
         final Response mock = mock(Response.class);
-        final AsyncResponseImpl response = new AsyncResponseImpl(mock);
+        final HttResponseImpl response = new HttResponseImpl(mock);
 
         when(mock.isEnded()).thenReturn(true);
 
@@ -145,9 +145,9 @@ class HttpResponseImplTest {
     @Test
     void testSetBufferSize() {
         final Response mock = mock(Response.class);
-        final AsyncResponseImpl response = new AsyncResponseImpl(mock);
+        final HttResponseImpl response = new HttResponseImpl(mock);
 
-        assertEquals(AsyncResponse.DEFAULT_BUFFER_SIZE, response.bufferSize());
+        assertEquals(HttpResponse.DEFAULT_BUFFER_SIZE, response.bufferSize());
         response.setBufferSize(16);
         assertEquals(16, response.bufferSize());
 
@@ -168,7 +168,7 @@ class HttpResponseImplTest {
     @Test
     void testReset() {
         final Response mock = mock(Response.class);
-        final AsyncResponseImpl response = new AsyncResponseImpl(mock);
+        final HttResponseImpl response = new HttResponseImpl(mock);
 
 
         response.setBufferSize(16);
@@ -180,7 +180,7 @@ class HttpResponseImplTest {
 
         response.reset();
 
-        assertEquals(AsyncResponse.DEFAULT_BUFFER_SIZE, response.bufferSize());
+        assertEquals(HttpResponse.DEFAULT_BUFFER_SIZE, response.bufferSize());
         assertTrue(headers.isEmpty());
         assertTrue(trailers.isEmpty());
     }
@@ -188,7 +188,7 @@ class HttpResponseImplTest {
     @Test
     void testSendResultWithByteArray() {
         final Response mock = mock(Response.class);
-        final AsyncResponseImpl response = new AsyncResponseImpl(mock);
+        final HttResponseImpl response = new HttResponseImpl(mock);
 
         final ByteBuf buf = Unpooled.buffer();
         buf.writeLong(1L);
@@ -238,7 +238,7 @@ class HttpResponseImplTest {
     @Test
     void testSendResultWithByteBuf() {
         final Response mock = mock(Response.class);
-        final AsyncResponseImpl response = new AsyncResponseImpl(mock);
+        final HttResponseImpl response = new HttResponseImpl(mock);
 
         final ByteBuf body = Unpooled.buffer();
         body.writeLong(1L);
@@ -346,7 +346,7 @@ class HttpResponseImplTest {
     @Test
     void testSendRedirect() {
         final Response mock = mock(Response.class);
-        final AsyncResponseImpl response = new AsyncResponseImpl(mock);
+        final HttResponseImpl response = new HttResponseImpl(mock);
 
         response.sendRedirect("foo");
         verify(mock).sendRedirect(eq("foo"));
@@ -359,7 +359,7 @@ class HttpResponseImplTest {
     @Test
     void testSendFile() {
         final Response mock = mock(Response.class);
-        final AsyncResponseImpl response = new AsyncResponseImpl(mock);
+        final HttResponseImpl response = new HttResponseImpl(mock);
 
         final File f = new File("");
         response.sendFile(f);
@@ -380,7 +380,7 @@ class HttpResponseImplTest {
         assertThrows(IllegalStateException.class, () -> response.sendFile(f));
     }
 
-    private static HttpOutputStream initOutputStream(Response mock, AsyncResponseImpl response) {
+    private static HttpOutputStream initOutputStream(Response mock, HttResponseImpl response) {
         when(mock.isEnded()).thenReturn(false);
         when(mock.isCommitted()).thenReturn(false);
         when(response.alloc()).thenReturn(Unpooled.EMPTY_BUFFER.alloc());

@@ -16,9 +16,9 @@
 package esa.restlight.core.resolver;
 
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -45,7 +45,7 @@ class AdvisedReturnValueResolverTest {
 
         final AdvisedReturnValueResolver advise = new AdvisedReturnValueResolver(resolver, Arrays.asList(a0, a1));
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
 
         assertArrayEquals("bar".getBytes(), advise.resolve("useless", request, response));
         verify(resolver, times(1)).resolve(eq("bar"), same(request), same(response));

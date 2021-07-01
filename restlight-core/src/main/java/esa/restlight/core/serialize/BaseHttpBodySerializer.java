@@ -16,7 +16,7 @@
 package esa.restlight.core.serialize;
 
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.httpserver.core.HttpInputStream;
 import esa.httpserver.core.HttpOutputStream;
 import esa.restlight.core.util.MediaType;
@@ -37,7 +37,7 @@ public abstract class BaseHttpBodySerializer implements HttpBodySerializer {
     }
 
     @Override
-    public Object customResponse(HttpRequest request, AsyncResponse response, Object returnValue) {
+    public Object customResponse(HttpRequest request, HttpResponse response, Object returnValue) {
         response.setHeader(HttpHeaderNames.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8.value());
         return returnValue;
     }

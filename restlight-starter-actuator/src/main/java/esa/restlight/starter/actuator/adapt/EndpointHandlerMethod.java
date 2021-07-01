@@ -18,7 +18,7 @@ package esa.restlight.starter.actuator.adapt;
 import esa.commons.Checks;
 import esa.commons.reflect.ReflectionUtils;
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.core.method.HandlerMethod;
 import esa.restlight.core.method.InvocableMethod;
 import esa.restlight.core.method.MethodParam;
@@ -37,7 +37,7 @@ class EndpointHandlerMethod extends HandlerMethod implements InvocableMethod {
     static {
         try {
             Method m = OperationHandler.class.getDeclaredMethod(
-                    "handle", HttpRequest.class, AsyncResponse.class, Map.class);
+                    "handle", HttpRequest.class, HttpResponse.class, Map.class);
             ReflectionUtils.makeMethodAccessible(m);
             HANDLE_METHOD = m;
         } catch (NoSuchMethodException e) {

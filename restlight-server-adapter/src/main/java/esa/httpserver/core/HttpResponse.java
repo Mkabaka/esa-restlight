@@ -35,7 +35,7 @@ import java.util.function.Consumer;
  * allowed to commit this response, which means you can not commit this response by calling {@link #sendResult(int)}
  * method if another thread had committed this response(such as using the {@link #outputStream()} to write data).
  */
-public interface AsyncResponse {
+public interface HttpResponse {
 
     /**
      * Default buffer size of output stream. It means that the chunk size of current response is also equals this
@@ -543,7 +543,7 @@ public interface AsyncResponse {
      *
      * @param listener listener
      */
-    void onEnd(Consumer<AsyncResponse> listener);
+    void onEnd(Consumer<HttpResponse> listener);
 
     /**
      * Add a listener to this response, this listener will be called after current response has been write.
@@ -558,7 +558,7 @@ public interface AsyncResponse {
 
     @Deprecated
     interface EndListener {
-        void onEnd(AsyncResponse asyncResponse);
+        void onEnd(HttpResponse httpResponse);
     }
 
     /**

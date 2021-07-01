@@ -19,7 +19,7 @@ import esa.commons.Checks;
 import esa.commons.logging.Logger;
 import esa.commons.logging.LoggerFactory;
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.core.resolver.ExceptionResolver;
 import esa.restlight.server.util.Futures;
 
@@ -39,7 +39,7 @@ public class MappedExceptionResolver implements ExceptionResolver<Throwable> {
 
     @Override
     public CompletableFuture<Void> handleException(HttpRequest request,
-                                                   AsyncResponse response,
+                                                   HttpResponse response,
                                                    Throwable ex) {
         if (ex == null) {
             return Futures.completedFuture();

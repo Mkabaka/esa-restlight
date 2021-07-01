@@ -17,7 +17,7 @@ package esa.restlight.core.handler.impl;
 
 import com.google.common.util.concurrent.ListenableFuture;
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.core.method.MethodParam;
 import esa.restlight.core.util.FutureUtils;
 import io.netty.util.concurrent.Future;
@@ -52,7 +52,7 @@ public class ExceptionHandlerExecution extends AbstractHandlerExecution<HandlerA
     @Override
     protected Object resolveFixedArg(MethodParam parameter,
                                      HttpRequest request,
-                                     AsyncResponse response) {
+                                     HttpResponse response) {
         if (parameter.type().isInstance(t)) {
             return t;
         }

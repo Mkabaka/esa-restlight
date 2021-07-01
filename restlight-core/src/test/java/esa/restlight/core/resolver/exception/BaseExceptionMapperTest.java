@@ -16,7 +16,7 @@
 package esa.restlight.core.resolver.exception;
 
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.core.resolver.ExceptionResolver;
 import esa.restlight.server.bootstrap.WebServerException;
 
@@ -27,7 +27,7 @@ abstract class BaseExceptionMapperTest {
     abstract static class AbstractExceptionResolver implements ExceptionResolver<Throwable> {
 
         @Override
-        public CompletableFuture<Void> handleException(HttpRequest request, AsyncResponse response,
+        public CompletableFuture<Void> handleException(HttpRequest request, HttpResponse response,
                                                        Throwable throwable) {
             return null;
         }

@@ -2,7 +2,7 @@ package esa.restlight.core.resolver.arg;
 
 import esa.restlight.core.method.Param;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import io.netty.handler.codec.http.HttpHeaders;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +24,7 @@ class AbstractHeaderArgumentResolverTest {
         final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withHeader("foo", "1")
                 .build();
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final MockHttpResponse response = MockHttpResponse.aMockResponse().build();
 
         final Param param = mock(Param.class);
         when(param.type()).thenReturn((Class) String.class);
@@ -40,7 +40,7 @@ class AbstractHeaderArgumentResolverTest {
                 .withHeader("foo", "1")
                 .withHeader("foo", "2")
                 .build();
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final MockHttpResponse response = MockHttpResponse.aMockResponse().build();
 
         final Param param = mock(Param.class);
         when(param.type()).thenReturn((Class) String.class);
@@ -56,7 +56,7 @@ class AbstractHeaderArgumentResolverTest {
                 .withHeader("foo", "1")
                 .withHeader("foo", "2")
                 .build();
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final MockHttpResponse response = MockHttpResponse.aMockResponse().build();
 
         final Param param = mock(Param.class);
         when(param.type()).thenReturn((Class) Subject.class.getDeclaredMethod("intList").getReturnType());
@@ -74,7 +74,7 @@ class AbstractHeaderArgumentResolverTest {
                 .withHeader("foo", "1")
                 .withHeader("foo", "2")
                 .build();
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final MockHttpResponse response = MockHttpResponse.aMockResponse().build();
 
         final Param param = mock(Param.class);
         when(param.type()).thenReturn((Class) Subject.class.getDeclaredMethod("longArray").getReturnType());
@@ -91,7 +91,7 @@ class AbstractHeaderArgumentResolverTest {
                 .withHeader("foo", "1")
                 .withHeader("bar", "2")
                 .build();
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final MockHttpResponse response = MockHttpResponse.aMockResponse().build();
 
         final Param param = mock(Param.class);
         when(param.type()).thenReturn((Class) HttpHeaders.class);

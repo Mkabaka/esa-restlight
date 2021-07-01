@@ -17,7 +17,7 @@ package esa.restlight.core.resolver.arg;
 
 import esa.commons.ObjectUtils;
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.core.method.Param;
 import esa.restlight.core.resolver.ArgumentResolver;
 import esa.restlight.core.util.ConverterUtils;
@@ -41,7 +41,7 @@ public abstract class AbstractNameAndValueArgumentResolver implements ArgumentRe
     }
 
     @Override
-    public Object resolve(HttpRequest request, AsyncResponse response) throws Exception {
+    public Object resolve(HttpRequest request, HttpResponse response) throws Exception {
         Object arg = this.resolveName(nav.name, request);
         if (arg == null) {
             if (nav.hasDefaultValue) {

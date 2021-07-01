@@ -16,7 +16,7 @@
 package esa.restlight.core.util;
 
 import esa.commons.Checks;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import io.netty.handler.codec.http.HttpHeaderNames;
 
 import java.io.File;
@@ -29,7 +29,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 /**
- * @deprecated use {@link AsyncResponse#sendFile(File)} please.
+ * @deprecated use {@link HttpResponse#sendFile(File)} please.
  */
 @Deprecated
 public final class MultipartFileUtils {
@@ -39,15 +39,15 @@ public final class MultipartFileUtils {
 
     private static final String ATTACHMENT = "attachment";
 
-    public static void writeToResponse(AsyncResponse response, File file) throws IOException {
+    public static void writeToResponse(HttpResponse response, File file) throws IOException {
         writeToResponse(response, new FileInputStream(file), file.getName());
     }
 
-    public static void writeToResponse(AsyncResponse response, InputStream ins, String fileName) throws IOException {
+    public static void writeToResponse(HttpResponse response, InputStream ins, String fileName) throws IOException {
         writeToResponse(response, ins, fileName, StandardCharsets.UTF_8);
     }
 
-    public static void writeToResponse(AsyncResponse response, InputStream ins, String fileName, Charset charset)
+    public static void writeToResponse(HttpResponse response, InputStream ins, String fileName, Charset charset)
             throws IOException {
         Checks.checkNotNull(response, "response");
         Checks.checkNotNull(ins, "ins");

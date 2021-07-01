@@ -16,7 +16,7 @@
 package esa.restlight.server.handler;
 
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.server.schedule.ExecutorScheduler;
 import esa.restlight.server.schedule.Scheduler;
 import io.netty.channel.ChannelHandlerContext;
@@ -28,13 +28,13 @@ import java.util.concurrent.Executor;
 public interface RestlightHandler {
 
     /**
-     * Processes the given {@link HttpRequest} and {@link AsyncResponse}.
+     * Processes the given {@link HttpRequest} and {@link HttpResponse}.
      *
      * @param request  current request
      * @param response current response
      * @return future
      */
-    CompletableFuture<Void> process(HttpRequest request, AsyncResponse response);
+    CompletableFuture<Void> process(HttpRequest request, HttpResponse response);
 
     /**
      * tcp connect event

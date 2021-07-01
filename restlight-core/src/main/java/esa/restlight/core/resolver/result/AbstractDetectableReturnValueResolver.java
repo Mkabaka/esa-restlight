@@ -17,7 +17,7 @@ package esa.restlight.core.resolver.result;
 
 import esa.commons.StringUtils;
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.core.resolver.ReturnValueResolver;
 import esa.restlight.core.serialize.Serializers;
 import esa.restlight.core.util.MediaType;
@@ -42,7 +42,7 @@ abstract class AbstractDetectableReturnValueResolver implements ReturnValueResol
     @Override
     public byte[] resolve(Object returnValue,
                           HttpRequest request,
-                          AsyncResponse response) throws Exception {
+                          HttpResponse response) throws Exception {
         if (returnValue == null) {
             return null;
         }
@@ -92,5 +92,5 @@ abstract class AbstractDetectableReturnValueResolver implements ReturnValueResol
     protected abstract byte[] resolve0(Object returnValue,
                                        List<MediaType> mediaTypes,
                                        HttpRequest request,
-                                       AsyncResponse response) throws Exception;
+                                       HttpResponse response) throws Exception;
 }

@@ -1,2 +1,2 @@
 esa.restlight.core.resolver.arg.HttpRequestArgumentResolverFactory
-esa.restlight.core.resolver.arg.AsyncResponseArgumentResolverFactory
+esa.restlight.core.resolver.arg.HttpResponseArgumentResolverFactory

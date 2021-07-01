@@ -16,7 +16,7 @@
 package esa.restlight.starter.actuator.adapt;
 
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.core.method.HandlerMethod;
 import esa.restlight.core.method.MethodParam;
 import esa.restlight.springmvc.annotation.shaded.RequestBody0;
@@ -58,7 +58,7 @@ class EndpointHandlerMethodTest {
         assertNotNull(handlerMethod.parameters());
         assertEquals(3, handlerMethod.parameters().length);
         assertEquals(handlerMethod.parameters()[0].type(), HttpRequest.class);
-        assertEquals(handlerMethod.parameters()[1].type(), AsyncResponse.class);
+        assertEquals(handlerMethod.parameters()[1].type(), HttpResponse.class);
         assertEquals(handlerMethod.parameters()[2].type(), Map.class);
         final MethodParam body = handlerMethod.parameters()[2];
 
@@ -86,7 +86,7 @@ class EndpointHandlerMethodTest {
         assertNotNull(handlerMethod.parameters());
         assertEquals(3, handlerMethod.parameters().length);
         assertEquals(handlerMethod.parameters()[0].type(), HttpRequest.class);
-        assertEquals(handlerMethod.parameters()[1].type(), AsyncResponse.class);
+        assertEquals(handlerMethod.parameters()[1].type(), HttpResponse.class);
         assertEquals(handlerMethod.parameters()[2].type(), Map.class);
     }
 

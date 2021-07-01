@@ -17,7 +17,7 @@ package esa.restlight.ext.validator;
 
 import esa.commons.annotation.Internal;
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.server.bootstrap.DispatcherExceptionHandler;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.util.internal.InternalThreadLocalMap;
@@ -32,7 +32,7 @@ import static esa.restlight.server.util.ErrorDetail.sendErrorResult;
 public class ValidationExceptionHandler implements DispatcherExceptionHandler {
 
     @Override
-    public HandleStatus handleException(HttpRequest request, AsyncResponse response, Throwable throwable) {
+    public HandleStatus handleException(HttpRequest request, HttpResponse response, Throwable throwable) {
         if (throwable instanceof ConstraintViolationException) {
             //400 bad request
 

@@ -20,7 +20,7 @@ import esa.commons.annotation.Internal;
 import esa.commons.logging.Logger;
 import esa.commons.logging.LoggerFactory;
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.server.route.CompletionHandler;
 import esa.restlight.server.route.ExceptionHandler;
 import esa.restlight.server.route.ReadOnlyRouteRegistry;
@@ -65,13 +65,13 @@ public class DefaultDispatcherHandler implements DispatcherHandler {
 
     @Override
     public Route route(HttpRequest request,
-                       AsyncResponse response) {
+                       HttpResponse response) {
         return registry.route(request);
     }
 
     @Override
     public void service(HttpRequest request,
-                        AsyncResponse response,
+                        HttpResponse response,
                         CompletableFuture<Void> promise,
                         Route route) {
 
@@ -111,7 +111,7 @@ public class DefaultDispatcherHandler implements DispatcherHandler {
     }
 
     private void cleanUp(HttpRequest request,
-                         AsyncResponse response,
+                         HttpResponse response,
                          CompletableFuture<Void> promise,
                          Throwable dispatchException,
                          RouteExecution execution) {
@@ -173,7 +173,7 @@ public class DefaultDispatcherHandler implements DispatcherHandler {
         }
     }
 
-    private void completeRequest(HttpRequest request, AsyncResponse response, CompletableFuture<Void> promise) {
+    private void completeRequest(HttpRequest request, HttpResponse response, CompletableFuture<Void> promise) {
         if (logger.isDebugEnabled()) {
             logger.debug("Request(url={}, method={}) completed. {}",
                     request.path(), request.method(), response.status());
@@ -200,7 +200,7 @@ public class DefaultDispatcherHandler implements DispatcherHandler {
 
     @Override
     public void handleUnfinishedWorks(List<RequestTask> unfinishedWorkList) {
-        AsyncResponse response;
+        HttpResponse response;
         for (RequestTask task : unfinishedWorkList) {
             response = task.response();
             if (!response.isCommitted()) {

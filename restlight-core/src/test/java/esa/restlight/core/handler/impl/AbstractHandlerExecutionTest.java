@@ -16,13 +16,13 @@
 package esa.restlight.core.handler.impl;
 
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.core.method.MethodParam;
 import esa.restlight.core.resolver.ArgumentResolver;
 import esa.restlight.server.bootstrap.WebServerException;
 import esa.restlight.server.util.Futures;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import io.netty.buffer.ByteBufUtil;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import org.junit.jupiter.api.Test;
@@ -45,7 +45,7 @@ class AbstractHandlerExecutionTest {
             }
         };
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         when(mock.params()).thenReturn(new HandlerAdapter.ResolvableParam[0]);
         final Object[] args = execution.resolveArguments(request, response);
         assertNotNull(args);
@@ -62,12 +62,12 @@ class AbstractHandlerExecutionTest {
             }
 
             @Override
-            protected Object resolveFixedArg(MethodParam parameter, HttpRequest request, AsyncResponse response) {
+            protected Object resolveFixedArg(MethodParam parameter, HttpRequest request, HttpResponse response) {
                 return "foo";
             }
         };
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         final MethodParam param = mock(MethodParam.class);
         //noinspection unchecked
         when(param.type()).thenReturn((Class) Object.class);
@@ -91,7 +91,7 @@ class AbstractHandlerExecutionTest {
             }
         };
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         final MethodParam param = mock(MethodParam.class);
         final ArgumentResolver argResolver = mock(ArgumentResolver.class);
         when(argResolver.resolve(any(), any())).thenReturn("foo");
@@ -116,7 +116,7 @@ class AbstractHandlerExecutionTest {
             }
         };
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         final MethodParam param = mock(MethodParam.class);
         //noinspection unchecked
         when(param.type()).thenReturn((Class) Object.class);
@@ -137,7 +137,7 @@ class AbstractHandlerExecutionTest {
             }
         };
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         final MethodParam param = mock(MethodParam.class);
         final ArgumentResolver argResolver = mock(ArgumentResolver.class);
         when(argResolver.resolve(any(), any())).thenThrow(new IllegalStateException());
@@ -160,7 +160,7 @@ class AbstractHandlerExecutionTest {
             }
         };
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         when(mock.invoke(any(), any(), any())).thenReturn("foo");
         when(mock.isConcurrent()).thenReturn(false);
         final Object ret = execution.invoke(request, response, null).join();
@@ -178,7 +178,7 @@ class AbstractHandlerExecutionTest {
             }
         };
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         when(mock.invoke(any(), any(), any())).thenReturn(CompletableFuture.completedFuture("foo"));
         when(mock.isConcurrent()).thenReturn(true);
         final Object ret = execution.invoke(request, response, null).join();
@@ -196,7 +196,7 @@ class AbstractHandlerExecutionTest {
             }
         };
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         when(mock.invoke(any(), any(), any())).thenReturn(null);
         when(mock.isConcurrent()).thenReturn(true);
         final Object ret = execution.invoke(request, response, null).join();
@@ -215,7 +215,7 @@ class AbstractHandlerExecutionTest {
             }
         };
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         when(mock.invoke(any(), any(), any())).thenThrow(new IllegalStateException());
         final CompletableFuture<Object> ret = execution.invoke(request, response, null);
         assertNotNull(ret);
@@ -232,7 +232,7 @@ class AbstractHandlerExecutionTest {
             }
         };
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final MockHttpResponse response = MockHttpResponse.aMockResponse().build();
         when(mock.returnValueResolver())
                 .thenReturn((returnValue, request1, response1) -> returnValue.toString().getBytes());
         when(mock.hasCustomResponse()).thenReturn(true);
@@ -253,7 +253,7 @@ class AbstractHandlerExecutionTest {
             }
         };
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final MockHttpResponse response = MockHttpResponse.aMockResponse().build();
         response.sendResult();
         execution.handleReturnValue("foo", request, response);
         assertTrue(response.isCommitted());
@@ -270,7 +270,7 @@ class AbstractHandlerExecutionTest {
             }
         };
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final MockHttpResponse response = MockHttpResponse.aMockResponse().build();
         when(mock.params()).thenReturn(new HandlerAdapter.ResolvableParam[0]);
         when(mock.returnValueResolver())
                 .thenReturn((returnValue, request1, response1) -> String.valueOf(returnValue).getBytes());
@@ -289,7 +289,7 @@ class AbstractHandlerExecutionTest {
                     }
                 };
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final MockHttpResponse response = MockHttpResponse.aMockResponse().build();
         when(mock.params()).thenThrow(new IllegalStateException());
         assertTrue(execution.handle(request, response).isCompletedExceptionally());
         assertFalse(response.isCommitted());

@@ -17,7 +17,7 @@ package esa.restlight.server.bootstrap;
 
 import esa.commons.annotation.Internal;
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.server.route.Route;
 import esa.restlight.server.schedule.RequestTask;
 
@@ -49,7 +49,7 @@ public interface DispatcherHandler {
      * @param response response
      * @return route
      */
-    Route route(HttpRequest request, AsyncResponse response);
+    Route route(HttpRequest request, HttpResponse response);
 
     /**
      * process for request
@@ -60,7 +60,7 @@ public interface DispatcherHandler {
      * @param route    route
      */
     void service(HttpRequest request,
-                 AsyncResponse response,
+                 HttpResponse response,
                  CompletableFuture<Void> promise,
                  Route route);
 

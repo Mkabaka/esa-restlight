@@ -19,7 +19,7 @@ import esa.commons.Checks;
 import esa.commons.StringUtils;
 import esa.commons.logging.Logger;
 import esa.commons.logging.LoggerFactory;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.Param;
 import esa.restlight.core.resolver.arg.AbstractNameAndValueArgumentResolver;
@@ -62,7 +62,7 @@ abstract class AbstractMultipartParamResolver extends AbstractNameAndValueArgume
     }
 
     @Override
-    public Object resolve(HttpRequest request, AsyncResponse response) throws Exception {
+    public Object resolve(HttpRequest request, HttpResponse response) throws Exception {
         try {
             return super.resolve(request, response);
         } finally {
@@ -124,7 +124,7 @@ abstract class AbstractMultipartParamResolver extends AbstractNameAndValueArgume
         }
     }
 
-    private void tryAddCleaner(HttpRequest request, AsyncResponse response) {
+    private void tryAddCleaner(HttpRequest request, HttpResponse response) {
         final List<MultipartFile> files = request.getUncheckedAttribute(MULTIPART_FILES);
 
         // Note: decoder.destroy() is only allowed to invoke once.

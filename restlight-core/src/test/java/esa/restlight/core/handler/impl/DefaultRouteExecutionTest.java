@@ -16,11 +16,11 @@
 package esa.restlight.core.handler.impl;
 
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.core.interceptor.InternalInterceptor;
 import esa.restlight.server.util.Futures;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import io.netty.buffer.ByteBufUtil;
 import org.junit.jupiter.api.Test;
 
@@ -53,7 +53,7 @@ class DefaultRouteExecutionTest {
         final RouteHandlerAdapter mock = mock(RouteHandlerAdapter.class);
         final DefaultRouteExecution execution = new DefaultRouteExecution(mock, null);
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         assertTrue(execution.applyPreHandle(request, response).join());
         CompletableFuture<Void> cf = execution.applyPostHandle(request, response);
         assertTrue(cf.isDone());
@@ -71,26 +71,26 @@ class DefaultRouteExecutionTest {
         final List<Integer> reached = new CopyOnWriteArrayList<>();
         final List<InternalInterceptor> interceptors = Arrays.asList(new InternalInterceptor() {
             @Override
-            public boolean preHandle(HttpRequest request, AsyncResponse response, Object handler) {
+            public boolean preHandle(HttpRequest request, HttpResponse response, Object handler) {
                 reached.add(0);
                 return true;
             }
         }, new InternalInterceptor() {
             @Override
-            public boolean preHandle(HttpRequest request, AsyncResponse response, Object handler) {
+            public boolean preHandle(HttpRequest request, HttpResponse response, Object handler) {
                 reached.add(1);
                 return false;
             }
         }, new InternalInterceptor() {
             @Override
-            public boolean preHandle(HttpRequest request, AsyncResponse response, Object handler) {
+            public boolean preHandle(HttpRequest request, HttpResponse response, Object handler) {
                 reached.add(2);
                 return true;
             }
         });
         final DefaultRouteExecution execution = new DefaultRouteExecution(mock, interceptors);
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         assertFalse(execution.applyPreHandle(request, response).join());
         assertEquals(2, reached.size());
         assertEquals(0, reached.get(0).intValue());
@@ -104,7 +104,7 @@ class DefaultRouteExecutionTest {
         final List<Integer> reached = new CopyOnWriteArrayList<>();
         final List<InternalInterceptor> interceptors = Arrays.asList(new InternalInterceptor() {
             @Override
-            public CompletableFuture<Boolean> preHandle0(HttpRequest request, AsyncResponse response, Object handler) {
+            public CompletableFuture<Boolean> preHandle0(HttpRequest request, HttpResponse response, Object handler) {
 
                 return CompletableFuture.supplyAsync(() -> {
                     try {
@@ -118,7 +118,7 @@ class DefaultRouteExecutionTest {
             }
         }, new InternalInterceptor() {
             @Override
-            public CompletableFuture<Boolean> preHandle0(HttpRequest request, AsyncResponse response, Object handler) {
+            public CompletableFuture<Boolean> preHandle0(HttpRequest request, HttpResponse response, Object handler) {
 
                 return CompletableFuture.supplyAsync(() -> {
                     try {
@@ -132,7 +132,7 @@ class DefaultRouteExecutionTest {
             }
         }, new InternalInterceptor() {
             @Override
-            public CompletableFuture<Boolean> preHandle0(HttpRequest request, AsyncResponse response, Object handler) {
+            public CompletableFuture<Boolean> preHandle0(HttpRequest request, HttpResponse response, Object handler) {
 
                 return CompletableFuture.supplyAsync(() -> {
                     reached.add(2);
@@ -142,7 +142,7 @@ class DefaultRouteExecutionTest {
         });
         final DefaultRouteExecution execution = new DefaultRouteExecution(mock, interceptors);
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         assertFalse(execution.applyPreHandle(request, response).join());
         assertEquals(2, reached.size());
         assertEquals(0, reached.get(0).intValue());
@@ -156,18 +156,18 @@ class DefaultRouteExecutionTest {
         final List<Integer> reached = new CopyOnWriteArrayList<>();
         final List<InternalInterceptor> interceptors = Arrays.asList(new InternalInterceptor() {
             @Override
-            public void postHandle(HttpRequest request, AsyncResponse response, Object handler) {
+            public void postHandle(HttpRequest request, HttpResponse response, Object handler) {
                 reached.add(0);
             }
         }, new InternalInterceptor() {
             @Override
-            public void postHandle(HttpRequest request, AsyncResponse response, Object handler) {
+            public void postHandle(HttpRequest request, HttpResponse response, Object handler) {
                 reached.add(1);
             }
         });
         final DefaultRouteExecution execution = new DefaultRouteExecution(mock, interceptors);
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         execution.applyPostHandle(request, response).join();
         assertEquals(2, reached.size());
         assertEquals(0, reached.get(0).intValue());
@@ -181,7 +181,7 @@ class DefaultRouteExecutionTest {
         final List<Integer> reached = new CopyOnWriteArrayList<>();
         final List<InternalInterceptor> interceptors = Arrays.asList(new InternalInterceptor() {
             @Override
-            public CompletableFuture<Void> postHandle0(HttpRequest request, AsyncResponse response, Object handler) {
+            public CompletableFuture<Void> postHandle0(HttpRequest request, HttpResponse response, Object handler) {
                 return CompletableFuture.runAsync(() -> {
                     try {
                         Thread.sleep(50);
@@ -193,13 +193,13 @@ class DefaultRouteExecutionTest {
             }
         }, new InternalInterceptor() {
             @Override
-            public CompletableFuture<Void> postHandle0(HttpRequest request, AsyncResponse response, Object handler) {
+            public CompletableFuture<Void> postHandle0(HttpRequest request, HttpResponse response, Object handler) {
                 return CompletableFuture.runAsync(() -> reached.add(1));
             }
         });
         final DefaultRouteExecution execution = new DefaultRouteExecution(mock, interceptors);
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         execution.applyPostHandle(request, response).join();
         assertEquals(2, reached.size());
         assertEquals(0, reached.get(0).intValue());
@@ -213,13 +213,13 @@ class DefaultRouteExecutionTest {
         final AtomicBoolean reached = new AtomicBoolean(false);
         final List<InternalInterceptor> interceptors = Collections.singletonList(new InternalInterceptor() {
             @Override
-            public void afterCompletion(HttpRequest request, AsyncResponse response, Object handler, Exception t) {
+            public void afterCompletion(HttpRequest request, HttpResponse response, Object handler, Exception t) {
                 reached.set(true);
             }
         });
         final DefaultRouteExecution execution = new DefaultRouteExecution(mock, interceptors);
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         final CompletableFuture<Void> cf = execution.triggerAfterCompletion(request, response, new Error());
         assertTrue(cf.isDone());
         assertTrue(cf.isCompletedExceptionally());
@@ -233,18 +233,18 @@ class DefaultRouteExecutionTest {
         final List<Integer> reached = new CopyOnWriteArrayList<>();
         final List<InternalInterceptor> interceptors = Arrays.asList(new InternalInterceptor() {
             @Override
-            public void afterCompletion(HttpRequest request, AsyncResponse response, Object handler, Exception t) {
+            public void afterCompletion(HttpRequest request, HttpResponse response, Object handler, Exception t) {
                 reached.add(0);
             }
         }, new InternalInterceptor() {
             @Override
-            public void afterCompletion(HttpRequest request, AsyncResponse response, Object handler, Exception t) {
+            public void afterCompletion(HttpRequest request, HttpResponse response, Object handler, Exception t) {
                 reached.add(1);
             }
         });
         final DefaultRouteExecution execution = new DefaultRouteExecution(mock, interceptors);
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         execution.applyPreHandle(request, response).join();
         execution.triggerAfterCompletion(request, response, new IllegalStateException()).join();
 
@@ -261,24 +261,24 @@ class DefaultRouteExecutionTest {
         final List<InternalInterceptor> interceptors = Arrays.asList(new InternalInterceptor() {
 
             @Override
-            public void afterCompletion(HttpRequest request, AsyncResponse response, Object handler, Exception t) {
+            public void afterCompletion(HttpRequest request, HttpResponse response, Object handler, Exception t) {
                 reached.add(0);
             }
         }, new InternalInterceptor() {
 
             @Override
-            public boolean preHandle(HttpRequest request, AsyncResponse response, Object handler) {
+            public boolean preHandle(HttpRequest request, HttpResponse response, Object handler) {
                 return false;
             }
 
             @Override
-            public void afterCompletion(HttpRequest request, AsyncResponse response, Object handler, Exception t) {
+            public void afterCompletion(HttpRequest request, HttpResponse response, Object handler, Exception t) {
                 reached.add(1);
             }
         });
         final DefaultRouteExecution execution = new DefaultRouteExecution(mock, interceptors);
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         execution.applyPreHandle(request, response).join();
         execution.triggerAfterCompletion(request, response, new IllegalStateException()).join();
 
@@ -294,7 +294,7 @@ class DefaultRouteExecutionTest {
         final List<InternalInterceptor> interceptors = Arrays.asList(new InternalInterceptor() {
             @Override
             public CompletableFuture<Void> afterCompletion0(HttpRequest request,
-                                                            AsyncResponse response,
+                                                            HttpResponse response,
                                                             Object handler,
                                                             Exception t) {
                 return CompletableFuture.runAsync(() -> reached.add(0));
@@ -302,7 +302,7 @@ class DefaultRouteExecutionTest {
         }, new InternalInterceptor() {
             @Override
             public CompletableFuture<Void> afterCompletion0(HttpRequest request,
-                                                            AsyncResponse response,
+                                                            HttpResponse response,
                                                             Object handler, Exception t) {
                 return CompletableFuture.runAsync(() -> {
                     try {
@@ -316,7 +316,7 @@ class DefaultRouteExecutionTest {
         });
         final DefaultRouteExecution execution = new DefaultRouteExecution(mock, interceptors);
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         execution.applyPreHandle(request, response).join();
         execution.triggerAfterCompletion(request, response, new IllegalStateException()).join();
         assertEquals(2, reached.size());
@@ -329,7 +329,7 @@ class DefaultRouteExecutionTest {
         final RouteHandlerAdapter mock = mock(RouteHandlerAdapter.class);
         final DefaultRouteExecution execution = new DefaultRouteExecution(mock, null);
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final MockHttpResponse response = MockHttpResponse.aMockResponse().build();
         when(mock.params()).thenReturn(new HandlerAdapter.ResolvableParam[0]);
         when(mock.invoke(any(), any(), any())).thenReturn("foo");
         when(mock.returnValueResolver())
@@ -343,7 +343,7 @@ class DefaultRouteExecutionTest {
         final RouteHandlerAdapter mock = mock(RouteHandlerAdapter.class);
         final DefaultRouteExecution execution = new DefaultRouteExecution(mock, null);
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final MockHttpResponse response = MockHttpResponse.aMockResponse().build();
         when(mock.params()).thenReturn(new HandlerAdapter.ResolvableParam[0]);
 
         final Throwable e = new IllegalStateException();
@@ -363,12 +363,12 @@ class DefaultRouteExecutionTest {
                 new DefaultRouteExecution(mock, Collections.singletonList(new InternalInterceptor() {
 
                     @Override
-                    public boolean preHandle(HttpRequest request, AsyncResponse response, Object handler) {
+                    public boolean preHandle(HttpRequest request, HttpResponse response, Object handler) {
                         return false;
                     }
                 }));
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final MockHttpResponse response = MockHttpResponse.aMockResponse().build();
         CompletableFuture<Void> cf = execution.handle(request, response);
         assertTrue(cf.isDone());
         assertFalse(cf.isCompletedExceptionally());

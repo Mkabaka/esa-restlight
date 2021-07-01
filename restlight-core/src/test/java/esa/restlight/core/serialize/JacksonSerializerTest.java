@@ -18,7 +18,7 @@ package esa.restlight.core.serialize;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -58,7 +58,7 @@ class JacksonSerializerTest {
     @Test
     void testSerialize() throws Exception {
         String pojoString = defaultObjectMapper.writeValueAsString(pojo);
-        final MockAsyncResponse response = new MockAsyncResponse();
+        final MockHttpResponse response = new MockHttpResponse();
         defaultJacksonSerializer.serialize(pojo, response.outputStream());
         assertEquals(pojoString, response.getSentData().toString(StandardCharsets.UTF_8));
     }

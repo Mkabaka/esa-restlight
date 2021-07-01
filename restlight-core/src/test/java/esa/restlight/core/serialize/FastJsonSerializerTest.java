@@ -18,7 +18,7 @@ package esa.restlight.core.serialize;
 import com.alibaba.fastjson.JSON;
 import esa.httpserver.core.HttpOutputStream;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -48,7 +48,7 @@ class FastJsonSerializerTest {
     @Test
     void testSerialize() throws Exception {
         String pojoString = JSON.toJSONString(pojo);
-        final MockAsyncResponse response = new MockAsyncResponse();
+        final MockHttpResponse response = new MockHttpResponse();
         final HttpOutputStream outputStream = response.outputStream();
         fastJsonSerializer.serialize(pojo, outputStream);
         outputStream.flush();

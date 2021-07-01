@@ -16,7 +16,7 @@
 package esa.restlight.server.schedule;
 
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -34,7 +34,7 @@ public interface RequestTask extends Runnable {
      *
      * @return response
      */
-    AsyncResponse response();
+    HttpResponse response();
 
     /**
      * Get associated promise

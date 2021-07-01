@@ -16,7 +16,7 @@
 package esa.restlight.server.route;
 
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -32,6 +32,6 @@ public interface ExceptionHandler<T extends Throwable> {
      *
      * @return future
      */
-    CompletableFuture<Void> handleException(HttpRequest request, AsyncResponse response, T t);
+    CompletableFuture<Void> handleException(HttpRequest request, HttpResponse response, T t);
 
 }

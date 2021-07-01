@@ -17,7 +17,7 @@ package esa.restlight.starter.actuator.adapt;
 
 import esa.commons.Checks;
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.server.bootstrap.WebServerException;
 import esa.restlight.server.route.RouteRegistry;
 import esa.restlight.server.util.Futures;
@@ -34,7 +34,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * This handler is a fake handler for Restlight. {@link #handle(HttpRequest, AsyncResponse, Map)} method will be
+ * This handler is a fake handler for Restlight. {@link #handle(HttpRequest, HttpResponse, Map)} method will be
  * regarded as a controller interface to be registered into the {@link RouteRegistry}, and it is designed as a
  * asynchronously controller which always returns a {@link CompletableFuture} result.
  */
@@ -48,7 +48,7 @@ class OperationHandler {
     }
 
     @SuppressWarnings("unused")
-    CompletableFuture<Object> handle(HttpRequest request, AsyncResponse response, Map<String, String> body) {
+    CompletableFuture<Object> handle(HttpRequest request, HttpResponse response, Map<String, String> body) {
         return handleResult(doInvoke(request, body), response);
     }
 
@@ -76,7 +76,7 @@ class OperationHandler {
         return arguments;
     }
 
-    private CompletableFuture<Object> handleResult(Object result, AsyncResponse res) {
+    private CompletableFuture<Object> handleResult(Object result, HttpResponse res) {
         Object r;
         if (result instanceof WebEndpointResponse) {
             WebEndpointResponse<?> response = (WebEndpointResponse<?>) result;

@@ -17,7 +17,7 @@ package esa.restlight.core.serialize;
 
 import esa.restlight.core.resolver.ReturnValueResolver;
 import esa.restlight.core.util.MediaType;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.http.HttpHeaderNames;
@@ -42,7 +42,7 @@ class SerializersTest {
         final GsonHttpBodySerializer gsonHttpBodySerializer = new GsonHttpBodySerializer();
         final FastJsonHttpBodySerializer fastJsonHttpBodySerializer = new FastJsonHttpBodySerializer();
         final ProtoBufHttpBodySerializer protoBufHttpBodySerializer = new ProtoBufHttpBodySerializer();
-        final MockAsyncResponse response = new MockAsyncResponse();
+        final MockHttpResponse response = new MockHttpResponse();
         final byte[] pojoBytesJackson = jacksonHttpBodySerializer.serialize(pojo);
         assertArrayEquals(pojoBytesJackson,
                 Serializers.serializeBySerializer(jacksonHttpBodySerializer, pojo, response));
@@ -85,41 +85,41 @@ class SerializersTest {
 
     @Test
     void serializeCharSequence() {
-        final MockAsyncResponse asyncResponse = new MockAsyncResponse();
+        final MockHttpResponse httpResponse = new MockHttpResponse();
         final CharSequence charSequence = pojo.toString();
         assertArrayEquals(pojo.toString().getBytes(StandardCharsets.UTF_8),
-                Serializers.serializeCharSequence(charSequence, asyncResponse, null));
-        assertEquals(asyncResponse.getHeader(HttpHeaderNames.CONTENT_TYPE), MediaType.APPLICATION_OCTET_STREAM_VALUE);
+                Serializers.serializeCharSequence(charSequence, httpResponse, null));
+        assertEquals(httpResponse.getHeader(HttpHeaderNames.CONTENT_TYPE), MediaType.APPLICATION_OCTET_STREAM_VALUE);
 
-        Serializers.serializeCharSequence(charSequence, asyncResponse, MediaType.APPLICATION_JSON);
-        assertEquals(asyncResponse.getHeader(HttpHeaderNames.CONTENT_TYPE), MediaType.APPLICATION_JSON_VALUE);
+        Serializers.serializeCharSequence(charSequence, httpResponse, MediaType.APPLICATION_JSON);
+        assertEquals(httpResponse.getHeader(HttpHeaderNames.CONTENT_TYPE), MediaType.APPLICATION_JSON_VALUE);
     }
 
     @Test
     void serializePrimitives() {
-        final MockAsyncResponse asyncResponse = new MockAsyncResponse();
+        final MockHttpResponse httpResponse = new MockHttpResponse();
         assertArrayEquals(pojo.toString().getBytes(StandardCharsets.UTF_8),
-                Serializers.serializePrimitives(pojo, asyncResponse, null));
+                Serializers.serializePrimitives(pojo, httpResponse, null));
     }
 
     @Test
     void serializeByteArray() {
         final byte[] bytes = pojo.toString().getBytes(StandardCharsets.UTF_8);
-        assertArrayEquals(bytes, Serializers.serializeByteArray(bytes, new MockAsyncResponse(), null));
+        assertArrayEquals(bytes, Serializers.serializeByteArray(bytes, new MockHttpResponse(), null));
     }
 
     @Test
     void serializeByteBuf() {
         final ByteBuf byteBuf = Unpooled.wrappedBuffer(pojo.toString().getBytes(StandardCharsets.UTF_8));
         assertEquals(Serializers.serializeByteBuf(byteBuf,
-                new MockAsyncResponse(),
+                new MockHttpResponse(),
                 null),
                 Serializers.alreadyWrite());
     }
 
     @Test
     void serializeIfPossible() {
-        final MockAsyncResponse response = new MockAsyncResponse();
+        final MockHttpResponse response = new MockHttpResponse();
         final CharSequence charSequence = pojo.toString();
         final Integer primitivesWrapper = 1;
         final ByteBuf byteBuf = Unpooled.wrappedBuffer(pojo.toString().getBytes(StandardCharsets.UTF_8));

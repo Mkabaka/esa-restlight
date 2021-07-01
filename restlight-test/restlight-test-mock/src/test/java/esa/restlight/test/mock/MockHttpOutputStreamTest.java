@@ -26,7 +26,7 @@ class MockHttpOutputStreamTest {
 
     @Test
     void testWrite() {
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final MockHttpResponse response = MockHttpResponse.aMockResponse().build();
         final MockHttpOutputStream out = new MockHttpOutputStream(response);
         assertFalse(out.isClosed());
 

@@ -16,12 +16,12 @@
 package esa.restlight.core.handler;
 
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.core.interceptor.InternalInterceptor;
 
 /**
  * This interface defines the invocation to the handler method(controller).
- * @see RouteHandler#invoke(HttpRequest, AsyncResponse, Object...)
+ * @see RouteHandler#invoke(HttpRequest, HttpResponse, Object...)
  */
 public interface RouteHandler extends Handler {
 

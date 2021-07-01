@@ -19,7 +19,7 @@ import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.MethodParam;
 import esa.restlight.core.resolver.ArgumentResolver;
 import esa.restlight.server.bootstrap.WebServerException;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -32,7 +32,7 @@ class MultipartAttrArgumentResolverTest extends AbstractMultipartResolverTest {
         final MethodParam parameter = handlerMethods.get(method).parameters()[0];
         assertTrue(attrResolver.supports(parameter));
         final ArgumentResolver resolver = attrResolver.createResolver(parameter, null);
-        return resolver.resolve(request, MockAsyncResponse.aMockResponse().build());
+        return resolver.resolve(request, MockHttpResponse.aMockResponse().build());
     }
 
     @Test

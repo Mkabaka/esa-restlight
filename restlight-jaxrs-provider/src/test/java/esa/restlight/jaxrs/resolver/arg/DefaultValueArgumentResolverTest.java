@@ -24,7 +24,7 @@ import esa.restlight.jaxrs.resolver.arg.subject.ConstructorSubject;
 import esa.restlight.jaxrs.resolver.arg.subject.FromStringSubject;
 import esa.restlight.jaxrs.resolver.arg.subject.ValueOfSubject;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -139,7 +139,7 @@ class DefaultValueArgumentResolverTest {
         final MethodParam parameter = handlerMethods.get(method).parameters()[0];
         assertTrue(resolverFactory.supports(parameter));
         final ArgumentResolver resolver = resolverFactory.createResolver(parameter, null);
-        return resolver.resolve(request, MockAsyncResponse.aMockResponse().build());
+        return resolver.resolve(request, MockHttpResponse.aMockResponse().build());
     }
 
     private static class Subject {

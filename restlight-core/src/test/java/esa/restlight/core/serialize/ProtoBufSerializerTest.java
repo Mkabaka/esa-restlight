@@ -17,7 +17,7 @@ package esa.restlight.core.serialize;
 
 import esa.httpserver.core.HttpOutputStream;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -47,7 +47,7 @@ class ProtoBufSerializerTest {
 
     @Test
     void testSerialize() throws Exception {
-        final MockAsyncResponse response = new MockAsyncResponse();
+        final MockHttpResponse response = new MockHttpResponse();
         final HttpOutputStream outputStream = response.outputStream();
         protoBufSerializer.serialize(pojo, outputStream);
         outputStream.flush();

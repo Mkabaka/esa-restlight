@@ -16,12 +16,12 @@
 package esa.restlight.ext.filter.cors;
 
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.core.method.HttpMethod;
 import esa.restlight.server.handler.FilterChain;
 import esa.restlight.server.util.Futures;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import org.junit.jupiter.api.Test;
@@ -43,7 +43,7 @@ class CorsFilterTest {
                 .withUri("/foo")
                 .withMethod("GET")
                 .build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         final AtomicBoolean endOfChain = new AtomicBoolean(false);
         final FilterChain chain = ((req, res) -> {
             endOfChain.set(true);
@@ -62,7 +62,7 @@ class CorsFilterTest {
                 .withMethod("GET")
                 .withHeader(HttpHeaderNames.ORIGIN.toString(), "http://localhost:8080")
                 .build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         final AtomicBoolean endOfChain = new AtomicBoolean(false);
         final FilterChain chain = ((req, res) -> {
             endOfChain.set(true);
@@ -87,7 +87,7 @@ class CorsFilterTest {
                 .withHeader(HttpHeaderNames.ORIGIN.toString(), "http://localhost:8080")
                 .withHeader(HttpHeaderNames.ACCESS_CONTROL_REQUEST_METHOD.toString(), "GET")
                 .build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         final AtomicBoolean endOfChain = new AtomicBoolean(false);
         final FilterChain chain = ((req, res) -> {
             endOfChain.set(true);
@@ -118,7 +118,7 @@ class CorsFilterTest {
                 .withMethod("GET")
                 .withHeader(HttpHeaderNames.ORIGIN.toString(), "http://localhost:8080")
                 .build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         final AtomicBoolean endOfChain = new AtomicBoolean(false);
         final FilterChain chain = ((req, res) -> {
             endOfChain.set(true);
@@ -145,7 +145,7 @@ class CorsFilterTest {
                 .withMethod("GET")
                 .withHeader(HttpHeaderNames.ORIGIN.toString(), "http://localhost:8080")
                 .build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         final AtomicBoolean endOfChain = new AtomicBoolean(false);
         final FilterChain chain = ((req, res) -> {
             endOfChain.set(true);
@@ -164,7 +164,7 @@ class CorsFilterTest {
                 .withHeader(HttpHeaderNames.ACCESS_CONTROL_REQUEST_METHOD.toString(), "GET")
 
                 .build();
-        final AsyncResponse response1 = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response1 = MockHttpResponse.aMockResponse().build();
         endOfChain.set(false);
         filter.doFilter(preflight, response1, chain).join();
         assertFalse(endOfChain.get());
@@ -185,7 +185,7 @@ class CorsFilterTest {
                 .withMethod("GET")
                 .withHeader(HttpHeaderNames.ORIGIN.toString(), "http://localhost:8080")
                 .build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         final AtomicBoolean endOfChain = new AtomicBoolean(false);
         final FilterChain chain = ((req, res) -> {
             endOfChain.set(true);
@@ -204,7 +204,7 @@ class CorsFilterTest {
                 .withHeader(HttpHeaderNames.ACCESS_CONTROL_REQUEST_METHOD.toString(), "GET")
 
                 .build();
-        final AsyncResponse response1 = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response1 = MockHttpResponse.aMockResponse().build();
         endOfChain.set(false);
         filter.doFilter(preflight, response1, chain).join();
         assertFalse(endOfChain.get());
@@ -224,7 +224,7 @@ class CorsFilterTest {
                 .withMethod("GET")
                 .withHeader(HttpHeaderNames.ORIGIN.toString(), "http://localhost:8081")
                 .build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         final AtomicBoolean endOfChain = new AtomicBoolean(false);
         final FilterChain chain = ((req, res) -> {
             endOfChain.set(true);
@@ -247,7 +247,7 @@ class CorsFilterTest {
                 .withHeader(HttpHeaderNames.ORIGIN.toString(), "http://localhost:8081")
                 .withHeader(HttpHeaderNames.ACCESS_CONTROL_REQUEST_METHOD.toString(), "GET")
                 .build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         final AtomicBoolean endOfChain = new AtomicBoolean(false);
         final FilterChain chain = ((req, res) -> {
             endOfChain.set(true);
@@ -270,7 +270,7 @@ class CorsFilterTest {
                 .withMethod("GET")
                 .withHeader(HttpHeaderNames.ORIGIN.toString(), "http://localhost:8081")
                 .build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         final AtomicBoolean endOfChain = new AtomicBoolean(false);
         final FilterChain chain = ((req, res) -> {
             endOfChain.set(true);
@@ -294,7 +294,7 @@ class CorsFilterTest {
                 .withHeader(HttpHeaderNames.ORIGIN.toString(), "http://localhost:8081")
                 .withHeader(HttpHeaderNames.ACCESS_CONTROL_REQUEST_METHOD.toString(), "GET")
                 .build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         final AtomicBoolean endOfChain = new AtomicBoolean(false);
         final FilterChain chain = ((req, res) -> {
             endOfChain.set(true);
@@ -321,7 +321,7 @@ class CorsFilterTest {
                 .withMethod("GET")
                 .withHeader(HttpHeaderNames.ORIGIN.toString(), "http://localhost:8081")
                 .build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         final AtomicBoolean endOfChain = new AtomicBoolean(false);
         final FilterChain chain = ((req, res) -> {
             endOfChain.set(true);
@@ -349,7 +349,7 @@ class CorsFilterTest {
                 .withHeader(HttpHeaderNames.ORIGIN.toString(), "http://localhost:8081")
                 .withHeader(HttpHeaderNames.ACCESS_CONTROL_REQUEST_METHOD.toString(), "GET")
                 .build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         final AtomicBoolean endOfChain = new AtomicBoolean(false);
         final FilterChain chain = ((req, res) -> {
             endOfChain.set(true);

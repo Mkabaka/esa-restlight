@@ -16,7 +16,7 @@
 package esa.restlight.springmvc.resolver.exception;
 
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.core.handler.HandlerAdvice;
 import esa.restlight.core.handler.impl.HandlerImpl;
 import esa.restlight.core.handler.locate.AbstractRouteHandlerLocator;
@@ -34,7 +34,7 @@ import esa.restlight.springmvc.MockUtils;
 import esa.restlight.springmvc.annotation.shaded.ControllerAdvice0;
 import esa.restlight.springmvc.annotation.shaded.ExceptionHandler0;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -75,22 +75,22 @@ class SpringMvcExceptionResolverFactoryTest {
 
         final ExceptionResolver<Throwable> resolver1 = factory.createResolver(new HandlerImpl(HandlerMethod.of(
                 ControllerExceptionMapping.class.getDeclaredMethod("method1",
-                        AsyncResponse.class, IllegalArgumentException.class),
+                        HttpResponse.class, IllegalArgumentException.class),
                 bean)));
         assertNotNull(resolver1);
-        final AsyncResponse response1 = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response1 = MockHttpResponse.aMockResponse().build();
         resolver1.handleException(MockHttpRequest.aMockRequest().build(), response1, new IllegalArgumentException());
         assertEquals("IllegalArgumentException", response1.getHeader(NAME));
 
         ExceptionResolver<Throwable> resolver2 = factory.createResolver(new HandlerImpl(HandlerMethod.of(
-                ControllerExceptionMapping.class.getDeclaredMethod("method2", AsyncResponse.class),
+                ControllerExceptionMapping.class.getDeclaredMethod("method2", HttpResponse.class),
                 bean)));
         assertNotNull(resolver2);
-        final AsyncResponse response2 = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response2 = MockHttpResponse.aMockResponse().build();
         resolver2.handleException(null, response2, new NullPointerException());
         assertEquals("NullPointerException", response2.getHeader(NAME));
 
-        final AsyncResponse response3 = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response3 = MockHttpResponse.aMockResponse().build();
         resolver2.handleException(null, response3, new RuntimeException());
         assertNull(response3.getHeader(NAME));
     }
@@ -105,22 +105,22 @@ class SpringMvcExceptionResolverFactoryTest {
 
         final ExceptionResolver<Throwable> resolver1 = factory.createResolver(new HandlerImpl(HandlerMethod.of(
                 ControllerAdviceExceptionMapping.class.getDeclaredMethod("method1",
-                        AsyncResponse.class, IllegalArgumentException.class),
+                        HttpResponse.class, IllegalArgumentException.class),
                 bean)));
         assertNotNull(resolver1);
-        final AsyncResponse response1 = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response1 = MockHttpResponse.aMockResponse().build();
         resolver1.handleException(MockHttpRequest.aMockRequest().build(), response1, new IllegalArgumentException());
         assertEquals("IllegalArgumentException", response1.getHeader(NAME));
 
         ExceptionResolver<Throwable> resolver2 = factory.createResolver(new HandlerImpl(HandlerMethod.of(
-                ControllerExceptionMapping.class.getDeclaredMethod("method2", AsyncResponse.class),
+                ControllerExceptionMapping.class.getDeclaredMethod("method2", HttpResponse.class),
                 bean)));
         assertNotNull(resolver2);
-        final AsyncResponse response2 = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response2 = MockHttpResponse.aMockResponse().build();
         resolver2.handleException(null, response2, new NullPointerException());
         assertEquals("NullPointerException", response2.getHeader(NAME));
 
-        final AsyncResponse response3 = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response3 = MockHttpResponse.aMockResponse().build();
         resolver2.handleException(null, response3, new RuntimeException());
         assertNull(response3.getHeader(NAME));
     }
@@ -135,22 +135,22 @@ class SpringMvcExceptionResolverFactoryTest {
 
         final ExceptionResolver<Throwable> resolver1 = factory.createResolver(new HandlerImpl(HandlerMethod.of(
                 RestControllerAdviceExceptionMapping.class.getDeclaredMethod("method1",
-                        AsyncResponse.class, IllegalArgumentException.class),
+                        HttpResponse.class, IllegalArgumentException.class),
                 bean)));
         assertNotNull(resolver1);
-        final AsyncResponse response1 = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response1 = MockHttpResponse.aMockResponse().build();
         resolver1.handleException(MockHttpRequest.aMockRequest().build(), response1, new IllegalArgumentException());
         assertEquals("IllegalArgumentException", response1.getHeader(NAME));
 
         ExceptionResolver<Throwable> resolver2 = factory.createResolver(new HandlerImpl(HandlerMethod.of(
-                ControllerExceptionMapping.class.getDeclaredMethod("method2", AsyncResponse.class),
+                ControllerExceptionMapping.class.getDeclaredMethod("method2", HttpResponse.class),
                 bean)));
         assertNotNull(resolver2);
-        final AsyncResponse response2 = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response2 = MockHttpResponse.aMockResponse().build();
         resolver2.handleException(null, response2, new NullPointerException());
         assertEquals("NullPointerException", response2.getHeader(NAME));
 
-        final AsyncResponse response3 = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response3 = MockHttpResponse.aMockResponse().build();
         resolver2.handleException(null, response3, new RuntimeException());
         assertNull(response3.getHeader(NAME));
     }
@@ -237,7 +237,7 @@ class SpringMvcExceptionResolverFactoryTest {
                 Collections.emptyList(),
                 Collections.singleton(new ReturnValueResolverAdapter() {
                     @Override
-                    public byte[] resolve(Object returnValue, HttpRequest request, AsyncResponse response) {
+                    public byte[] resolve(Object returnValue, HttpRequest request, HttpResponse response) {
                         return new byte[0];
                     }
 
@@ -274,12 +274,12 @@ class SpringMvcExceptionResolverFactoryTest {
     private static class ControllerExceptionMapping {
 
         @ExceptionHandler
-        public void method1(AsyncResponse response, IllegalArgumentException ex) {
+        public void method1(HttpResponse response, IllegalArgumentException ex) {
             response.setHeader(NAME, "IllegalArgumentException");
         }
 
         @ExceptionHandler(NullPointerException.class)
-        public void method2(AsyncResponse response) {
+        public void method2(HttpResponse response) {
             response.setHeader(NAME, "NullPointerException");
         }
     }
@@ -290,12 +290,12 @@ class SpringMvcExceptionResolverFactoryTest {
     private static class ControllerAdviceExceptionMapping {
 
         @ExceptionHandler
-        public void method1(AsyncResponse response, IllegalArgumentException ex) {
+        public void method1(HttpResponse response, IllegalArgumentException ex) {
             response.setHeader(NAME, "IllegalArgumentException");
         }
 
         @ExceptionHandler(NullPointerException.class)
-        public void method2(AsyncResponse response) {
+        public void method2(HttpResponse response) {
             response.setHeader(NAME, "NullPointerException");
         }
     }
@@ -306,12 +306,12 @@ class SpringMvcExceptionResolverFactoryTest {
     private static class RestControllerAdviceExceptionMapping {
 
         @ExceptionHandler
-        public void method1(AsyncResponse response, IllegalArgumentException ex) {
+        public void method1(HttpResponse response, IllegalArgumentException ex) {
             response.setHeader(NAME, "IllegalArgumentException");
         }
 
         @ExceptionHandler(NullPointerException.class)
-        public void method2(AsyncResponse response) {
+        public void method2(HttpResponse response) {
             response.setHeader(NAME, "NullPointerException");
         }
     }

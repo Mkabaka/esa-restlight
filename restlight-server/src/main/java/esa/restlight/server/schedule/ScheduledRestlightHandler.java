@@ -19,7 +19,7 @@ import esa.commons.Checks;
 import esa.commons.StringUtils;
 import esa.commons.function.Consumer3;
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.core.util.MediaType;
 import esa.restlight.core.util.OrderedComparator;
 import esa.restlight.server.bootstrap.DispatcherHandler;
@@ -53,7 +53,7 @@ public class ScheduledRestlightHandler implements RestlightHandler {
     private final DispatcherHandler dispatcher;
     private final List<Scheduler> schedulers = new LinkedList<>();
     private final RequestTaskHook hook;
-    private Consumer3<HttpRequest, AsyncResponse, CompletableFuture<Void>> processor;
+    private Consumer3<HttpRequest, HttpResponse, CompletableFuture<Void>> processor;
     private volatile long terminationTimeoutSeconds;
 
     public ScheduledRestlightHandler(ServerOptions options,
@@ -96,7 +96,7 @@ public class ScheduledRestlightHandler implements RestlightHandler {
     }
 
     private void processByFixedScheduler(HttpRequest req,
-                                         AsyncResponse res,
+                                         HttpResponse res,
                                          CompletableFuture<Void> promise,
                                          Scheduler scheduler) {
         final RequestTask task = hook.onRequest(newRequestTask(req,
@@ -114,7 +114,7 @@ public class ScheduledRestlightHandler implements RestlightHandler {
     }
 
     private void processBySpecifiedScheduler(HttpRequest req,
-                                             AsyncResponse res,
+                                             HttpResponse res,
                                              CompletableFuture<Void> promise) {
         final Route route = routeOrNotFound(req, res, promise);
         if (route != null) {
@@ -130,7 +130,7 @@ public class ScheduledRestlightHandler implements RestlightHandler {
     }
 
     private Route routeOrNotFound(HttpRequest req,
-                                  AsyncResponse res,
+                                  HttpResponse res,
                                   CompletableFuture<Void> promise) {
         final Route route = dispatcher.route(req, res);
         if (route == null) {
@@ -151,7 +151,7 @@ public class ScheduledRestlightHandler implements RestlightHandler {
     }
 
     @Override
-    public CompletableFuture<Void> process(HttpRequest request, AsyncResponse response) {
+    public CompletableFuture<Void> process(HttpRequest request, HttpResponse response) {
         if (LoggerUtils.logger().isDebugEnabled()) {
             LoggerUtils.logger().debug("Received request(url={}, method={})",
                     request.path(), request.method());
@@ -268,7 +268,7 @@ public class ScheduledRestlightHandler implements RestlightHandler {
      * @param promise  promise
      */
     static void notFound(HttpRequest request,
-                         AsyncResponse response,
+                         HttpResponse response,
                          CompletableFuture<Void> promise) {
         LoggerUtils.logger().warn("No mapping for request(url={}, method={})",
                 request.path(), request.method());

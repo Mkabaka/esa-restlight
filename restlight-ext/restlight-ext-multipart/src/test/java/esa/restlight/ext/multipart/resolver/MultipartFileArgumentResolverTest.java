@@ -20,7 +20,7 @@ import esa.restlight.core.method.MethodParam;
 import esa.restlight.core.resolver.ArgumentResolver;
 import esa.restlight.ext.multipart.core.MultipartFile;
 import esa.restlight.server.bootstrap.WebServerException;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -35,7 +35,7 @@ class MultipartFileArgumentResolverTest extends AbstractMultipartResolverTest {
         final MethodParam parameter = handlerMethods.get(method).parameters()[index];
         assertTrue(fileResolver.supports(parameter));
         final ArgumentResolver resolver = fileResolver.createResolver(parameter, null);
-        return resolver.resolve(request, MockAsyncResponse.aMockResponse().build());
+        return resolver.resolve(request, MockHttpResponse.aMockResponse().build());
     }
 
     private static Object createFormResolverAndResolve(HttpRequest request,
@@ -44,7 +44,7 @@ class MultipartFileArgumentResolverTest extends AbstractMultipartResolverTest {
         final MethodParam parameter = handlerMethods.get(method).parameters()[index];
         assertTrue(attrResolver.supports(parameter));
         final ArgumentResolver resolver = attrResolver.createResolver(parameter, null);
-        return resolver.resolve(request, MockAsyncResponse.aMockResponse().build());
+        return resolver.resolve(request, MockHttpResponse.aMockResponse().build());
     }
 
     @Test

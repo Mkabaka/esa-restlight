@@ -20,7 +20,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import esa.commons.StringUtils;
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.core.util.MediaType;
 import esa.restlight.server.handler.Filter;
 import esa.restlight.server.handler.FilterChain;
@@ -89,7 +89,7 @@ public class IpWhiteListFilter implements Filter {
     }
 
     @Override
-    public CompletableFuture<Void> doFilter(HttpRequest request, AsyncResponse response, FilterChain chain) {
+    public CompletableFuture<Void> doFilter(HttpRequest request, HttpResponse response, FilterChain chain) {
         String ip = getRemoteAddr(request);
         boolean valid = false;
         if (ip != null) {

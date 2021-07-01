@@ -15,12 +15,12 @@
  */
 package esa.restlight.server.schedule;
 
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.httpserver.utils.Constants;
 import esa.restlight.server.config.TimeoutOptions;
 import esa.restlight.server.config.TimeoutOptionsConfigure;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.CompletableFuture;
@@ -48,7 +48,7 @@ class TTFBTimeoutSchedulerTest {
         final RequestTask task = RequestTaskImpl.newRequestTask(MockHttpRequest.aMockRequest()
                         .withHeader(Constants.TTFB.toString(),
                                 String.valueOf(System.currentTimeMillis() + 1000L)).build(),
-                MockAsyncResponse.aMockResponse().build(), new CompletableFuture<>(), runnable);
+                MockHttpResponse.aMockResponse().build(), new CompletableFuture<>(), runnable);
         scheduler.schedule(task);
         assertTrue(flag.get());
     }
@@ -63,7 +63,7 @@ class TTFBTimeoutSchedulerTest {
                         .timeMillis(5L)
                         .type(TimeoutOptions.Type.TTFB)
                         .configured());
-        final AsyncResponse response0 = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response0 = MockHttpResponse.aMockResponse().build();
         final Runnable runnable0 = () -> {
             flag.set(true);
             response0.sendResult(1000);
@@ -78,7 +78,7 @@ class TTFBTimeoutSchedulerTest {
         flag.set(false);
 
         // actualCost >= timeoutMillis
-        final AsyncResponse response1 = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response1 = MockHttpResponse.aMockResponse().build();
         final Runnable runnable1 = () -> {
             response1.sendResult(1000);
             flag.set(true);
@@ -86,7 +86,7 @@ class TTFBTimeoutSchedulerTest {
         final RequestTask task1 = RequestTaskImpl.newRequestTask(MockHttpRequest.aMockRequest()
                         .withHeader(Constants.TTFB.toString(),
                                 String.valueOf(System.currentTimeMillis() - 100L)).build(),
-                MockAsyncResponse.aMockResponse().build(), new CompletableFuture<>(), runnable1);
+                MockHttpResponse.aMockResponse().build(), new CompletableFuture<>(), runnable1);
         final TimeoutScheduler scheduler1 = new TTFBTimeoutScheduler(Schedulers.io(),
                 TimeoutOptionsConfigure.newOpts()
                         .timeMillis(5L)

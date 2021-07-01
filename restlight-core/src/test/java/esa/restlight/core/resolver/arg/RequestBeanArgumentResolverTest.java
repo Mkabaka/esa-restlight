@@ -17,7 +17,7 @@ package esa.restlight.core.resolver.arg;
 
 import esa.commons.ClassUtils;
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.core.annotation.RequestBean;
 import esa.restlight.core.method.HandlerMethod;
 import esa.restlight.core.method.MethodParam;
@@ -26,7 +26,7 @@ import esa.restlight.core.resolver.ArgumentResolver;
 import esa.restlight.core.resolver.HandlerResolverFactoryImpl;
 import esa.restlight.core.serialize.JacksonHttpBodySerializer;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -45,7 +45,7 @@ class RequestBeanArgumentResolverTest {
                             Collections.singletonList(new JacksonHttpBodySerializer()),
                             null,
                             Arrays.asList(new HttpRequestArgumentResolverFactory(),
-                                    new AsyncResponseArgumentResolverFactory()),
+                                    new HttpResponseArgumentResolverFactory()),
                             null,
                             null,
                             null,
@@ -84,7 +84,7 @@ class RequestBeanArgumentResolverTest {
         final MethodParam parameter = handlerMethods.get(method).parameters()[0];
         assertTrue(resolverFactory.supports(parameter));
         final ArgumentResolver resolver = resolverFactory.createResolver(parameter, null);
-        return resolver.resolve(request, MockAsyncResponse.aMockResponse().build());
+        return resolver.resolve(request, MockHttpResponse.aMockResponse().build());
     }
 
     private static class Subject {
@@ -97,6 +97,6 @@ class RequestBeanArgumentResolverTest {
     private static class Bean {
         private int foo;
         private HttpRequest request;
-        private AsyncResponse response;
+        private HttpResponse response;
     }
 }

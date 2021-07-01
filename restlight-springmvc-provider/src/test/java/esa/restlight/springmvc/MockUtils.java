@@ -25,7 +25,7 @@ import esa.restlight.core.resolver.HandlerResolverFactory;
 import esa.restlight.core.resolver.HandlerResolverFactoryImpl;
 import esa.restlight.core.resolver.ReturnValueResolverFactory;
 import esa.restlight.core.resolver.arg.HttpRequestArgumentResolverFactory;
-import esa.restlight.core.resolver.arg.AsyncResponseArgumentResolverFactory;
+import esa.restlight.core.resolver.arg.HttpResponseArgumentResolverFactory;
 import esa.restlight.core.resolver.arg.QueryBeanArgumentResolver;
 import esa.restlight.core.resolver.result.SimpleReturnValueResolver;
 import esa.restlight.core.serialize.FastJsonHttpBodySerializer;
@@ -62,7 +62,7 @@ public class MockUtils {
                 new RequestBodyArgumentResolver(),
                 new SpecifiedFixedRequestBodyArgumentResolver(),
                 new HttpRequestArgumentResolverFactory(),
-                new AsyncResponseArgumentResolverFactory());
+                new HttpResponseArgumentResolverFactory());
     }
 
     public static List<ReturnValueResolverFactory> mockReturnValueResolversFactoryBeans() {

@@ -16,7 +16,7 @@
 package esa.restlight.core.serialize;
 
 import esa.commons.Primitives;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.httpserver.core.HttpOutputStream;
 import esa.restlight.core.resolver.ReturnValueResolver;
 import esa.restlight.core.util.MediaType;
@@ -32,7 +32,7 @@ public final class Serializers {
 
     public static byte[] serializeBySerializer(HttpResponseSerializer serializer,
                                                Object returnValue,
-                                               AsyncResponse response) throws Exception {
+                                               HttpResponse response) throws Exception {
         if (serializer.preferStream()) {
             serializeAndCloseStream(serializer, response.outputStream(), returnValue);
             return alreadyWrite();
@@ -61,13 +61,13 @@ public final class Serializers {
     }
 
     public static byte[] serializeCharSequence(CharSequence charSequence,
-                                               AsyncResponse response,
+                                               HttpResponse response,
                                                MediaType mediaType) {
         setMediaType(response, mediaType);
         return charSequence.toString().getBytes(StandardCharsets.UTF_8);
     }
 
-    private static void setMediaType(AsyncResponse response, MediaType mediaType) {
+    private static void setMediaType(HttpResponse response, MediaType mediaType) {
         if (mediaType == null || mediaType.isWildcardType() || mediaType.isWildcardSubtype()) {
             response.setHeader(HttpHeaderNames.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE);
         } else {
@@ -76,21 +76,21 @@ public final class Serializers {
     }
 
     public static byte[] serializePrimitives(Object primitive,
-                                             AsyncResponse response,
+                                             HttpResponse response,
                                              MediaType mediaType) {
         setMediaType(response, mediaType);
         return String.valueOf(primitive).getBytes(StandardCharsets.UTF_8);
     }
 
     public static byte[] serializeByteArray(byte[] bytes,
-                                            AsyncResponse response,
+                                            HttpResponse response,
                                             MediaType mediaType) {
         setMediaType(response, mediaType);
         return bytes;
     }
 
     public static byte[] serializeByteBuf(ByteBuf bytes,
-                                          AsyncResponse response,
+                                          HttpResponse response,
                                           MediaType mediaType) {
         setMediaType(response, mediaType);
         response.sendResult(bytes);
@@ -98,7 +98,7 @@ public final class Serializers {
     }
 
     public static byte[] serializeIfPossible(Object value,
-                                             AsyncResponse response,
+                                             HttpResponse response,
                                              MediaType mediaType) {
         if (value instanceof CharSequence) {
             return serializeCharSequence((CharSequence) value, response, mediaType);

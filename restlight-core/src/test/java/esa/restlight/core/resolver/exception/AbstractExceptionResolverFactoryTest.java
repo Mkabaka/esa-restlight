@@ -15,7 +15,7 @@
  */
 package esa.restlight.core.resolver.exception;
 
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.core.handler.locate.HandlerLocator;
 import esa.restlight.core.resolver.HandlerResolverFactory;
 import org.junit.jupiter.api.Test;
@@ -44,14 +44,14 @@ class AbstractExceptionResolverFactoryTest {
 
     private static class Controller {
 
-        public void method1(AsyncResponse response, IllegalArgumentException ex) {
+        public void method1(HttpResponse response, IllegalArgumentException ex) {
             response.sendResult(200);
         }
     }
 
     private static class ControllerAdvice {
 
-        public void method1(AsyncResponse response, IllegalArgumentException ex) {
+        public void method1(HttpResponse response, IllegalArgumentException ex) {
             response.sendResult(200);
         }
 

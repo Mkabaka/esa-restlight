@@ -17,12 +17,12 @@ package esa.restlight.core.handler;
 
 import esa.commons.Checks;
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 
 /**
  * Implementation of {@link HandlerInvoker} which maintains a reference of {@link HandlerAdvice} and a
  * reference of the next {@link HandlerInvoker} which would be passed to the
- * {@link HandlerAdvice#invoke(HttpRequest, AsyncResponse, Object[], HandlerInvoker)} function of
+ * {@link HandlerAdvice#invoke(HttpRequest, HttpResponse, Object[], HandlerInvoker)} function of
  * {@link #current} as the third argument.
  */
 public class LinkedHandlerInvoker implements HandlerInvoker {
@@ -50,7 +50,7 @@ public class LinkedHandlerInvoker implements HandlerInvoker {
     }
 
     @Override
-    public Object invoke(HttpRequest request, AsyncResponse response, Object[] args) throws Throwable {
+    public Object invoke(HttpRequest request, HttpResponse response, Object[] args) throws Throwable {
         return current.invoke(request, response, args, next);
     }
 }

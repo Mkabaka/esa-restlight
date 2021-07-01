@@ -16,7 +16,7 @@
 package esa.restlight.core.handler.impl;
 
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.core.interceptor.InternalInterceptor;
 import esa.restlight.core.resolver.ExceptionResolver;
 import esa.restlight.server.route.CompletionHandler;
@@ -51,7 +51,7 @@ public class DefaultRouteExecution extends AbstractRouteExecution<RouteHandlerAd
     }
 
     @Override
-    public CompletableFuture<Void> handle(HttpRequest request, AsyncResponse response) {
+    public CompletableFuture<Void> handle(HttpRequest request, HttpResponse response) {
         return applyPreHandle(request, response)
                 .thenApply(allowed -> {
                     if (!allowed) {
@@ -90,7 +90,7 @@ public class DefaultRouteExecution extends AbstractRouteExecution<RouteHandlerAd
         return completionHandler;
     }
 
-    protected CompletableFuture<Boolean> applyPreHandle(HttpRequest request, AsyncResponse response) {
+    protected CompletableFuture<Boolean> applyPreHandle(HttpRequest request, HttpResponse response) {
         if (interceptorAbsent) {
             return Futures.completedFuture(Boolean.TRUE);
         }
@@ -113,7 +113,7 @@ public class DefaultRouteExecution extends AbstractRouteExecution<RouteHandlerAd
         return future;
     }
 
-    private CompletableFuture<Boolean> invokeInterceptor(HttpRequest request, AsyncResponse response, int index) {
+    private CompletableFuture<Boolean> invokeInterceptor(HttpRequest request, HttpResponse response, int index) {
         return interceptors.get(index)
                 .preHandle0(request, response, handlerAdapter.handler())
                 .thenApply(allowed -> {
@@ -124,7 +124,7 @@ public class DefaultRouteExecution extends AbstractRouteExecution<RouteHandlerAd
                 });
     }
 
-    protected CompletableFuture<Void> applyPostHandle(HttpRequest request, AsyncResponse response) {
+    protected CompletableFuture<Void> applyPostHandle(HttpRequest request, HttpResponse response) {
         if (interceptorAbsent) {
             return Futures.completedFuture();
         }
@@ -143,7 +143,7 @@ public class DefaultRouteExecution extends AbstractRouteExecution<RouteHandlerAd
     }
 
     protected CompletableFuture<Void> triggerAfterCompletion(HttpRequest request,
-                                                             AsyncResponse response,
+                                                             HttpResponse response,
                                                              Throwable t) {
         if (interceptorAbsent) {
             return Futures.completedFuture();

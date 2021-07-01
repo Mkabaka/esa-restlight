@@ -15,7 +15,7 @@
  */
 package esa.restlight.core.util;
 
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import io.netty.buffer.ByteBufUtil;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import org.junit.jupiter.api.Test;
@@ -40,7 +40,7 @@ class MultipartFileUtilsTest {
                 out.write("foo".getBytes(StandardCharsets.UTF_8));
                 out.flush();
             }
-            final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
+            final MockHttpResponse response = MockHttpResponse.aMockResponse().build();
             MultipartFileUtils.writeToResponse(response, file);
             assertEquals(MediaType.MULTIPART_FORM_DATA.value() + ";charset=" + StandardCharsets.UTF_8.name(),
                     response.getHeader(HttpHeaderNames.CONTENT_TYPE));

@@ -16,7 +16,7 @@
 package esa.restlight.core.resolver.result;
 
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.httpserver.core.HttpOutputStream;
 import esa.restlight.core.method.HandlerMethod;
 import esa.restlight.core.method.InvocableMethod;
@@ -26,7 +26,7 @@ import esa.restlight.core.util.MediaType;
 import esa.restlight.server.bootstrap.WebServerException;
 import esa.restlight.server.util.Futures;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Type;
@@ -67,7 +67,7 @@ class AbstractResponseBodyReturnValueResolverTest {
         final AbstractResponseBodyReturnValueResolver.DefaultResolver resolver0 = new
                 AbstractResponseBodyReturnValueResolver.DefaultResolver(Collections.emptyList(), true);
         assertThrows(WebServerException.class, () -> resolver0.resolve0("", Collections.emptyList(),
-                MockHttpRequest.aMockRequest().build(), MockAsyncResponse.aMockResponse().build()));
+                MockHttpRequest.aMockRequest().build(), MockHttpResponse.aMockResponse().build()));
 
         final AbstractResponseBodyReturnValueResolver.DefaultResolver resolver1 = new
                 AbstractResponseBodyReturnValueResolver.DefaultResolver(Collections.singletonList(
@@ -75,7 +75,7 @@ class AbstractResponseBodyReturnValueResolverTest {
         // media type is empty, use serializers.get(0) as default without matching
         assertArrayEquals("Hello World2!".getBytes(StandardCharsets.UTF_8),
                 resolver1.resolve0("", Collections.emptyList(),
-                MockHttpRequest.aMockRequest().build(), MockAsyncResponse.aMockResponse().build()));
+                MockHttpRequest.aMockRequest().build(), MockHttpResponse.aMockResponse().build()));
 
         // matching by #supports()
         final List<HttpResponseSerializer> serializers = new LinkedList<>();
@@ -85,7 +85,7 @@ class AbstractResponseBodyReturnValueResolverTest {
                 AbstractResponseBodyReturnValueResolver.DefaultResolver(serializers, true);
         assertArrayEquals("Hello World1!".getBytes(StandardCharsets.UTF_8),
                 resolver2.resolve0("", Collections.singletonList(MediaType.ALL),
-                        MockHttpRequest.aMockRequest().build(), MockAsyncResponse.aMockResponse().build()));
+                        MockHttpRequest.aMockRequest().build(), MockHttpResponse.aMockResponse().build()));
 
         // have not matched serializer but to use serializers.get(0) as default.
         final AbstractResponseBodyReturnValueResolver.DefaultResolver resolver3 = new
@@ -93,7 +93,7 @@ class AbstractResponseBodyReturnValueResolverTest {
                         Collections.singletonList(new HttpResponseSerializer2()), true);
         assertArrayEquals("Hello World2!".getBytes(StandardCharsets.UTF_8),
                 resolver3.resolve0("", Collections.singletonList(MediaType.ALL),
-                        MockHttpRequest.aMockRequest().build(), MockAsyncResponse.aMockResponse().build()));
+                        MockHttpRequest.aMockRequest().build(), MockHttpResponse.aMockResponse().build()));
     }
 
     @Test
@@ -125,7 +125,7 @@ class AbstractResponseBodyReturnValueResolverTest {
         }
 
         @Override
-        public Object customResponse(HttpRequest request, AsyncResponse response, Object returnValue) {
+        public Object customResponse(HttpRequest request, HttpResponse response, Object returnValue) {
             return null;
         }
 
@@ -152,7 +152,7 @@ class AbstractResponseBodyReturnValueResolverTest {
         }
 
         @Override
-        public Object customResponse(HttpRequest request, AsyncResponse response, Object returnValue) {
+        public Object customResponse(HttpRequest request, HttpResponse response, Object returnValue) {
             return null;
         }
 

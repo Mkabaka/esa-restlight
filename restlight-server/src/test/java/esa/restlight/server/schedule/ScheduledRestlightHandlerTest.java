@@ -16,7 +16,7 @@
 package esa.restlight.server.schedule;
 
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.server.bootstrap.DispatcherHandler;
 import esa.restlight.server.config.ServerOptionsConfigure;
 import esa.restlight.server.route.Mapping;
@@ -24,7 +24,7 @@ import esa.restlight.server.route.Route;
 import esa.restlight.server.util.LoggerUtils;
 import esa.restlight.server.util.PromiseUtils;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import org.junit.jupiter.api.Test;
 
@@ -95,7 +95,7 @@ class ScheduledRestlightHandlerTest {
         handler.onConnected(null);
         for (int i = 0; i < 10; i++) {
             final HttpRequest req1 = MockHttpRequest.aMockRequest().withUri("/foo").build();
-            final AsyncResponse res1 = MockAsyncResponse.aMockResponse().build();
+            final HttpResponse res1 = MockHttpResponse.aMockResponse().build();
             handler.process(req1, res1);
         }
         handler.shutdown();
@@ -106,7 +106,7 @@ class ScheduledRestlightHandlerTest {
     @Test
     void testNotFound() {
         final HttpRequest req = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse res = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse res = MockHttpResponse.aMockResponse().build();
         final CompletableFuture<Void> cf = new CompletableFuture<>();
         ScheduledRestlightHandler.notFound(req, res, cf);
         assertTrue(res.isCommitted());
@@ -117,7 +117,7 @@ class ScheduledRestlightHandlerTest {
     @Test
     void testProcess() {
         final HttpRequest req1 = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse res1 = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse res1 = MockHttpResponse.aMockResponse().build();
         final ForRouteAssertion handler = new ForRouteAssertion();
         handler.found = false;
         final ScheduledRestlightHandler scheduled1 =
@@ -132,7 +132,7 @@ class ScheduledRestlightHandlerTest {
         handler.found = true;
 
         final HttpRequest req2 = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse res2 = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse res2 = MockHttpResponse.aMockResponse().build();
 
         final ScheduledRestlightHandler scheduled2 =
                 new ScheduledRestlightHandler(ServerOptionsConfigure.defaultOpts(), handler);
@@ -147,7 +147,7 @@ class ScheduledRestlightHandlerTest {
     @Test
     void testRequestTaskHookWithFixedScheduler() {
         final HttpRequest req1 = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse res1 = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse res1 = MockHttpResponse.aMockResponse().build();
         final ForRouteAssertion handler = new ForRouteAssertion();
         handler.found = false;
 
@@ -173,7 +173,7 @@ class ScheduledRestlightHandlerTest {
         advicesRet.clear();
 
         final HttpRequest req2 = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse res2 = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse res2 = MockHttpResponse.aMockResponse().build();
 
 
         advices = Arrays.asList(new RequestTaskHook() {
@@ -226,7 +226,7 @@ class ScheduledRestlightHandlerTest {
     @Test
     void testRequestTaskHookWithSpecifiedScheduler() {
         final HttpRequest req1 = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse res1 = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse res1 = MockHttpResponse.aMockResponse().build();
         final ForRouteAssertion handler = new ForRouteAssertion() {
             @Override
             public List<Route> routes() {
@@ -258,7 +258,7 @@ class ScheduledRestlightHandlerTest {
         advicesRet.clear();
 
         final HttpRequest req2 = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse res2 = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse res2 = MockHttpResponse.aMockResponse().build();
 
 
         advices = Arrays.asList(new RequestTaskHook() {
@@ -311,7 +311,7 @@ class ScheduledRestlightHandlerTest {
     @Test
     void testRequestTaskHookWithNullReturn() {
         final HttpRequest req1 = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse res1 = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse res1 = MockHttpResponse.aMockResponse().build();
         final ForRouteAssertion handler = new ForRouteAssertion();
         handler.found = false;
 
@@ -329,7 +329,7 @@ class ScheduledRestlightHandlerTest {
 
 
         final HttpRequest req2 = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse res2 = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse res2 = MockHttpResponse.aMockResponse().build();
 
         final List<Integer> advicesRet = new CopyOnWriteArrayList<>();
         advices = Arrays.asList(new RequestTaskHook() {
@@ -382,9 +382,9 @@ class ScheduledRestlightHandlerTest {
         // just pass a null value for empty operation
         handler.onConnected(null);
         final HttpRequest req1 = MockHttpRequest.aMockRequest().withUri("/foo").build();
-        final AsyncResponse res1 = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse res1 = MockHttpResponse.aMockResponse().build();
         final HttpRequest req2 = MockHttpRequest.aMockRequest().withUri("/bar").build();
-        final AsyncResponse res2 = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse res2 = MockHttpResponse.aMockResponse().build();
         handler.process(req1, res1);
         handler.process(req2, res2);
         handler.shutdown();
@@ -449,7 +449,7 @@ class ScheduledRestlightHandlerTest {
         }
 
         @Override
-        public Route route(HttpRequest request, AsyncResponse response) {
+        public Route route(HttpRequest request, HttpResponse response) {
             if (request.uri().equals("/foo")) {
                 if (route1Phase1OnIo ^ Thread.currentThread() == io) {
                     ret.set(false);
@@ -467,7 +467,7 @@ class ScheduledRestlightHandlerTest {
 
         @Override
         public void service(HttpRequest request,
-                            AsyncResponse response,
+                            HttpResponse response,
                             CompletableFuture<Void> promise,
                             Route route) {
             if (route == r1) {
@@ -513,12 +513,12 @@ class ScheduledRestlightHandlerTest {
         }
 
         @Override
-        public Route route(HttpRequest request, AsyncResponse response) {
+        public Route route(HttpRequest request, HttpResponse response) {
             return found ? r : null;
         }
 
         @Override
-        public void service(HttpRequest request, AsyncResponse response, CompletableFuture<Void> promise,
+        public void service(HttpRequest request, HttpResponse response, CompletableFuture<Void> promise,
                             Route route) {
             response.sendResult(204);
             promise.complete(null);
@@ -554,7 +554,7 @@ class ScheduledRestlightHandlerTest {
         }
 
         @Override
-        public AsyncResponse response() {
+        public HttpResponse response() {
             return delegate.response();
         }
 

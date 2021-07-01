@@ -19,7 +19,7 @@ import esa.commons.annotation.Internal;
 import esa.commons.logging.Logger;
 import esa.commons.logging.LoggerFactory;
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.core.util.MediaType;
 import esa.restlight.server.bootstrap.DispatcherExceptionHandler;
 import esa.restlight.springmvc.util.ResponseStatusUtils;
@@ -35,7 +35,7 @@ public class SpringMvcDispatcherExceptionHandler implements DispatcherExceptionH
             LoggerFactory.getLogger(SpringMvcDispatcherExceptionHandler.class);
 
     @Override
-    public HandleStatus handleException(HttpRequest request, AsyncResponse response, Throwable throwable) {
+    public HandleStatus handleException(HttpRequest request, HttpResponse response, Throwable throwable) {
         final HttpResponseStatus status = ResponseStatusUtils.getCustomResponse(throwable);
         if (status == null) {
             return HandleStatus.UNHANDLED_RETAINED;

@@ -18,7 +18,7 @@ package esa.restlight.ext.interceptor.signature;
 import esa.commons.Checks;
 import esa.commons.StringUtils;
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.core.interceptor.InternalInterceptor;
 import esa.restlight.core.util.MediaType;
 import esa.restlight.ext.interceptor.config.SignatureOptions;
@@ -56,7 +56,7 @@ abstract class AbstractSignatureInterceptor implements InternalInterceptor {
     }
 
     @Override
-    public boolean preHandle(HttpRequest request, AsyncResponse response, Object handler) {
+    public boolean preHandle(HttpRequest request, HttpResponse response, Object handler) {
         boolean emptyParams = request.parameterMap() == null || request.parameterMap().isEmpty();
         if (emptyParams && request.contentLength() == 0) {
             return true;

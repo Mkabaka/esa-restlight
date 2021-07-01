@@ -28,11 +28,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 class MockHttpOutputStream extends HttpOutputStream {
 
-    private final MockAsyncResponse response;
+    private final MockHttpResponse response;
     private final ByteBuf buffer;
     private final AtomicBoolean closed;
 
-    MockHttpOutputStream(MockAsyncResponse response) {
+    MockHttpOutputStream(MockHttpResponse response) {
         this.response = response;
         this.buffer = Unpooled.buffer();
         this.closed = new AtomicBoolean(response.isCommitted());

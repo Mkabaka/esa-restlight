@@ -17,7 +17,7 @@ package esa.restlight.spring;
 
 import esa.commons.spi.Feature;
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.core.DeployContext;
 import esa.restlight.core.config.RestlightOptions;
 import esa.restlight.core.config.RestlightOptionsConfigure;
@@ -371,7 +371,7 @@ class Deployments4SpringTest {
     private static class ExResolver implements ExceptionResolver<IllegalStateException> {
 
         @Override
-        public CompletableFuture<Void> handleException(HttpRequest request, AsyncResponse response,
+        public CompletableFuture<Void> handleException(HttpRequest request, HttpResponse response,
                                                        IllegalStateException e) {
             return null;
         }

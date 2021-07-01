@@ -16,7 +16,7 @@
 package esa.restlight.core.resolver;
 
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 
 /**
  * Allows customizing the return value of handler before resolving it to byte array.
@@ -24,12 +24,12 @@ import esa.httpserver.core.AsyncResponse;
 public interface ReturnValueResolverAdvice {
 
     /**
-     * This method will be called before {@link ReturnValueResolver#resolve(Object, HttpRequest, AsyncResponse)}, and
+     * This method will be called before {@link ReturnValueResolver#resolve(Object, HttpRequest, HttpResponse)}, and
      * then the value of this method will be passed to {@link ReturnValueResolver#resolve(Object, HttpRequest,
-     * AsyncResponse)} as the first parameter.
+     * HttpResponse)} as the first parameter.
      * <p>
      * Note: We could not guarantee that it will be resolved correctly in {@link ReturnValueResolver#resolve(Object,
-     * HttpRequest, AsyncResponse)} method if return value type is different from the passed returnValue parameter,
+     * HttpRequest, HttpResponse)} method if return value type is different from the passed returnValue parameter,
      * which dependents on the implementation of the {@link ReturnValueResolver}
      *
      * @param returnValue return value of handler
@@ -38,6 +38,6 @@ public interface ReturnValueResolverAdvice {
      *
      * @return return value that was passed or a modified(possibly new) instance
      */
-    Object beforeResolve(Object returnValue, HttpRequest request, AsyncResponse response);
+    Object beforeResolve(Object returnValue, HttpRequest request, HttpResponse response);
 
 }

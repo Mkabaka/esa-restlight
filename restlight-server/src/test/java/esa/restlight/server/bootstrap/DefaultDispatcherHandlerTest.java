@@ -16,14 +16,14 @@
 package esa.restlight.server.bootstrap;
 
 import esa.commons.ExceptionUtils;
-import esa.httpserver.core.AsyncResponse;
 import esa.httpserver.core.HttpRequest;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.server.route.Mapping;
 import esa.restlight.server.route.Route;
 import esa.restlight.server.route.RouteRegistry;
 import esa.restlight.server.schedule.RequestTask;
-import esa.restlight.test.mock.MockAsyncResponse;
 import esa.restlight.test.mock.MockHttpRequest;
+import esa.restlight.test.mock.MockHttpResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import org.junit.jupiter.api.Test;
 
@@ -57,7 +57,7 @@ class DefaultDispatcherHandlerTest {
         final Route r = Route.route();
         when(registry.route(any())).thenReturn(r);
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         assertSame(r, dispatcher.route(request, response));
         verify(registry, times(1)).route(same(request));
 
@@ -74,7 +74,7 @@ class DefaultDispatcherHandlerTest {
 
 
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final MockHttpResponse response = MockHttpResponse.aMockResponse().build();
         CompletableFuture<Void> cf = new CompletableFuture<>();
         final RequestTask task = mock(RequestTask.class);
         when(task.request()).thenReturn(request);
@@ -99,7 +99,7 @@ class DefaultDispatcherHandlerTest {
         assertNotNull(response.getSentData().toString(StandardCharsets.UTF_8));
         assertEquals(2, dispatcher.rejectCount());
 
-        final MockAsyncResponse response1 = MockAsyncResponse.aMockResponse().build();
+        final MockHttpResponse response1 = MockHttpResponse.aMockResponse().build();
         when(task.response()).thenReturn(response1);
         response1.sendResult();
         final CompletableFuture<Void> cf1 = new CompletableFuture<>();
@@ -118,12 +118,12 @@ class DefaultDispatcherHandlerTest {
 
         final RequestTask task1 = mock(RequestTask.class);
         when(task1.request()).thenReturn(MockHttpRequest.aMockRequest().build());
-        when(task1.response()).thenReturn(MockAsyncResponse.aMockResponse().build());
+        when(task1.response()).thenReturn(MockHttpResponse.aMockResponse().build());
         when(task1.promise()).thenReturn(new CompletableFuture<>());
 
         final RequestTask task2 = mock(RequestTask.class);
         when(task2.request()).thenReturn(MockHttpRequest.aMockRequest().build());
-        when(task2.response()).thenReturn(MockAsyncResponse.aMockResponse().build());
+        when(task2.response()).thenReturn(MockHttpResponse.aMockResponse().build());
         when(task2.promise()).thenReturn(new CompletableFuture<>());
 
         task2.response().sendResult();
@@ -142,7 +142,7 @@ class DefaultDispatcherHandlerTest {
                 exceptionHandlers());
 
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final MockHttpResponse response = MockHttpResponse.aMockResponse().build();
         final CompletableFuture<Void> cf = new CompletableFuture<>();
         final Route r = mock(Route.class);
         when(r.toExecution(same(request))).thenThrow(new IllegalStateException());
@@ -161,12 +161,12 @@ class DefaultDispatcherHandlerTest {
                 exceptionHandlers());
 
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final MockHttpResponse response = MockHttpResponse.aMockResponse().build();
         final CompletableFuture<Void> cf = new CompletableFuture<>();
 
         final Route r = Route.route(Mapping.get())
                 .handle((req, res) -> req.setAttribute("h", 1))
-                .onComplete((request0, asyncResponse, throwable) -> request0.setAttribute("c", 1));
+                .onComplete((request0, response0, throwable) -> request0.setAttribute("c", 1));
 
         dispatcher.service(request, response, cf, r);
         assertTrue(cf.isDone());
@@ -184,7 +184,7 @@ class DefaultDispatcherHandlerTest {
                 exceptionHandlers());
 
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final MockHttpResponse response = MockHttpResponse.aMockResponse().build();
         final CompletableFuture<Void> cf = new CompletableFuture<>();
 
         final Route r = Route.route(Mapping.get())
@@ -192,13 +192,13 @@ class DefaultDispatcherHandlerTest {
                     req.setAttribute("h", 1);
                     ExceptionUtils.throwException(new IllegalStateException("foo"));
                 })
-                .onError((request0, asyncResponse, throwable) -> {
+                .onError((request0, response0, throwable) -> {
                     if (throwable != null) {
                         request0.setAttribute("e", 1);
                         ExceptionUtils.throwException(throwable);
                     }
                 })
-                .onComplete((request0, asyncResponse, throwable) -> {
+                .onComplete((request0, response0, throwable) -> {
                     if (throwable != null) {
                         request0.setAttribute("c", 1);
                     }
@@ -221,7 +221,7 @@ class DefaultDispatcherHandlerTest {
                 exceptionHandlers());
 
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final MockHttpResponse response = MockHttpResponse.aMockResponse().build();
         final CompletableFuture<Void> cf = new CompletableFuture<>();
 
         final Route r = Route.route(Mapping.get())
@@ -229,12 +229,12 @@ class DefaultDispatcherHandlerTest {
                     req.setAttribute("h", 1);
                     ExceptionUtils.throwException(new IllegalStateException("foo"));
                 })
-                .onError((request0, asyncResponse, throwable) -> {
+                .onError((request0, response0, throwable) -> {
                     if (throwable != null) {
                         request0.setAttribute("e", 1);
                     }
                 })
-                .onComplete((request0, asyncResponse, throwable) -> {
+                .onComplete((request0, response0, throwable) -> {
                     if (throwable == null) {
                         request0.setAttribute("c", 1);
                     }
@@ -257,7 +257,7 @@ class DefaultDispatcherHandlerTest {
                 exceptionHandlers());
 
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final MockHttpResponse response = MockHttpResponse.aMockResponse().build();
         final CompletableFuture<Void> cf = new CompletableFuture<>();
 
         final Route r = Route.route(Mapping.get())
@@ -265,10 +265,10 @@ class DefaultDispatcherHandlerTest {
                     req.setAttribute("h", 1);
                     throw new IllegalStateException("foo");
                 })
-                .onError((request0, asyncResponse, throwable) -> {
+                .onError((request0, response0, throwable) -> {
                     request.setAttribute("e", 1);
                 })
-                .onComplete((request0, asyncResponse, throwable) -> {
+                .onComplete((request0, response0, throwable) -> {
                     if (throwable != null) {
                         request0.setAttribute("c", 1);
                     }

@@ -22,7 +22,7 @@ import esa.commons.logging.InternalLoggers;
 import esa.commons.logging.Logger;
 import esa.commons.logging.LoggerFactory;
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.server.handler.Filter;
 import esa.restlight.server.handler.FilterChain;
 import esa.restlight.server.util.DateUtils;
@@ -67,7 +67,7 @@ public class AccessLogFilter implements Filter {
     }
 
     @Override
-    public CompletableFuture<Void> doFilter(HttpRequest request, AsyncResponse response, FilterChain chain) {
+    public CompletableFuture<Void> doFilter(HttpRequest request, HttpResponse response, FilterChain chain) {
         final HttpMethod method = request.method();
         final String path = fullUri ? request.uri() : request.path();
         final int contentLength = request.contentLength();

@@ -16,10 +16,10 @@
 package esa.restlight.server.handler;
 
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.server.util.Futures;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import io.netty.channel.ChannelHandlerContext;
 import org.junit.jupiter.api.Test;
 
@@ -61,7 +61,7 @@ class FilteredHandlerTest {
 
         when(delegate.process(any(), any())).thenReturn(Futures.completedFuture());
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
 
         when(filter1.doFilter(same(request), same(response), any()))
                 .then(mock -> mock.getArgument(2, FilterChain.class)
@@ -108,7 +108,7 @@ class FilteredHandlerTest {
 
 
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         when(filter.doFilter(same(request), same(response), any())).thenReturn(Futures.completedFuture());
 
         assertTrue(handler.process(request, response).isDone());
@@ -126,7 +126,7 @@ class FilteredHandlerTest {
 
 
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         response.sendResult();
 
         when(filter.doFilter(same(request), same(response), any()))

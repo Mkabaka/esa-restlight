@@ -17,7 +17,7 @@ package esa.restlight.ext.validator;
 
 import esa.commons.reflect.AnnotationUtils;
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.core.annotation.ValidGroup;
 import esa.restlight.core.handler.HandlerAdvice;
 import esa.restlight.core.handler.HandlerInvoker;
@@ -63,7 +63,7 @@ class BeanValidationHandlerAdvice implements HandlerAdvice {
 
     @Override
     public Object invoke(HttpRequest request,
-                         AsyncResponse response,
+                         HttpResponse response,
                          Object[] args,
                          HandlerInvoker invoker) throws Throwable {
         if (validateParams) {

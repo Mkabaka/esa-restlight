@@ -4,7 +4,7 @@ import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.method.Param;
 import esa.restlight.server.bootstrap.WebServerException;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.atomic.AtomicReference;
@@ -38,7 +38,7 @@ class AbstractNameAndValueArgumentResolverTest {
             }
         };
         final MockHttpRequest request = MockHttpRequest.aMockRequest().build();
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final MockHttpResponse response = MockHttpResponse.aMockResponse().build();
         assertSame(value, resolver.resolve(request, response));
     }
 
@@ -60,7 +60,7 @@ class AbstractNameAndValueArgumentResolverTest {
             }
         };
         final MockHttpRequest request = MockHttpRequest.aMockRequest().build();
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final MockHttpResponse response = MockHttpResponse.aMockResponse().build();
         assertThrows(WebServerException.class, () -> resolver.resolve(request, response));
     }
 
@@ -81,7 +81,7 @@ class AbstractNameAndValueArgumentResolverTest {
             }
         };
         final MockHttpRequest request = MockHttpRequest.aMockRequest().build();
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final MockHttpResponse response = MockHttpResponse.aMockResponse().build();
         assertSame(def, resolver.resolve(request, response));
     }
 
@@ -104,7 +104,7 @@ class AbstractNameAndValueArgumentResolverTest {
             }
         };
         final MockHttpRequest request = MockHttpRequest.aMockRequest().build();
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final MockHttpResponse response = MockHttpResponse.aMockResponse().build();
         assertEquals("", resolver.resolve(request, response));
     }
 
@@ -130,7 +130,7 @@ class AbstractNameAndValueArgumentResolverTest {
             }
         };
         final MockHttpRequest request = MockHttpRequest.aMockRequest().build();
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final MockHttpResponse response = MockHttpResponse.aMockResponse().build();
         assertNotNull(resolver.resolve(request, response));
         assertEquals("foo", nameRef.get());
     }
@@ -153,7 +153,7 @@ class AbstractNameAndValueArgumentResolverTest {
             }
         };
         final MockHttpRequest request = MockHttpRequest.aMockRequest().build();
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final MockHttpResponse response = MockHttpResponse.aMockResponse().build();
         assertEquals(0, resolver.resolve(request, response));
     }
 
@@ -176,7 +176,7 @@ class AbstractNameAndValueArgumentResolverTest {
             }
         };
         final MockHttpRequest request = MockHttpRequest.aMockRequest().build();
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final MockHttpResponse response = MockHttpResponse.aMockResponse().build();
         assertEquals(1, resolver.resolve(request, response));
     }
 

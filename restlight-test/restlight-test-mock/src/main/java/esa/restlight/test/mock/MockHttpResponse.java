@@ -23,7 +23,7 @@ import esa.commons.io.IOUtils;
 import esa.commons.logging.Logger;
 import esa.commons.logging.LoggerFactory;
 import esa.commons.netty.http.Http1HeadersAdaptor;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.httpserver.core.HttpOutputStream;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
@@ -46,16 +46,16 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import java.util.function.Consumer;
 
-public class MockAsyncResponse implements AsyncResponse {
+public class MockHttpResponse implements HttpResponse {
 
-    private static final Logger logger = LoggerFactory.getLogger(MockAsyncResponse.class);
+    private static final Logger logger = LoggerFactory.getLogger(MockHttpResponse.class);
 
-    private static final AtomicIntegerFieldUpdater<MockAsyncResponse> COMMITTED_UPDATER =
-            AtomicIntegerFieldUpdater.newUpdater(MockAsyncResponse.class, "committed");
+    private static final AtomicIntegerFieldUpdater<MockHttpResponse> COMMITTED_UPDATER =
+            AtomicIntegerFieldUpdater.newUpdater(MockHttpResponse.class, "committed");
     private int status = 200;
-    private int bufferSize = AsyncResponse.DEFAULT_BUFFER_SIZE;
+    private int bufferSize = HttpResponse.DEFAULT_BUFFER_SIZE;
     private MockHttpOutputStream os;
-    private List<Consumer<AsyncResponse>> endListeners = new ArrayList<>(1);
+    private List<Consumer<HttpResponse>> endListeners = new ArrayList<>(1);
     private HttpHeaders headers = new DefaultHttpHeaders();
     private HttpHeaders trailingHeaders = new DefaultHttpHeaders();
     private volatile int committed;
@@ -329,7 +329,7 @@ public class MockAsyncResponse implements AsyncResponse {
 
 
     @Override
-    public void onEnd(Consumer<AsyncResponse> listener) {
+    public void onEnd(Consumer<HttpResponse> listener) {
         if (isCommitted()) {
             return;
         }
@@ -348,7 +348,7 @@ public class MockAsyncResponse implements AsyncResponse {
 
     private void reset0() {
         status = 200;
-        bufferSize = AsyncResponse.DEFAULT_BUFFER_SIZE;
+        bufferSize = HttpResponse.DEFAULT_BUFFER_SIZE;
         headers.clear();
         trailingHeaders.clear();
         endListeners.clear();
@@ -367,7 +367,7 @@ public class MockAsyncResponse implements AsyncResponse {
     }
 
     void callEndListener() {
-        for (Consumer<AsyncResponse> endListener : endListeners) {
+        for (Consumer<HttpResponse> endListener : endListeners) {
             try {
                 endListener.accept(this);
             } catch (Throwable e) {
@@ -377,29 +377,29 @@ public class MockAsyncResponse implements AsyncResponse {
     }
 
     public static final class Builder {
-        private List<Consumer<AsyncResponse>> endListeners = new ArrayList<>();
+        private List<Consumer<HttpResponse>> endListeners = new ArrayList<>();
 
         private Builder() {
         }
 
-        public Builder withEndListeners(List<Consumer<AsyncResponse>> endListeners) {
+        public Builder withEndListeners(List<Consumer<HttpResponse>> endListeners) {
             Checks.checkNotNull(endListeners, "endListeners");
-            for (Consumer<AsyncResponse> listener : endListeners) {
+            for (Consumer<HttpResponse> listener : endListeners) {
                 withEndListener(listener);
             }
             return this;
         }
 
-        public Builder withEndListener(Consumer<AsyncResponse> endListener) {
+        public Builder withEndListener(Consumer<HttpResponse> endListener) {
             Checks.checkNotNull(endListener, "endListener");
             this.endListeners.add(endListener);
             return this;
         }
 
-        public MockAsyncResponse build() {
-            MockAsyncResponse mockAsyncResponse = new MockAsyncResponse();
-            endListeners.forEach(mockAsyncResponse::onEnd);
-            return mockAsyncResponse;
+        public MockHttpResponse build() {
+            MockHttpResponse mockHttpResponse = new MockHttpResponse();
+            endListeners.forEach(mockHttpResponse::onEnd);
+            return mockHttpResponse;
         }
     }
 

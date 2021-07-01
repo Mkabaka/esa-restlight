@@ -17,7 +17,7 @@ package esa.restlight.test.result;
 
 import esa.commons.annotation.Internal;
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.core.handler.HandlerAdvice;
 import esa.restlight.core.handler.HandlerInvoker;
 import esa.restlight.test.mock.MockHttpRequest;
@@ -27,7 +27,7 @@ import static esa.restlight.test.context.DefaultMockMvc.RETURN_VALUE_KEY;
 @Internal
 public class MvcResultHandlerAdvice implements HandlerAdvice {
     @Override
-    public Object invoke(HttpRequest request, AsyncResponse response, Object[] args,
+    public Object invoke(HttpRequest request, HttpResponse response, Object[] args,
                          HandlerInvoker invoker) throws Throwable {
         Object result = invoker.invoke(request, response, args);
         if (request instanceof MockHttpRequest) {

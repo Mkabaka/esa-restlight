@@ -17,7 +17,7 @@ package esa.restlight.ext.filter.cors;
 
 import esa.commons.Checks;
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.server.handler.Filter;
 import esa.restlight.server.handler.FilterChain;
 import esa.restlight.server.util.Futures;
@@ -39,7 +39,7 @@ public class CorsFilter implements Filter {
     }
 
     @Override
-    public CompletableFuture<Void> doFilter(HttpRequest request, AsyncResponse response, FilterChain chain) {
+    public CompletableFuture<Void> doFilter(HttpRequest request, HttpResponse response, FilterChain chain) {
         final String origin = request.getHeader(HttpHeaderNames.ORIGIN);
         final CachedOpt opt = forOrigin(origin);
         if (isPreflightRequest(request, origin)) {
@@ -66,11 +66,11 @@ public class CorsFilter implements Filter {
         }
     }
 
-    private static void setOrigin(AsyncResponse response, String origin) {
+    private static void setOrigin(HttpResponse response, String origin) {
         response.setHeader(HttpHeaderNames.ACCESS_CONTROL_ALLOW_ORIGIN, origin);
     }
 
-    private static String setOrigin(AsyncResponse response, String origin, CachedOpt c) {
+    private static String setOrigin(HttpResponse response, String origin, CachedOpt c) {
         if (origin != null && c != null) {
             final CorsOptions opt = c.theOpt;
             if (opt.isAnyOrigin()) {
@@ -92,36 +92,36 @@ public class CorsFilter implements Filter {
         return null;
     }
 
-    private static void setExposeHeaders(AsyncResponse response, CachedOpt opt) {
+    private static void setExposeHeaders(HttpResponse response, CachedOpt opt) {
         if (opt.exposeHeadersStr != null) {
             response.setHeader(HttpHeaderNames.ACCESS_CONTROL_EXPOSE_HEADERS, opt.exposeHeadersStr);
         }
     }
 
-    private static void setAllowHeaders(AsyncResponse response, CachedOpt opt) {
+    private static void setAllowHeaders(HttpResponse response, CachedOpt opt) {
         if (opt.allowHeadersStr != null) {
             response.setHeader(HttpHeaderNames.ACCESS_CONTROL_ALLOW_HEADERS, opt.allowHeadersStr);
         }
     }
 
-    private static void setAllowMethods(AsyncResponse response, CachedOpt opt) {
+    private static void setAllowMethods(HttpResponse response, CachedOpt opt) {
         response.setHeader(HttpHeaderNames.ACCESS_CONTROL_ALLOW_METHODS, opt.allowMethodsStr);
     }
 
-    private static void setAllowCredentials(AsyncResponse response, CachedOpt opt, String origin) {
+    private static void setAllowCredentials(HttpResponse response, CachedOpt opt, String origin) {
         if (opt.theOpt.isAllowCredentials()
                 && !origin.equals(CorsOptions.ANY_ORIGIN)) {
             response.setHeader(HttpHeaderNames.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
         }
     }
 
-    private static void setMaxAge(AsyncResponse response, CachedOpt opt) {
+    private static void setMaxAge(HttpResponse response, CachedOpt opt) {
         if (opt.maxAgeStr != null) {
             response.setHeader(HttpHeaderNames.ACCESS_CONTROL_MAX_AGE, opt.maxAgeStr);
         }
     }
 
-    private static void setVaryHeader(AsyncResponse response) {
+    private static void setVaryHeader(HttpResponse response) {
         response.setHeader(HttpHeaderNames.VARY, HttpHeaderNames.ORIGIN.toString());
     }
 

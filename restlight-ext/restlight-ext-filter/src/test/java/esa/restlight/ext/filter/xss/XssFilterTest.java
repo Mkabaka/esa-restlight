@@ -20,7 +20,7 @@ import esa.restlight.server.handler.Filter;
 import esa.restlight.server.handler.FilterChain;
 import esa.restlight.server.util.Futures;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.atomic.AtomicReference;
@@ -50,7 +50,7 @@ class XssFilterTest {
                 .withUri("/test?script=<script>test</script>&foo=bar</script>&name=gcl&name=wxy")
                 .withHeader("header", "src=\"//xxxx.cn/image/t.js\"")
                 .build();
-        filter.doFilter(request0, MockAsyncResponse.aMockResponse().build(), chain).join();
+        filter.doFilter(request0, MockHttpResponse.aMockResponse().build(), chain).join();
         assertEquals("", req.get().getParameter("script"));
         assertNull(req.get().getParameter("null"));
         assertEquals("", req.get().getHeader("header"));
@@ -80,7 +80,7 @@ class XssFilterTest {
                 .withUri("/test?script=<script>test</script>&foo=test</script>&name=gcl&name=wxy")
                 .withHeader("header", "src=\"//xxxx.cn/image/t.js\"")
                 .build();
-        filterEscape.doFilter(requestEscape, MockAsyncResponse.aMockResponse().build(), chain).join();
+        filterEscape.doFilter(requestEscape, MockHttpResponse.aMockResponse().build(), chain).join();
         assertEquals("&lt;script&gt;test&lt;/script&gt;", req.get().getParameter("script"));
         assertNull(req.get().getParameter("null"));
         assertEquals("src=&quot;//xxxx.cn/image/t.js&quot;", req.get().getHeader("header"));

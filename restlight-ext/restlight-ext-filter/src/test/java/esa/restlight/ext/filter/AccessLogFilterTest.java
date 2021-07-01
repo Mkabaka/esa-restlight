@@ -16,12 +16,12 @@
 package esa.restlight.ext.filter;
 
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.ext.filter.config.AccessLogOptionsConfigure;
 import esa.restlight.server.handler.FilterChain;
 import esa.restlight.server.util.Futures;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import io.netty.handler.codec.http.HttpVersion;
 import org.junit.jupiter.api.Test;
 
@@ -44,7 +44,7 @@ class AccessLogFilterTest {
                 .withProtocol(HttpVersion.HTTP_1_1)
                 .withBody("hello".getBytes(StandardCharsets.UTF_8))
                 .build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         final FilterChain chain = ((req, res) -> {
             res.sendResult(200);
             return Futures.completedFuture();

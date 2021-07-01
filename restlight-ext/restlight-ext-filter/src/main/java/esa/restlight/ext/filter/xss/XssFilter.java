@@ -17,7 +17,7 @@ package esa.restlight.ext.filter.xss;
 
 import esa.commons.Checks;
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.httpserver.core.HttpInputStream;
 import esa.restlight.server.handler.Filter;
 import esa.restlight.server.handler.FilterChain;
@@ -90,7 +90,7 @@ public class XssFilter implements Filter {
     }
 
     @Override
-    public CompletableFuture<Void> doFilter(HttpRequest request, AsyncResponse response, FilterChain chain) {
+    public CompletableFuture<Void> doFilter(HttpRequest request, HttpResponse response, FilterChain chain) {
         return chain.doFilter(wrapper.apply(request), response);
     }
 

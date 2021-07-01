@@ -16,7 +16,7 @@
 package esa.restlight.test.bootstrap;
 
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.httpserver.core.HttpInputStream;
 import esa.httpserver.core.HttpOutputStream;
 import esa.restlight.core.interceptor.HandlerInterceptor;
@@ -67,7 +67,7 @@ class MinorityMockMvcBuilderTest {
 
     private static class HttpBodySerializerImpl implements HttpBodySerializer {
         @Override
-        public Object customResponse(HttpRequest request, AsyncResponse response, Object returnValue) {
+        public Object customResponse(HttpRequest request, HttpResponse response, Object returnValue) {
             return null;
         }
 
@@ -98,7 +98,7 @@ class MinorityMockMvcBuilderTest {
         }
 
         @Override
-        public Object resolve(HttpRequest request, AsyncResponse response) throws Exception {
+        public Object resolve(HttpRequest request, HttpResponse response) throws Exception {
             return null;
         }
 
@@ -124,7 +124,7 @@ class MinorityMockMvcBuilderTest {
         }
 
         @Override
-        public byte[] resolve(Object returnValue, HttpRequest request, AsyncResponse response) throws Exception {
+        public byte[] resolve(Object returnValue, HttpRequest request, HttpResponse response) throws Exception {
             return new byte[0];
         }
 

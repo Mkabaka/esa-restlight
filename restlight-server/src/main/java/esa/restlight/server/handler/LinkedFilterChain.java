@@ -17,14 +17,14 @@ package esa.restlight.server.handler;
 
 import esa.commons.Checks;
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiFunction;
 
 /**
  * Implementation of {@link FilterChain} which maintains a reference of {@link Filter} and a reference of the next
- * {@link FilterChain} which would be passed to the {@link Filter#doFilter(HttpRequest, AsyncResponse, FilterChain)}
+ * {@link FilterChain} which would be passed to the {@link Filter#doFilter(HttpRequest, HttpResponse, FilterChain)}
  * function of {@link #current} as the third argument.
  */
 public class LinkedFilterChain implements FilterChain {
@@ -48,7 +48,7 @@ public class LinkedFilterChain implements FilterChain {
      * @return filter chain
      */
     static LinkedFilterChain immutable(Filter[] filters,
-                                       BiFunction<HttpRequest, AsyncResponse, CompletableFuture<Void>> action) {
+                                       BiFunction<HttpRequest, HttpResponse, CompletableFuture<Void>> action) {
         Checks.checkNotEmptyArg(filters, "filters must not be empty");
         // link all the filter and the given action(last)
         FilterChain next = action::apply;
@@ -63,7 +63,7 @@ public class LinkedFilterChain implements FilterChain {
 
 
     @Override
-    public CompletableFuture<Void> doFilter(HttpRequest request, AsyncResponse response) {
+    public CompletableFuture<Void> doFilter(HttpRequest request, HttpResponse response) {
         return current.doFilter(request, response, next);
     }
 }

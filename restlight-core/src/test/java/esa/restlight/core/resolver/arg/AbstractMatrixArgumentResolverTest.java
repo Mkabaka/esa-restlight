@@ -23,7 +23,7 @@ import esa.restlight.core.method.Param;
 import esa.restlight.core.resolver.ArgumentResolver;
 import esa.restlight.server.bootstrap.WebServerException;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -57,7 +57,7 @@ class AbstractMatrixArgumentResolverTest {
         final NameAndValue nav0 = new NameAndValue(name, true, null);
         final ArgumentResolver resolver0 = asResolver(nav0, false).createResolver(new MethodParamImpl(
                 this.getClass().getMethod("a", String.class), 0), null);
-        final Object resolved0 = resolver0.resolve(request0, MockAsyncResponse.aMockResponse().build());
+        final Object resolved0 = resolver0.resolve(request0, MockHttpResponse.aMockResponse().build());
         assertNotNull(resolved0);
         assertEquals(name, resolved0);
 
@@ -65,7 +65,7 @@ class AbstractMatrixArgumentResolverTest {
         final ArgumentResolver resolver1 = asResolver(nav1, false).createResolver(new MethodParamImpl(
                 this.getClass().getMethod("a", String.class), 0), null);
         final Object resolved1 = resolver1.resolve(MockHttpRequest.aMockRequest().build(),
-                MockAsyncResponse.aMockResponse().build());
+                MockHttpResponse.aMockResponse().build());
         assertNotNull(resolved1);
         assertEquals("default", resolved1);
 
@@ -74,7 +74,7 @@ class AbstractMatrixArgumentResolverTest {
                 this.getClass().getMethod("a", String.class), 0), null);
 
         assertThrows(WebServerException.class, () -> resolver2
-                .resolve(MockHttpRequest.aMockRequest().build(), MockAsyncResponse.aMockResponse().build()));
+                .resolve(MockHttpRequest.aMockRequest().build(), MockHttpResponse.aMockResponse().build()));
     }
 
     @SuppressWarnings("unchecked")

@@ -16,7 +16,7 @@
 package esa.restlight.core.handler;
 
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 
 /**
  * Interface defines the invoking of handler.
@@ -33,6 +33,6 @@ public interface HandlerInvoker {
      * @return future
      * @throws Throwable exception occurred
      */
-    Object invoke(HttpRequest request, AsyncResponse response, Object[] args) throws Throwable;
+    Object invoke(HttpRequest request, HttpResponse response, Object[] args) throws Throwable;
 
 }

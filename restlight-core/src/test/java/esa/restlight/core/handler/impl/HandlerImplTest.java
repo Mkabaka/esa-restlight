@@ -22,7 +22,7 @@ import esa.restlight.core.method.HandlerMethod;
 import esa.restlight.core.method.InvocableMethod;
 import esa.restlight.server.bootstrap.WebServerException;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import org.junit.jupiter.api.Test;
 
@@ -58,7 +58,7 @@ class HandlerImplTest {
                         HttpResponseStatus.ACCEPTED,
                         invoker);
         final Object ret = handler.invoke(MockHttpRequest.aMockRequest().build(),
-                MockAsyncResponse.aMockResponse().build(), null);
+                MockHttpResponse.aMockResponse().build(), null);
         assertEquals("foo", ret);
     }
 
@@ -75,7 +75,7 @@ class HandlerImplTest {
                         invoker);
 
         assertThrows(WebServerException.class, () -> handler.invoke(MockHttpRequest.aMockRequest().build(),
-                MockAsyncResponse.aMockResponse().build(), null));
+                MockHttpResponse.aMockResponse().build(), null));
     }
 
     @Test
@@ -86,7 +86,7 @@ class HandlerImplTest {
                         HttpResponseStatus.ACCEPTED,
                         invoker);
         assertThrows(UnsupportedOperationException.class, () -> handler.invoke(MockHttpRequest.aMockRequest().build(),
-                MockAsyncResponse.aMockResponse().build(), null));
+                MockHttpResponse.aMockResponse().build(), null));
     }
 
     private static class Subject {

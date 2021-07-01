@@ -16,7 +16,7 @@
 package esa.restlight.core.resolver.result;
 
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.httpserver.core.HttpOutputStream;
 import esa.restlight.core.annotation.ResponseSerializer;
 import esa.restlight.core.annotation.Serializer;
@@ -28,7 +28,7 @@ import esa.restlight.core.serialize.HttpResponseSerializer;
 import esa.restlight.core.serialize.ProtoBufHttpBodySerializer;
 import esa.restlight.core.util.MediaType;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Type;
@@ -99,7 +99,7 @@ class AbstractSpecifiedFixedResponseBodyReturnValueResolverTest {
 
         assertArrayEquals("Hello!".getBytes(StandardCharsets.UTF_8),
                 resolver0.resolve0("xx", Collections.emptyList(), MockHttpRequest.aMockRequest().build(),
-                MockAsyncResponse.aMockResponse().build()));
+                MockHttpResponse.aMockResponse().build()));
     }
 
     @Test
@@ -114,7 +114,7 @@ class AbstractSpecifiedFixedResponseBodyReturnValueResolverTest {
         }
 
         @Override
-        public Object customResponse(HttpRequest request, AsyncResponse response, Object returnValue) {
+        public Object customResponse(HttpRequest request, HttpResponse response, Object returnValue) {
             return null;
         }
 

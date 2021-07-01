@@ -6,7 +6,7 @@ import esa.restlight.core.method.Param;
 import esa.restlight.core.serialize.JacksonHttpBodySerializer;
 import esa.restlight.server.bootstrap.WebServerException;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import org.junit.jupiter.api.Test;
 
 import java.nio.charset.StandardCharsets;
@@ -36,7 +36,7 @@ class AbstractRequestBodyArgumentResolverTest {
                 .withHeader(HttpHeaderNames.CONTENT_TYPE, HttpHeaderValues.TEXT_PLAIN)
                 .withBody("123".getBytes(StandardCharsets.UTF_8))
                 .build();
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final MockHttpResponse response = MockHttpResponse.aMockResponse().build();
         final Object ret = resolver.createResolver(param, Collections.singletonList(new JacksonHttpBodySerializer()))
                 .resolve(request, response);
         assertEquals(123, ret);
@@ -56,7 +56,7 @@ class AbstractRequestBodyArgumentResolverTest {
         final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withHeader(HttpHeaderNames.CONTENT_TYPE, HttpHeaderValues.TEXT_PLAIN)
                 .build();
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final MockHttpResponse response = MockHttpResponse.aMockResponse().build();
         assertThrows(WebServerException.class,
                 () -> resolver.createResolver(param, Collections.singletonList(new JacksonHttpBodySerializer()))
                         .resolve(request, response));
@@ -77,7 +77,7 @@ class AbstractRequestBodyArgumentResolverTest {
                 .withHeader(HttpHeaderNames.CONTENT_TYPE, HttpHeaderValues.APPLICATION_JSON)
                 .withBody("{\"foo\": \"bar\"}".getBytes(StandardCharsets.UTF_8))
                 .build();
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final MockHttpResponse response = MockHttpResponse.aMockResponse().build();
         final Object ret = resolver.createResolver(param, Collections.singletonList(new JacksonHttpBodySerializer()))
                 .resolve(request, response);
         assertTrue(ret instanceof Subject);
@@ -98,7 +98,7 @@ class AbstractRequestBodyArgumentResolverTest {
         final MockHttpRequest request = MockHttpRequest.aMockRequest()
                 .withHeader(HttpHeaderNames.CONTENT_TYPE, HttpHeaderValues.APPLICATION_JSON)
                 .build();
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final MockHttpResponse response = MockHttpResponse.aMockResponse().build();
         assertThrows(WebServerException.class,
                 () -> resolver.createResolver(param, Collections.singletonList(new JacksonHttpBodySerializer()))
                         .resolve(request, response));
@@ -121,7 +121,7 @@ class AbstractRequestBodyArgumentResolverTest {
                 .withParameter("neg", "json")
                 .withBody("{\"foo\": \"bar\"}".getBytes(StandardCharsets.UTF_8))
                 .build();
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final MockHttpResponse response = MockHttpResponse.aMockResponse().build();
         final Object ret = resolver.createResolver(param, Collections.singletonList(new JacksonHttpBodySerializer()))
                 .resolve(request, response);
         assertTrue(ret instanceof Subject);

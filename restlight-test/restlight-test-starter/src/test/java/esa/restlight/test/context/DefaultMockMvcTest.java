@@ -16,7 +16,7 @@
 package esa.restlight.test.context;
 
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.server.handler.RestlightHandler;
 import esa.restlight.server.util.Futures;
 import esa.restlight.test.mock.MockHttpRequest;
@@ -39,7 +39,7 @@ class DefaultMockMvcTest {
         final MockHttpRequest request = MockHttpRequest.aMockRequest().build();
         when(handler.process(same(request), any())).then(mock -> {
             final HttpRequest req = mock.getArgument(0, HttpRequest.class);
-            final AsyncResponse res = mock.getArgument(1, AsyncResponse.class);
+            final HttpResponse res = mock.getArgument(1, HttpResponse.class);
             req.setAttribute(DefaultMockMvc.RETURN_VALUE_KEY, "foo");
             res.sendResult(200, "foo".getBytes());
             return Futures.completedFuture();

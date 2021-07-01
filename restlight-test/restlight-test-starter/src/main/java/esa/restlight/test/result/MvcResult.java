@@ -16,7 +16,7 @@
 package esa.restlight.test.result;
 
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 
 public interface MvcResult {
 
@@ -32,7 +32,7 @@ public interface MvcResult {
      *
      * @return response
      */
-    MockAsyncResponse response();
+    MockHttpResponse response();
 
     /**
      * Get original return value.

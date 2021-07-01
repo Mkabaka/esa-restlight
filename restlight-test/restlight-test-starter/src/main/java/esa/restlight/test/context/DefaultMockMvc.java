@@ -20,7 +20,7 @@ import esa.httpserver.core.HttpRequest;
 import esa.restlight.core.util.FutureUtils;
 import esa.restlight.server.handler.RestlightHandler;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import esa.restlight.test.result.DefaultMvcResult;
 import esa.restlight.test.result.MvcResult;
 import esa.restlight.test.result.ResultActions;
@@ -39,7 +39,7 @@ public class DefaultMockMvc implements MockMvc {
 
     @Override
     public ResultActions perform(MockHttpRequest request) {
-        final MockAsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final MockHttpResponse response = MockHttpResponse.aMockResponse().build();
         handler.process(request, response).join();
         return new DefaultResultActions(new DefaultMvcResult(request, response, getResultAndClear(request)));
     }

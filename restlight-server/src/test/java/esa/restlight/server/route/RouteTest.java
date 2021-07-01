@@ -17,10 +17,10 @@ package esa.restlight.server.route;
 
 import esa.commons.concurrent.DirectExecutor;
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.server.schedule.Schedulers;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -58,7 +58,7 @@ class RouteTest {
         assertSame(route.handler().orElse(null), newRoute.handler().orElse(null));
 
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         route.toExecution(request).handle(request, response);
         assertTrue(exe.get());
 

@@ -16,7 +16,7 @@
 package esa.restlight.server.route.impl;
 
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.server.route.Mapping;
 import esa.restlight.server.route.Route;
 import esa.restlight.server.route.RouteExecution;
@@ -24,7 +24,7 @@ import esa.restlight.server.schedule.Scheduler;
 import esa.restlight.server.schedule.Schedulers;
 import esa.restlight.server.util.Futures;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -184,7 +184,7 @@ class RouteImplTest {
     private void assertRouteExecution(AtomicInteger a,
                                       Route route) {
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         final RouteExecution execution = route.toExecution(MockHttpRequest.aMockRequest().build());
         execution.handle(request, response).join();
         assertEquals(1, a.get());

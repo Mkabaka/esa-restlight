@@ -23,7 +23,7 @@ import esa.restlight.core.handler.impl.RouteHandlerImpl;
 import esa.restlight.core.method.HandlerMethod;
 import esa.restlight.core.method.InvocableMethod;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator;
 import org.hibernate.validator.resourceloading.PlatformResourceBundleLocator;
 import org.junit.jupiter.api.BeforeAll;
@@ -83,7 +83,7 @@ class ValidationInternationalTest {
         try {
             final Object[] simpleArg = {"Hello"};
             handlerMethodInvokerAdapter.invoke(MockHttpRequest.aMockRequest().build(),
-                    MockAsyncResponse.aMockResponse().build(),
+                    MockHttpResponse.aMockResponse().build(),
                     simpleArg);
         } catch (ConstraintViolationException e) {
             assertTrue(e.getConstraintViolations()

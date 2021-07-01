@@ -17,7 +17,7 @@ package esa.restlight.test.result;
 
 import esa.httpserver.core.HttpRequest;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import org.junit.jupiter.api.Test;
 
 import static esa.restlight.test.context.DefaultMockMvc.RETURN_VALUE_KEY;
@@ -30,7 +30,7 @@ class MvcResultHandlerAdviceTest {
         final MvcResultHandlerAdvice advice = new MvcResultHandlerAdvice();
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
         assertEquals("foo", advice.invoke(request,
-                MockAsyncResponse.aMockResponse().build(),
+                MockHttpResponse.aMockResponse().build(),
                 null,
                 (req, res, args) -> "foo"));
 

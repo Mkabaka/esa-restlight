@@ -16,11 +16,11 @@
 package esa.restlight.starter.actuator.adapt;
 
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.server.route.predicate.PatternsPredicate;
 import esa.restlight.server.util.Futures;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.actuate.endpoint.InvocationContext;
 import org.springframework.boot.actuate.endpoint.OperationType;
@@ -44,7 +44,7 @@ class OperationHandlerTest {
         final WebOperation op = webOperation(c -> null);
         final OperationHandler handler = new OperationHandler(op);
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         final CompletableFuture<Object> ret = handler.handle(request, response, null);
         assertNotNull(ret);
         assertNull(ret.join());
@@ -57,7 +57,7 @@ class OperationHandlerTest {
         final HttpRequest get = MockHttpRequest.aMockRequest()
                 .withMethod("GET")
                 .build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         Map<String, String> body = new HashMap<>(16);
         body.put("foo", "1");
         body.put("bar", "2");
@@ -70,7 +70,7 @@ class OperationHandlerTest {
         final HttpRequest post = MockHttpRequest.aMockRequest()
                 .withMethod("POST")
                 .build();
-        final AsyncResponse response1 = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response1 = MockHttpResponse.aMockResponse().build();
         final CompletableFuture<Object> ret1 = handler.handle(post, response1, body);
         assertNotNull(ret1);
         assertNotNull(ret1.join());
@@ -89,7 +89,7 @@ class OperationHandlerTest {
 
         PatternsPredicate p = new PatternsPredicate(new String[]{"/{foo}/{bar}"});
         p.test(get);
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         final CompletableFuture<Object> ret1 = handler.handle(get, response, null);
         assertNotNull(ret1);
         assertNotNull(ret1.join());
@@ -110,7 +110,7 @@ class OperationHandlerTest {
                 .withParameter("foo", "a")
                 .withParameter("bar", "b")
                 .build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         final CompletableFuture<Object> ret1 = handler.handle(get, response, null);
         assertNotNull(ret1);
         assertNotNull(ret1.join());
@@ -127,7 +127,7 @@ class OperationHandlerTest {
         final WebOperation op = webOperation(c -> new WebEndpointResponse<>());
         final OperationHandler handler = new OperationHandler(op);
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         final CompletableFuture<Object> ret1 = handler.handle(request, response, null);
         assertNotNull(ret1);
         assertNull(ret1.join());
@@ -138,7 +138,7 @@ class OperationHandlerTest {
         final WebOperation op = webOperation(c -> new WebEndpointResponse<>("foo", 404));
         final OperationHandler handler = new OperationHandler(op);
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         final CompletableFuture<Object> ret1 = handler.handle(request, response, null);
         assertNotNull(ret1);
         assertNotNull(ret1.join());
@@ -152,7 +152,7 @@ class OperationHandlerTest {
         final WebOperation op = webOperation(c -> cf);
         final OperationHandler handler = new OperationHandler(op);
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         final CompletableFuture<Object> ret1 = handler.handle(request, response, null);
         assertNotNull(ret1);
         assertEquals(cf, ret1);
@@ -165,7 +165,7 @@ class OperationHandlerTest {
         final WebOperation op = webOperation(c -> obj);
         final OperationHandler handler = new OperationHandler(op);
         final HttpRequest request = MockHttpRequest.aMockRequest().build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
         final CompletableFuture<Object> ret1 = handler.handle(request, response, null);
         assertNotNull(ret1);
         assertEquals(obj, ret1.join());

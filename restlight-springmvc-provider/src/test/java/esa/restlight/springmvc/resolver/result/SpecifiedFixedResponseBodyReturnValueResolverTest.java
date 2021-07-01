@@ -16,7 +16,7 @@
 package esa.restlight.springmvc.resolver.result;
 
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.core.annotation.ResponseSerializer;
 import esa.restlight.core.method.HandlerMethod;
 import esa.restlight.core.method.InvocableMethod;
@@ -27,7 +27,7 @@ import esa.restlight.springmvc.ResolverUtils;
 import esa.restlight.springmvc.annotation.shaded.ResponseBody0;
 import esa.restlight.springmvc.resolver.Pojo;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.http.HttpHeaderNames;
@@ -77,7 +77,7 @@ class SpecifiedFixedResponseBodyReturnValueResolverTest {
         final HttpRequest request = MockHttpRequest
                 .aMockRequest()
                 .build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
 
         final Pojo pojo = new Pojo(1024, "foo");
         final byte[] resolved = createMultiResolverAndResolve(pojo, request, response, "jackson");
@@ -90,7 +90,7 @@ class SpecifiedFixedResponseBodyReturnValueResolverTest {
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), MediaType.APPLICATION_JSON_UTF8.value())
                 .build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
 
         final String foo = "foo";
         final byte[] resolved = createMultiResolverAndResolve(foo, request, response, "str");
@@ -103,7 +103,7 @@ class SpecifiedFixedResponseBodyReturnValueResolverTest {
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), MediaType.APPLICATION_JSON_UTF8.value())
                 .build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
 
         final byte[] foo = "foo".getBytes(StandardCharsets.UTF_8);
         final byte[] resolved = createMultiResolverAndResolve(foo, request, response, "byteArray");
@@ -116,7 +116,7 @@ class SpecifiedFixedResponseBodyReturnValueResolverTest {
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), MediaType.APPLICATION_JSON_UTF8.value())
                 .build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
 
         final ByteBuf foo = Unpooled.copiedBuffer("foo".getBytes(StandardCharsets.UTF_8));
         final byte[] resolved = createMultiResolverAndResolve(foo, request, response, "byteBuf");
@@ -129,7 +129,7 @@ class SpecifiedFixedResponseBodyReturnValueResolverTest {
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.ACCEPT.toString(), MediaType.APPLICATION_JSON_UTF8.value())
                 .build();
-        final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+        final HttpResponse response = MockHttpResponse.aMockResponse().build();
 
         final int foo = 1;
         final byte[] resolved = createMultiResolverAndResolve(foo, request, response, "byteBuf");
@@ -137,7 +137,7 @@ class SpecifiedFixedResponseBodyReturnValueResolverTest {
     }
 
     private static byte[] createMultiResolverAndResolve(Object returnValue, HttpRequest request,
-                                                        AsyncResponse response,
+                                                        HttpResponse response,
                                                         String method) throws Exception {
         final InvocableMethod invocableMethod = handlerMethods.get(method);
         assertTrue(resolverFactory.supports(invocableMethod));

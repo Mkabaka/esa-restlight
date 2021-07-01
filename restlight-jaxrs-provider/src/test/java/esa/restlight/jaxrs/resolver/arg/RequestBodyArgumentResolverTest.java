@@ -27,7 +27,7 @@ import esa.restlight.core.util.MediaType;
 import esa.restlight.jaxrs.ResolverUtils;
 import esa.restlight.jaxrs.resolver.Pojo;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -98,14 +98,14 @@ class RequestBodyArgumentResolverTest {
                 .withHeader(HttpHeaderNames.CONTENT_TYPE.toString(), MediaType.APPLICATION_JSON_UTF8.value())
                 .withBody(JacksonSerializer.getDefaultMapper().writeValueAsBytes(origin))
                 .build();
-        final Object resolvedWithJson = resolver.resolve(request, MockAsyncResponse.aMockResponse().build());
+        final Object resolvedWithJson = resolver.resolve(request, MockHttpResponse.aMockResponse().build());
         assertEquals(origin, resolvedWithJson);
         final HttpRequest request2 = MockHttpRequest
                 .aMockRequest()
                 .withHeader(HttpHeaderNames.CONTENT_TYPE.toString(), MediaType.APPLICATION_XML.value())
                 .withBody(JacksonSerializer.getDefaultMapper().writeValueAsBytes(origin))
                 .build();
-        final Object resolvedWithXml = resolver.resolve(request2, MockAsyncResponse.aMockResponse().build());
+        final Object resolvedWithXml = resolver.resolve(request2, MockHttpResponse.aMockResponse().build());
 
         assertEquals(origin, resolvedWithXml);
     }
@@ -115,7 +115,7 @@ class RequestBodyArgumentResolverTest {
         assertTrue(resolverFactory.supports(parameter));
         final ArgumentResolver resolver = resolverFactory.createResolver(parameter,
                 Collections.singletonList(new JacksonHttpBodySerializer()));
-        return resolver.resolve(request, MockAsyncResponse.aMockResponse().build());
+        return resolver.resolve(request, MockHttpResponse.aMockResponse().build());
     }
 
     private static class Subject {

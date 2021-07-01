@@ -19,7 +19,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import esa.restlight.core.util.MediaType;
 import esa.restlight.core.util.Ordered;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -84,7 +84,7 @@ class BaseHttpBodySerializerTest {
 
     @Test
     void customResponse() {
-        final MockAsyncResponse response = new MockAsyncResponse();
+        final MockHttpResponse response = new MockHttpResponse();
         final MockHttpRequest request = new MockHttpRequest();
         final Object o = baseHttpBodySerializer.customResponse(request, response, pojo);
         assertEquals(pojo, o);
@@ -108,7 +108,7 @@ class BaseHttpBodySerializerTest {
     @Test
     void testSerialize() throws Exception {
         final String pojoString = JacksonSerializer.getDefaultMapper().writeValueAsString(pojo);
-        final MockAsyncResponse response = new MockAsyncResponse();
+        final MockHttpResponse response = new MockHttpResponse();
         baseHttpBodySerializer.serialize(pojo, response.outputStream());
         assertEquals(pojoString, response.getSentData().toString(StandardCharsets.UTF_8));
     }

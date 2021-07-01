@@ -16,7 +16,7 @@
 package esa.restlight.core.resolver;
 
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 
 /**
  * Interface for resolving method parameters to the real values of the handler method base on the current context.
@@ -31,6 +31,6 @@ public interface ArgumentResolver {
      * @return value resolved
      * @throws Exception ex
      */
-    Object resolve(HttpRequest request, AsyncResponse response) throws Exception;
+    Object resolve(HttpRequest request, HttpResponse response) throws Exception;
 }
 

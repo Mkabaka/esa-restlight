@@ -20,7 +20,7 @@ import esa.commons.concurrent.UnsafeUtils;
 import esa.commons.reflect.AnnotationUtils;
 import esa.commons.reflect.ReflectionUtils;
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.core.DeployContext;
 import esa.restlight.core.annotation.RequestBean;
 import esa.restlight.core.config.RestlightOptions;
@@ -96,7 +96,7 @@ public class RequestBeanArgumentResolver implements ArgumentResolverFactory {
         }
 
         @Override
-        public Object resolve(HttpRequest request, AsyncResponse response) throws Exception {
+        public Object resolve(HttpRequest request, HttpResponse response) throws Exception {
             final Object allocated = typeMeta.alloc.alloc();
 
             // set the value to the instance one by one

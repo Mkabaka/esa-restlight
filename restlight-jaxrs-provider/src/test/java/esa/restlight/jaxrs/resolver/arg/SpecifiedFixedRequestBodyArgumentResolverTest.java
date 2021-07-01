@@ -27,7 +27,7 @@ import esa.restlight.core.util.MediaType;
 import esa.restlight.jaxrs.ResolverUtils;
 import esa.restlight.jaxrs.resolver.Pojo;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -88,7 +88,7 @@ class SpecifiedFixedRequestBodyArgumentResolverTest {
         assertTrue(resolverFactory.supports(parameter));
         final ArgumentResolver resolver = resolverFactory.createResolver(parameter,
                 Collections.singletonList(new JacksonHttpBodySerializer()));
-        return resolver.resolve(request, MockAsyncResponse.aMockResponse().build());
+        return resolver.resolve(request, MockHttpResponse.aMockResponse().build());
     }
 
     private static class Subject {

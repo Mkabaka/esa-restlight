@@ -17,7 +17,7 @@ package esa.restlight.ext.validator;
 
 import esa.commons.ClassUtils;
 import esa.httpserver.core.HttpRequest;
-import esa.httpserver.core.AsyncResponse;
+import esa.httpserver.core.HttpResponse;
 import esa.restlight.core.handler.HandlerInvoker;
 import esa.restlight.core.handler.LinkedHandlerInvoker;
 import esa.restlight.core.handler.impl.HandlerInvokerImpl;
@@ -25,7 +25,7 @@ import esa.restlight.core.handler.impl.RouteHandlerImpl;
 import esa.restlight.core.method.HandlerMethod;
 import esa.restlight.core.method.InvocableMethod;
 import esa.restlight.test.mock.MockHttpRequest;
-import esa.restlight.test.mock.MockAsyncResponse;
+import esa.restlight.test.mock.MockHttpResponse;
 import org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator;
 import org.hibernate.validator.resourceloading.PlatformResourceBundleLocator;
 import org.junit.jupiter.api.BeforeAll;
@@ -55,7 +55,7 @@ class RouteHandlerImplWrapperTest {
     private static final String MESSAGE_INTERPOLATOR_FILE = "validation-message";
 
     private final HttpRequest request = MockHttpRequest.aMockRequest().build();
-    private final AsyncResponse response = MockAsyncResponse.aMockResponse().build();
+    private final HttpResponse response = MockHttpResponse.aMockResponse().build();
 
     private static final Validator validator =
             Validation.byDefaultProvider().configure().messageInterpolator(new ResourceBundleMessageInterpolator(
